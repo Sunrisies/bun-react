@@ -8,15 +8,16 @@ function JSONToTypeScriptConverter() {
   const [inputJson, setInputJson] = useState('');
   const [outputTypescript, setOutputTypescript] = useState('');
 
-  const jsonToTypeScriptType = (jsonString, typeName = 'RootObject') => {
+  const jsonToTypeScriptType = (jsonString: string, typeName = 'RootObject') => {
     let jsonObject;
     try {
       jsonObject = JSON.parse(jsonString);
-    } catch (error) {
-      throw new Error('Invalid JSON string');
+    } catch (_) {
+      throw new Error(`JSON字符串无效`);
     }
 
     const { typeDefinition, nestedTypes } = generateTypeDefinition(jsonObject, typeName);
+
     return `${nestedTypes}\n\n${typeDefinition}`;
   };
 
@@ -31,7 +32,7 @@ function JSONToTypeScriptConverter() {
 
     const typeDefinition = `export interface ${typeName} {\n  ${typeProperties.join('\n  ')}\n}`;
     const nestedTypesDefinitions = nestedTypes.join('\n\n');
-
+    // console.log(typeDefinition, nestedTypesDefinitions, '---------');
     return { typeDefinition, nestedTypes: nestedTypesDefinitions };
   };
 
@@ -49,12 +50,16 @@ function JSONToTypeScriptConverter() {
         const itemType = getType(value[0], key, nestedTypes);
         return `${itemType}[]`;
       } else {
-        const nestedTypeName = `${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+        const nestedTypeName = `I${key.charAt(0).toUpperCase()}${key.slice(1)}`;
         const { typeDefinition } = generateTypeDefinition(value, nestedTypeName);
         nestedTypes.push(typeDefinition);
+        console.log(value, key);
+        getType(value, key, nestedTypes)
         return nestedTypeName;
+
       }
     }
+    // console.log(value, key, nestedTypes);
 
     switch (type) {
       case 'string':
@@ -131,3 +136,4 @@ function JSONToTypeScriptConverter() {
 }
 
 export default JSONToTypeScriptConverter;
+
