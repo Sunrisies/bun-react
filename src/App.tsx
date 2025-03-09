@@ -1,84 +1,78 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from './components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
 import { Textarea } from './components/ui/textarea';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './components/ui/card';
+
 // import { Button, Card, Input } from 'shadcn-ui';
 
 function JSONToTypeScriptConverter() {
   const [inputJson, setInputJson] = useState('');
   const [outputTypescript, setOutputTypescript] = useState('');
 
-  const jsonToTypeScriptType = (jsonString: string, typeName = 'RootObject') => {
-    let jsonObject;
+  function capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function jsonToTypeScriptType(jsonString: string, typeName: string = 'RootObject'): string {
+    let jsonObject: any;
     try {
       jsonObject = JSON.parse(jsonString);
-    } catch (_) {
-      throw new Error(`JSON字符串无效`);
+    } catch (error) {
+      throw new Error('Invalid JSON string');
     }
 
     const { typeDefinition, nestedTypes } = generateTypeDefinition(jsonObject, typeName);
+    const allNestedTypes = [...nestedTypes, typeDefinition].reverse().join('\n\n');
+    return allNestedTypes;
+  }
 
-    return `${nestedTypes}\n\n${typeDefinition}`;
-  };
-
-  const generateTypeDefinition = (obj, typeName) => {
-    const typeProperties = [];
-    const nestedTypes = [];
+  function generateTypeDefinition(
+    obj: any,
+    typeName: string
+  ): { typeDefinition: string, nestedTypes: string[] } {
+    const typeProperties: string[] = [];
+    const nestedTypes: string[] = [];
 
     for (const [key, value] of Object.entries(obj)) {
-      const type = getType(value, key, nestedTypes);
+      const type = getType(value, key, typeName, nestedTypes);
       typeProperties.push(`${key}: ${type};`);
     }
-
     const typeDefinition = `export interface ${typeName} {\n  ${typeProperties.join('\n  ')}\n}`;
-    const nestedTypesDefinitions = nestedTypes.join('\n\n');
-    // console.log(typeDefinition, nestedTypesDefinitions, '---------');
-    return { typeDefinition, nestedTypes: nestedTypesDefinitions };
-  };
+    return { typeDefinition, nestedTypes };
+  }
 
-  const getType = (value, key, nestedTypes) => {
-    if (value === null) {
-      return 'null';
-    }
+  function getType(
+    value: any,
+    key: string,
+    parentTypeName: string,
+    nestedTypes: string[]
+  ): string {
+    if (value === null) return 'null';
 
-    const type = typeof value;
-    if (type === 'object') {
+    if (typeof value === 'object') {
       if (Array.isArray(value)) {
-        if (value.length === 0) {
-          return 'any[]';
-        }
-        const itemType = getType(value[0], key, nestedTypes);
+        if (value.length === 0) return 'any[]';
+        const itemType = getType(value[0], key, parentTypeName, nestedTypes);
         return `${itemType}[]`;
       } else {
-        const nestedTypeName = `I${key.charAt(0).toUpperCase()}${key.slice(1)}`;
-        const { typeDefinition } = generateTypeDefinition(value, nestedTypeName);
-        nestedTypes.push(typeDefinition);
-        console.log(value, key);
-        getType(value, key, nestedTypes)
+        const nestedTypeName = `I${capitalize(key)}`;
+        const { typeDefinition, nestedTypes: childNestedTypes } = generateTypeDefinition(value, nestedTypeName);
+        nestedTypes.push(typeDefinition, ...childNestedTypes);
         return nestedTypeName;
-
       }
     }
-    // console.log(value, key, nestedTypes);
 
-    switch (type) {
-      case 'string':
-        return 'string';
-      case 'number':
-        return 'number';
-      case 'boolean':
-        return 'boolean';
-      default:
-        return 'any';
-    }
-  };
+    return typeof value;
+  }
 
   const handleConvert = () => {
     try {
       const output = jsonToTypeScriptType(inputJson);
       setOutputTypescript(output);
     } catch (error) {
-      alert(error.message);
+      toast.error('Error converting JSON to TypeScript');
+      // alert(error.message);
     }
   };
 
@@ -118,7 +112,11 @@ function JSONToTypeScriptConverter() {
             <CardTitle>
               输出 TypeScript
             </CardTitle>
-            <Button variant="default" id="copyButton" className="copy-btn">
+            <Button variant="default" id="copyButton" className="copy-btn" onClick={() => {
+              console.log(outputTypescript);
+              navigator.clipboard.writeText(outputTypescript);
+              toast.success('TypeScript 代码已复制到剪贴板');
+            }} >
               复制
             </Button>
           </CardHeader>
