@@ -21,6 +21,7 @@
 						"noUselessCatch": "error",
 						"noWith": "error"
 					},
+				
 					"correctness": {
 						"noConstAssign": "error",
 						"noConstantCondition": "error",
