@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" class="w-full h-32">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
+       <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&amp;display=swap');
+    .signature-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 24px;
+      stroke-width: 1;
+    }
+  </style>
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="'Dancing Script', cursive" font-size="180px" stroke-width="1">
+          chaoyang
+        </text>
+      </svg>
+    </svg>

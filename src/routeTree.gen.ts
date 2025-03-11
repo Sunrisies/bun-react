@@ -18,9 +18,16 @@ import { Route as IndexImport } from './pages/index'
 
 // Create Virtual Routes
 
+const SignatureLazyImport = createFileRoute('/signature')()
 const JsonToTsLazyImport = createFileRoute('/jsonToTs')()
 
 // Create/Update Routes
+
+const SignatureLazyRoute = SignatureLazyImport.update({
+  id: '/signature',
+  path: '/signature',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./pages/signature.lazy').then((d) => d.Route))
 
 const JsonToTsLazyRoute = JsonToTsLazyImport.update({
   id: '/jsonToTs',
@@ -65,6 +72,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JsonToTsLazyImport
       parentRoute: typeof rootRoute
     }
+    '/signature': {
+      id: '/signature'
+      path: '/signature'
+      fullPath: '/signature'
+      preLoaderRoute: typeof SignatureLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -74,12 +88,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
+  '/signature': typeof SignatureLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
+  '/signature': typeof SignatureLazyRoute
 }
 
 export interface FileRoutesById {
@@ -87,14 +103,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
+  '/signature': typeof SignatureLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/jsonToTs'
+  fullPaths: '/' | '/about' | '/jsonToTs' | '/signature'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/jsonToTs'
-  id: '__root__' | '/' | '/about' | '/jsonToTs'
+  to: '/' | '/about' | '/jsonToTs' | '/signature'
+  id: '__root__' | '/' | '/about' | '/jsonToTs' | '/signature'
   fileRoutesById: FileRoutesById
 }
 
@@ -102,12 +119,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
+  SignatureLazyRoute: typeof SignatureLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   JsonToTsLazyRoute: JsonToTsLazyRoute,
+  SignatureLazyRoute: SignatureLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -122,7 +141,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/jsonToTs"
+        "/jsonToTs",
+        "/signature"
       ]
     },
     "/": {
@@ -133,6 +153,9 @@ export const routeTree = rootRoute
     },
     "/jsonToTs": {
       "filePath": "jsonToTs.lazy.tsx"
+    },
+    "/signature": {
+      "filePath": "signature.lazy.tsx"
     }
   }
 }

@@ -15,7 +15,7 @@ function Index() {
   const navigate = useNavigate()
   const list = [
     { title: 'jsonToTs', description: '将JSON转换为TypeScript interface 类型定义', path: '/jsonToTs' },
-    { title: 'scriptToJson', description: 'Convert JavaScript object to JSON', path: '/tsToJson' },
+    { title: 'signature', description: '签名生成器', path: '/signature' },
     { title: 'jsonToTsx', description: 'Convert JSON to TypeScript React component', path: '/jsonToTsx' },
     { title: 'jsonToTsx', description: 'Convert JSON to TypeScript React component', path: '/jsonToTsx' },
     { title: 'jsonToTsx', description: 'Convert JSON to TypeScript React component', path: '/jsonToTsx' },
