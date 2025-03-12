@@ -59,7 +59,7 @@ function RouteComponent() {
 		parentTypeName: string,
 		nestedTypes: string[],
 	): string {
-		if (value === null) return "null"
+		if (value === null) return "string"
 
 		if (typeof value === "object") {
 			if (Array.isArray(value)) {
@@ -74,7 +74,7 @@ function RouteComponent() {
 				return nestedTypeName
 			}
 		}
-
+		console.log(typeof value, '===================')
 		return typeof value
 	}
 
