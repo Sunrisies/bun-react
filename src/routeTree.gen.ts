@@ -20,6 +20,7 @@ import { Route as IndexImport } from './pages/index'
 
 const SignatureLazyImport = createFileRoute('/signature')()
 const JsonToTsLazyImport = createFileRoute('/jsonToTs')()
+const CalculateDistanceLazyImport = createFileRoute('/calculateDistance')()
 
 // Create/Update Routes
 
@@ -34,6 +35,14 @@ const JsonToTsLazyRoute = JsonToTsLazyImport.update({
   path: '/jsonToTs',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./pages/jsonToTs.lazy').then((d) => d.Route))
+
+const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
+  id: '/calculateDistance',
+  path: '/calculateDistance',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./pages/calculateDistance.lazy').then((d) => d.Route),
+)
 
 const AboutRoute = AboutImport.update({
   id: '/about',
@@ -65,6 +74,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/calculateDistance': {
+      id: '/calculateDistance'
+      path: '/calculateDistance'
+      fullPath: '/calculateDistance'
+      preLoaderRoute: typeof CalculateDistanceLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/jsonToTs': {
       id: '/jsonToTs'
       path: '/jsonToTs'
@@ -87,6 +103,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
   '/signature': typeof SignatureLazyRoute
 }
@@ -94,6 +111,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
   '/signature': typeof SignatureLazyRoute
 }
@@ -102,22 +120,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
   '/signature': typeof SignatureLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/jsonToTs' | '/signature'
+  fullPaths: '/' | '/about' | '/calculateDistance' | '/jsonToTs' | '/signature'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/jsonToTs' | '/signature'
-  id: '__root__' | '/' | '/about' | '/jsonToTs' | '/signature'
+  to: '/' | '/about' | '/calculateDistance' | '/jsonToTs' | '/signature'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/calculateDistance'
+    | '/jsonToTs'
+    | '/signature'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
   SignatureLazyRoute: typeof SignatureLazyRoute
 }
@@ -125,6 +151,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   JsonToTsLazyRoute: JsonToTsLazyRoute,
   SignatureLazyRoute: SignatureLazyRoute,
 }
@@ -141,6 +168,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/calculateDistance",
         "/jsonToTs",
         "/signature"
       ]
@@ -150,6 +178,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/calculateDistance": {
+      "filePath": "calculateDistance.lazy.tsx"
     },
     "/jsonToTs": {
       "filePath": "jsonToTs.lazy.tsx"

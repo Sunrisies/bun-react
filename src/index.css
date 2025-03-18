@@ -148,4 +148,7 @@
 textarea {
   font-size: 20px;
 }
+#root{
+  height: 100vh;
+}
 
