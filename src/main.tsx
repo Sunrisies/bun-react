@@ -11,7 +11,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <Toaster position="top-center" />
-      <RouterProvider router={ router } />
+      <RouterProvider router={router} />
     </StrictMode>,
   )
 }
