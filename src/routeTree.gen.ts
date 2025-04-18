@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './pages/__root'
+import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as AboutImport } from './pages/about'
 import { Route as IndexImport } from './pages/index'
 
@@ -51,6 +52,12 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
   import('./pages/calculateDistance.lazy').then((d) => d.Route),
 )
 
+const BrowserTabsRoute = BrowserTabsImport.update({
+  id: '/browserTabs',
+  path: '/browserTabs',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
@@ -79,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/browserTabs': {
+      id: '/browserTabs'
+      path: '/browserTabs'
+      fullPath: '/browserTabs'
+      preLoaderRoute: typeof BrowserTabsImport
       parentRoute: typeof rootRoute
     }
     '/calculateDistance': {
@@ -117,6 +131,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/browserTabs': typeof BrowserTabsRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -126,6 +141,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/browserTabs': typeof BrowserTabsRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -136,6 +152,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/browserTabs': typeof BrowserTabsRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -147,6 +164,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/browserTabs'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -155,6 +173,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/browserTabs'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -163,6 +182,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/browserTabs'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -173,6 +193,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  BrowserTabsRoute: typeof BrowserTabsRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
@@ -182,6 +203,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  BrowserTabsRoute: BrowserTabsRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
   JsonToTsLazyRoute: JsonToTsLazyRoute,
@@ -200,6 +222,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/browserTabs",
         "/calculateDistance",
         "/coordinate",
         "/jsonToTs",
@@ -211,6 +234,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/browserTabs": {
+      "filePath": "browserTabs.tsx"
     },
     "/calculateDistance": {
       "filePath": "calculateDistance.lazy.tsx"

@@ -31,9 +31,9 @@ function Index() {
       path: "/coordinate",
     },
     {
-      title: "jsonToTsx",
-      description: "Convert JSON to TypeScript React component",
-      path: "/jsonToTsx",
+      title: "浏览器标签",
+      description: "支持导入浏览器标签数据",
+      path: "/browserTabs",
     },
     {
       title: "jsonToTsx",
