@@ -63,19 +63,15 @@ function RouteComponent() {
   return (
     <div className="flex h-full items-center justify-center p-4">
       <Card>
-        <CardHeader>
-          <CardTitle></CardTitle>
-          <CardHeader className="flex flex-row justify-between items-center">
-            <div>
-              <CardTitle className="text-xl">坐标转换工具</CardTitle>
-              <CardDescription>
-                将WGS84/GCJ02坐标转换为其他坐标系
-              </CardDescription>
-            </div>
-            <div className="">
-              <Button onClick={() => navigate({ to: "/" })}>返回</Button>
-            </div>
-          </CardHeader>
+        <CardTitle></CardTitle>
+        <CardHeader className="flex flex-row justify-between items-center">
+          <div>
+            <CardTitle className="text-xl">坐标转换工具</CardTitle>
+            <CardDescription>将WGS84/GCJ02坐标转换为其他坐标系</CardDescription>
+          </div>
+          <div className="">
+            <Button onClick={() => navigate({ to: "/" })}>返回</Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-5 gap-4 items-end">

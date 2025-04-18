@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './pages/__root'
+import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as AboutImport } from './pages/about'
 import { Route as IndexImport } from './pages/index'
@@ -51,6 +52,12 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
 } as any).lazy(() =>
   import('./pages/calculateDistance.lazy').then((d) => d.Route),
 )
+
+const ColorConverterRoute = ColorConverterImport.update({
+  id: '/colorConverter',
+  path: '/colorConverter',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const BrowserTabsRoute = BrowserTabsImport.update({
   id: '/browserTabs',
@@ -95,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowserTabsImport
       parentRoute: typeof rootRoute
     }
+    '/colorConverter': {
+      id: '/colorConverter'
+      path: '/colorConverter'
+      fullPath: '/colorConverter'
+      preLoaderRoute: typeof ColorConverterImport
+      parentRoute: typeof rootRoute
+    }
     '/calculateDistance': {
       id: '/calculateDistance'
       path: '/calculateDistance'
@@ -132,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
+  '/colorConverter': typeof ColorConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -142,6 +157,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
+  '/colorConverter': typeof ColorConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -153,6 +169,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
+  '/colorConverter': typeof ColorConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -165,6 +182,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/browserTabs'
+    | '/colorConverter'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -174,6 +192,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/browserTabs'
+    | '/colorConverter'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -183,6 +202,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/browserTabs'
+    | '/colorConverter'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -194,6 +214,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
+  ColorConverterRoute: typeof ColorConverterRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
@@ -204,6 +225,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BrowserTabsRoute: BrowserTabsRoute,
+  ColorConverterRoute: ColorConverterRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
   JsonToTsLazyRoute: JsonToTsLazyRoute,
@@ -223,6 +245,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/browserTabs",
+        "/colorConverter",
         "/calculateDistance",
         "/coordinate",
         "/jsonToTs",
@@ -237,6 +260,9 @@ export const routeTree = rootRoute
     },
     "/browserTabs": {
       "filePath": "browserTabs.tsx"
+    },
+    "/colorConverter": {
+      "filePath": "colorConverter.tsx"
     },
     "/calculateDistance": {
       "filePath": "calculateDistance.lazy.tsx"

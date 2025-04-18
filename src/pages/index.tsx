@@ -36,9 +36,9 @@ function Index() {
       path: "/browserTabs",
     },
     {
-      title: "jsonToTsx",
-      description: "Convert JSON to TypeScript React component",
-      path: "/jsonToTsx",
+      title: "颜色转换器",
+      description: "16进制颜色跟RGB颜色互转",
+      path: "/colorConverter",
     },
   ];
   return (
