@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './pages/__root'
+import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as AboutImport } from './pages/about'
@@ -52,6 +53,12 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
 } as any).lazy(() =>
   import('./pages/calculateDistance.lazy').then((d) => d.Route),
 )
+
+const QrGeneratorRoute = QrGeneratorImport.update({
+  id: '/qrGenerator',
+  path: '/qrGenerator',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const ColorConverterRoute = ColorConverterImport.update({
   id: '/colorConverter',
@@ -109,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ColorConverterImport
       parentRoute: typeof rootRoute
     }
+    '/qrGenerator': {
+      id: '/qrGenerator'
+      path: '/qrGenerator'
+      fullPath: '/qrGenerator'
+      preLoaderRoute: typeof QrGeneratorImport
+      parentRoute: typeof rootRoute
+    }
     '/calculateDistance': {
       id: '/calculateDistance'
       path: '/calculateDistance'
@@ -147,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/qrGenerator': typeof QrGeneratorRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -158,6 +173,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/qrGenerator': typeof QrGeneratorRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -170,6 +186,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/qrGenerator': typeof QrGeneratorRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -183,6 +200,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/qrGenerator'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -193,6 +211,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/qrGenerator'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -203,6 +222,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/qrGenerator'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -215,6 +235,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
+  QrGeneratorRoute: typeof QrGeneratorRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
@@ -226,6 +247,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
+  QrGeneratorRoute: QrGeneratorRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
   JsonToTsLazyRoute: JsonToTsLazyRoute,
@@ -246,6 +268,7 @@ export const routeTree = rootRoute
         "/about",
         "/browserTabs",
         "/colorConverter",
+        "/qrGenerator",
         "/calculateDistance",
         "/coordinate",
         "/jsonToTs",
@@ -263,6 +286,9 @@ export const routeTree = rootRoute
     },
     "/colorConverter": {
       "filePath": "colorConverter.tsx"
+    },
+    "/qrGenerator": {
+      "filePath": "qrGenerator.tsx"
     },
     "/calculateDistance": {
       "filePath": "calculateDistance.lazy.tsx"

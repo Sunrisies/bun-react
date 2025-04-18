@@ -40,6 +40,11 @@ function Index() {
       description: "16进制颜色跟RGB颜色互转",
       path: "/colorConverter",
     },
+    {
+      title: "二维码生成器",
+      description: "支持生成二维码",
+      path: "/qrGenerator",
+    },
   ];
   return (
     <main className="flex justify-center  h-screen pt-10">
