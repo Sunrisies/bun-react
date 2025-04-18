@@ -140,7 +140,9 @@ function RouteComponent() {
     reader.readAsText(file);
     e.target.value = ""; // 清空输入以便重复上传
   };
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="p-10">
       <div className="flex gap-4 mb-6 items-start">
