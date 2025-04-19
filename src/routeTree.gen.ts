@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './pages/__root'
 import { Route as WebsocketClientImport } from './pages/websocketClient'
+import { Route as TimestampConverterImport } from './pages/timestampConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
@@ -61,6 +62,12 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
 const WebsocketClientRoute = WebsocketClientImport.update({
   id: '/websocketClient',
   path: '/websocketClient',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TimestampConverterRoute = TimestampConverterImport.update({
+  id: '/timestampConverter',
+  path: '/timestampConverter',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -172,6 +179,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QrGeneratorImport
       parentRoute: typeof rootRoute
     }
+    '/timestampConverter': {
+      id: '/timestampConverter'
+      path: '/timestampConverter'
+      fullPath: '/timestampConverter'
+      preLoaderRoute: typeof TimestampConverterImport
+      parentRoute: typeof rootRoute
+    }
     '/websocketClient': {
       id: '/websocketClient'
       path: '/websocketClient'
@@ -221,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/timestampConverter': typeof TimestampConverterRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -237,6 +252,7 @@ export interface FileRoutesByTo {
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/timestampConverter': typeof TimestampConverterRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -254,6 +270,7 @@ export interface FileRoutesById {
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/timestampConverter': typeof TimestampConverterRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -272,6 +289,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
+    | '/timestampConverter'
     | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
@@ -287,6 +305,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
+    | '/timestampConverter'
     | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
@@ -302,6 +321,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
+    | '/timestampConverter'
     | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
@@ -319,6 +339,7 @@ export interface RootRouteChildren {
   ImageMetadataRoute: typeof ImageMetadataRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
+  TimestampConverterRoute: typeof TimestampConverterRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
@@ -335,6 +356,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageMetadataRoute: ImageMetadataRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   QrGeneratorRoute: QrGeneratorRoute,
+  TimestampConverterRoute: TimestampConverterRoute,
   WebsocketClientRoute: WebsocketClientRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
@@ -360,6 +382,7 @@ export const routeTree = rootRoute
         "/imageMetadata",
         "/musicPlayer",
         "/qrGenerator",
+        "/timestampConverter",
         "/websocketClient",
         "/calculateDistance",
         "/coordinate",
@@ -390,6 +413,9 @@ export const routeTree = rootRoute
     },
     "/qrGenerator": {
       "filePath": "qrGenerator.tsx"
+    },
+    "/timestampConverter": {
+      "filePath": "timestampConverter.tsx"
     },
     "/websocketClient": {
       "filePath": "websocketClient.tsx"
