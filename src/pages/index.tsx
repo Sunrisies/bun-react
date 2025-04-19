@@ -50,14 +50,19 @@ function Index() {
       description: "支持查看图片信息",
       path: "/imageMetadata",
     },
+    {
+      title: "websocket客户端",
+      description: "支持websocket客户端",
+      path: "/websocketClient",
+    },
   ];
   return (
-    <main className="flex justify-center  h-screen pt-10">
-      <div className="grid grid-cols-3 md:grid-cols-4 grid-rows-2 md:grid-rows-4 gap-4 ">
+    <main className="flex justify-center h-full box-border">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-rows-4 gap-y-[10px] gap-x-[10px] w-full max-w-7xl px-4 mt-10">
         {list.map((item) => {
           return (
             <Card
-              className="h-[200px] w-[300px] cursor-pointer hover:translate-y-[-5px] transition-all duration-300 border-2 border-gray-300 rounded-md border drop-shadow-sm "
+              className="h-[180px] w-[300px] cursor-pointer hover:translate-y-[-5px] transition-all duration-300 border-2 border-gray-300 rounded-md border drop-shadow-sm "
               onClick={() => navigate({ to: item.path })}
             >
               <CardHeader>

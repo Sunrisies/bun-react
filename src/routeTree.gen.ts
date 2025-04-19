@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './pages/__root'
+import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
@@ -55,6 +56,12 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
 } as any).lazy(() =>
   import('./pages/calculateDistance.lazy').then((d) => d.Route),
 )
+
+const WebsocketClientRoute = WebsocketClientImport.update({
+  id: '/websocketClient',
+  path: '/websocketClient',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const QrGeneratorRoute = QrGeneratorImport.update({
   id: '/qrGenerator',
@@ -151,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QrGeneratorImport
       parentRoute: typeof rootRoute
     }
+    '/websocketClient': {
+      id: '/websocketClient'
+      path: '/websocketClient'
+      fullPath: '/websocketClient'
+      preLoaderRoute: typeof WebsocketClientImport
+      parentRoute: typeof rootRoute
+    }
     '/calculateDistance': {
       id: '/calculateDistance'
       path: '/calculateDistance'
@@ -192,6 +206,7 @@ export interface FileRoutesByFullPath {
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -206,6 +221,7 @@ export interface FileRoutesByTo {
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -221,6 +237,7 @@ export interface FileRoutesById {
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -237,6 +254,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
+    | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -250,6 +268,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
+    | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -263,6 +282,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
+    | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -278,6 +298,7 @@ export interface RootRouteChildren {
   ImageMetadataRoute: typeof ImageMetadataRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
+  WebsocketClientRoute: typeof WebsocketClientRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
@@ -292,6 +313,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageMetadataRoute: ImageMetadataRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   QrGeneratorRoute: QrGeneratorRoute,
+  WebsocketClientRoute: WebsocketClientRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
   JsonToTsLazyRoute: JsonToTsLazyRoute,
@@ -315,6 +337,7 @@ export const routeTree = rootRoute
         "/imageMetadata",
         "/musicPlayer",
         "/qrGenerator",
+        "/websocketClient",
         "/calculateDistance",
         "/coordinate",
         "/jsonToTs",
@@ -341,6 +364,9 @@ export const routeTree = rootRoute
     },
     "/qrGenerator": {
       "filePath": "qrGenerator.tsx"
+    },
+    "/websocketClient": {
+      "filePath": "websocketClient.tsx"
     },
     "/calculateDistance": {
       "filePath": "calculateDistance.lazy.tsx"
