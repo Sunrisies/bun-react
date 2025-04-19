@@ -17,6 +17,7 @@ import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
+import { Route as ImageToPdfImport } from './pages/imageToPdf'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as HexStringConverterImport } from './pages/hexStringConverter'
 import { Route as ColorConverterImport } from './pages/colorConverter'
@@ -80,6 +81,12 @@ const QrGeneratorRoute = QrGeneratorImport.update({
 const MusicPlayerRoute = MusicPlayerImport.update({
   id: '/musicPlayer',
   path: '/musicPlayer',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ImageToPdfRoute = ImageToPdfImport.update({
+  id: '/imageToPdf',
+  path: '/imageToPdf',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -165,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImageMetadataImport
       parentRoute: typeof rootRoute
     }
+    '/imageToPdf': {
+      id: '/imageToPdf'
+      path: '/imageToPdf'
+      fullPath: '/imageToPdf'
+      preLoaderRoute: typeof ImageToPdfImport
+      parentRoute: typeof rootRoute
+    }
     '/musicPlayer': {
       id: '/musicPlayer'
       path: '/musicPlayer'
@@ -233,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/colorConverter': typeof ColorConverterRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
+  '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
@@ -250,6 +265,7 @@ export interface FileRoutesByTo {
   '/colorConverter': typeof ColorConverterRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
+  '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
@@ -268,6 +284,7 @@ export interface FileRoutesById {
   '/colorConverter': typeof ColorConverterRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
+  '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
@@ -287,6 +304,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/hexStringConverter'
     | '/imageMetadata'
+    | '/imageToPdf'
     | '/musicPlayer'
     | '/qrGenerator'
     | '/timestampConverter'
@@ -303,6 +321,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/hexStringConverter'
     | '/imageMetadata'
+    | '/imageToPdf'
     | '/musicPlayer'
     | '/qrGenerator'
     | '/timestampConverter'
@@ -319,6 +338,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/hexStringConverter'
     | '/imageMetadata'
+    | '/imageToPdf'
     | '/musicPlayer'
     | '/qrGenerator'
     | '/timestampConverter'
@@ -337,6 +357,7 @@ export interface RootRouteChildren {
   ColorConverterRoute: typeof ColorConverterRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
   ImageMetadataRoute: typeof ImageMetadataRoute
+  ImageToPdfRoute: typeof ImageToPdfRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
@@ -354,6 +375,7 @@ const rootRouteChildren: RootRouteChildren = {
   ColorConverterRoute: ColorConverterRoute,
   HexStringConverterRoute: HexStringConverterRoute,
   ImageMetadataRoute: ImageMetadataRoute,
+  ImageToPdfRoute: ImageToPdfRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   TimestampConverterRoute: TimestampConverterRoute,
@@ -380,6 +402,7 @@ export const routeTree = rootRoute
         "/colorConverter",
         "/hexStringConverter",
         "/imageMetadata",
+        "/imageToPdf",
         "/musicPlayer",
         "/qrGenerator",
         "/timestampConverter",
@@ -407,6 +430,9 @@ export const routeTree = rootRoute
     },
     "/imageMetadata": {
       "filePath": "imageMetadata.tsx"
+    },
+    "/imageToPdf": {
+      "filePath": "imageToPdf.tsx"
     },
     "/musicPlayer": {
       "filePath": "musicPlayer.tsx"

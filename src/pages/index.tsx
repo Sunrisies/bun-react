@@ -65,6 +65,11 @@ function Index() {
       description: "支持时间戳转换",
       path: "/timestampConverter",
     },
+    {
+      title: "图片转PDF",
+      description: "合并多张图片为PDF文件",
+      path: "/imageToPdf",
+    },
   ];
   return (
     <main className="flex justify-center h-full box-border">
