@@ -17,6 +17,7 @@ import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
+import { Route as HexStringConverterImport } from './pages/hexStringConverter'
 import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as AboutImport } from './pages/about'
@@ -81,6 +82,12 @@ const ImageMetadataRoute = ImageMetadataImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const HexStringConverterRoute = HexStringConverterImport.update({
+  id: '/hexStringConverter',
+  path: '/hexStringConverter',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ColorConverterRoute = ColorConverterImport.update({
   id: '/colorConverter',
   path: '/colorConverter',
@@ -135,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/colorConverter'
       fullPath: '/colorConverter'
       preLoaderRoute: typeof ColorConverterImport
+      parentRoute: typeof rootRoute
+    }
+    '/hexStringConverter': {
+      id: '/hexStringConverter'
+      path: '/hexStringConverter'
+      fullPath: '/hexStringConverter'
+      preLoaderRoute: typeof HexStringConverterImport
       parentRoute: typeof rootRoute
     }
     '/imageMetadata': {
@@ -203,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
@@ -218,6 +233,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
@@ -234,6 +250,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
@@ -251,6 +268,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/hexStringConverter'
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
@@ -265,6 +283,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/hexStringConverter'
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
@@ -279,6 +298,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/hexStringConverter'
     | '/imageMetadata'
     | '/musicPlayer'
     | '/qrGenerator'
@@ -295,6 +315,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
+  HexStringConverterRoute: typeof HexStringConverterRoute
   ImageMetadataRoute: typeof ImageMetadataRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
@@ -310,6 +331,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
+  HexStringConverterRoute: HexStringConverterRoute,
   ImageMetadataRoute: ImageMetadataRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   QrGeneratorRoute: QrGeneratorRoute,
@@ -334,6 +356,7 @@ export const routeTree = rootRoute
         "/about",
         "/browserTabs",
         "/colorConverter",
+        "/hexStringConverter",
         "/imageMetadata",
         "/musicPlayer",
         "/qrGenerator",
@@ -355,6 +378,9 @@ export const routeTree = rootRoute
     },
     "/colorConverter": {
       "filePath": "colorConverter.tsx"
+    },
+    "/hexStringConverter": {
+      "filePath": "hexStringConverter.tsx"
     },
     "/imageMetadata": {
       "filePath": "imageMetadata.tsx"

@@ -55,6 +55,11 @@ function Index() {
       description: "支持websocket客户端",
       path: "/websocketClient",
     },
+    {
+      title: "hex跟字符串互转",
+      description: "支持hex跟字符串互转",
+      path: "/hexStringConverter",
+    },
   ];
   return (
     <main className="flex justify-center h-full box-border">
