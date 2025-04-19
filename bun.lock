@@ -12,6 +12,7 @@
         "@types/qrcode": "^1.5.5",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
+        "exif-js": "^2.3.0",
         "html2canvas": "^1.4.1",
         "lucide-react": "^0.477.0",
         "qrcode": "^1.5.4",
@@ -570,6 +571,8 @@
     "estraverse": ["estraverse@5.3.0", "https://registry.npmmirror.com/estraverse/-/estraverse-5.3.0.tgz", {}, "sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA=="],
 
     "esutils": ["esutils@2.0.3", "https://registry.npmmirror.com/esutils/-/esutils-2.0.3.tgz", {}, "sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g=="],
+
+    "exif-js": ["exif-js@2.3.0", "https://registry.npmmirror.com/exif-js/-/exif-js-2.3.0.tgz", {}, "sha512-1Og9pAzG2FZRVlaavH8bB8BTeHcjMdJhKmeQITkX+uLRCD0xPtKAdZ2clZmQdJ56p9adXtJ8+jwrGp/4505lYg=="],
 
     "expand-tilde": ["expand-tilde@2.0.2", "https://registry.npmmirror.com/expand-tilde/-/expand-tilde-2.0.2.tgz", { "dependencies": { "homedir-polyfill": "^1.0.1" } }, "sha512-A5EmesHW6rfnZ9ysHQjPdJRni0SRar0tjtG5MNtm9n5TUvsYU8oozprtRD4AqHxcZWWlVuAmQo2nWKfN9oyjTw=="],
 

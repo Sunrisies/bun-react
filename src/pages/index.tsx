@@ -45,6 +45,11 @@ function Index() {
       description: "支持生成二维码",
       path: "/qrGenerator",
     },
+    {
+      title: "图片信息查看器",
+      description: "支持查看图片信息",
+      path: "/imageMetadata",
+    },
   ];
   return (
     <main className="flex justify-center  h-screen pt-10">

@@ -14,6 +14,8 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './pages/__root'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
+import { Route as MusicPlayerImport } from './pages/musicPlayer'
+import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as AboutImport } from './pages/about'
@@ -57,6 +59,18 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
 const QrGeneratorRoute = QrGeneratorImport.update({
   id: '/qrGenerator',
   path: '/qrGenerator',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MusicPlayerRoute = MusicPlayerImport.update({
+  id: '/musicPlayer',
+  path: '/musicPlayer',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ImageMetadataRoute = ImageMetadataImport.update({
+  id: '/imageMetadata',
+  path: '/imageMetadata',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -116,6 +130,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ColorConverterImport
       parentRoute: typeof rootRoute
     }
+    '/imageMetadata': {
+      id: '/imageMetadata'
+      path: '/imageMetadata'
+      fullPath: '/imageMetadata'
+      preLoaderRoute: typeof ImageMetadataImport
+      parentRoute: typeof rootRoute
+    }
+    '/musicPlayer': {
+      id: '/musicPlayer'
+      path: '/musicPlayer'
+      fullPath: '/musicPlayer'
+      preLoaderRoute: typeof MusicPlayerImport
+      parentRoute: typeof rootRoute
+    }
     '/qrGenerator': {
       id: '/qrGenerator'
       path: '/qrGenerator'
@@ -161,6 +189,8 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/imageMetadata': typeof ImageMetadataRoute
+  '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -173,6 +203,8 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/imageMetadata': typeof ImageMetadataRoute
+  '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -186,6 +218,8 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/imageMetadata': typeof ImageMetadataRoute
+  '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -200,6 +234,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/imageMetadata'
+    | '/musicPlayer'
     | '/qrGenerator'
     | '/calculateDistance'
     | '/coordinate'
@@ -211,6 +247,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/imageMetadata'
+    | '/musicPlayer'
     | '/qrGenerator'
     | '/calculateDistance'
     | '/coordinate'
@@ -222,6 +260,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/browserTabs'
     | '/colorConverter'
+    | '/imageMetadata'
+    | '/musicPlayer'
     | '/qrGenerator'
     | '/calculateDistance'
     | '/coordinate'
@@ -235,6 +275,8 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
+  ImageMetadataRoute: typeof ImageMetadataRoute
+  MusicPlayerRoute: typeof MusicPlayerRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
@@ -247,6 +289,8 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
+  ImageMetadataRoute: ImageMetadataRoute,
+  MusicPlayerRoute: MusicPlayerRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
@@ -268,6 +312,8 @@ export const routeTree = rootRoute
         "/about",
         "/browserTabs",
         "/colorConverter",
+        "/imageMetadata",
+        "/musicPlayer",
         "/qrGenerator",
         "/calculateDistance",
         "/coordinate",
@@ -286,6 +332,12 @@ export const routeTree = rootRoute
     },
     "/colorConverter": {
       "filePath": "colorConverter.tsx"
+    },
+    "/imageMetadata": {
+      "filePath": "imageMetadata.tsx"
+    },
+    "/musicPlayer": {
+      "filePath": "musicPlayer.tsx"
     },
     "/qrGenerator": {
       "filePath": "qrGenerator.tsx"
