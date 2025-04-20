@@ -14,6 +14,10 @@ export default defineConfig({
 	],
 	server: {
 		open: true,
+		headers: {
+			"Cross-Origin-Opener-Policy": "same-origin",
+			"Cross-Origin-Embedder-Policy": "require-corp",
+		},
 	},
 	resolve: {
 		alias: {
@@ -54,4 +58,7 @@ export default defineConfig({
 			},
 		},
 	},
+	optimizeDeps: {
+		exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
+	}
 });

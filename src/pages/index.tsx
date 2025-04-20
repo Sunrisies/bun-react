@@ -70,6 +70,11 @@ function Index() {
       description: "合并多张图片为PDF文件",
       path: "/imageToPdf",
     },
+    {
+      title: "视频转GIF",
+      description: "转换视频片段为GIF动图",
+      path: "/videoToGif",
+    },
   ];
   return (
     <main className="flex justify-center h-full box-border">

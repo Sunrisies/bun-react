@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './pages/__root'
 import { Route as WebsocketClientImport } from './pages/websocketClient'
+import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
@@ -63,6 +64,12 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
 const WebsocketClientRoute = WebsocketClientImport.update({
   id: '/websocketClient',
   path: '/websocketClient',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VideoToGifRoute = VideoToGifImport.update({
+  id: '/videoToGif',
+  path: '/videoToGif',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -200,6 +207,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimestampConverterImport
       parentRoute: typeof rootRoute
     }
+    '/videoToGif': {
+      id: '/videoToGif'
+      path: '/videoToGif'
+      fullPath: '/videoToGif'
+      preLoaderRoute: typeof VideoToGifImport
+      parentRoute: typeof rootRoute
+    }
     '/websocketClient': {
       id: '/websocketClient'
       path: '/websocketClient'
@@ -251,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
+  '/videoToGif': typeof VideoToGifRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -269,6 +284,7 @@ export interface FileRoutesByTo {
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
+  '/videoToGif': typeof VideoToGifRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -288,6 +304,7 @@ export interface FileRoutesById {
   '/musicPlayer': typeof MusicPlayerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
+  '/videoToGif': typeof VideoToGifRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -308,6 +325,7 @@ export interface FileRouteTypes {
     | '/musicPlayer'
     | '/qrGenerator'
     | '/timestampConverter'
+    | '/videoToGif'
     | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
@@ -325,6 +343,7 @@ export interface FileRouteTypes {
     | '/musicPlayer'
     | '/qrGenerator'
     | '/timestampConverter'
+    | '/videoToGif'
     | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
@@ -342,6 +361,7 @@ export interface FileRouteTypes {
     | '/musicPlayer'
     | '/qrGenerator'
     | '/timestampConverter'
+    | '/videoToGif'
     | '/websocketClient'
     | '/calculateDistance'
     | '/coordinate'
@@ -361,6 +381,7 @@ export interface RootRouteChildren {
   MusicPlayerRoute: typeof MusicPlayerRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
+  VideoToGifRoute: typeof VideoToGifRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
@@ -379,6 +400,7 @@ const rootRouteChildren: RootRouteChildren = {
   MusicPlayerRoute: MusicPlayerRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   TimestampConverterRoute: TimestampConverterRoute,
+  VideoToGifRoute: VideoToGifRoute,
   WebsocketClientRoute: WebsocketClientRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
@@ -406,6 +428,7 @@ export const routeTree = rootRoute
         "/musicPlayer",
         "/qrGenerator",
         "/timestampConverter",
+        "/videoToGif",
         "/websocketClient",
         "/calculateDistance",
         "/coordinate",
@@ -442,6 +465,9 @@ export const routeTree = rootRoute
     },
     "/timestampConverter": {
       "filePath": "timestampConverter.tsx"
+    },
+    "/videoToGif": {
+      "filePath": "videoToGif.tsx"
     },
     "/websocketClient": {
       "filePath": "websocketClient.tsx"
