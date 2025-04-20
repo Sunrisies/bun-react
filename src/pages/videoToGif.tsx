@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Trash2, Upload, Download } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/videoToGif")({
 
 function VideoToGifConverter() {
   const navigate = useNavigate();
+
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [gifUrl, setGifUrl] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
@@ -25,7 +26,25 @@ function VideoToGifConverter() {
   const [loaded, setLoaded] = useState(false);
   const ffmpegRef = useRef(new FFmpeg());
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [fps, setFps] = useState(15);
+  const [scaleWidth, setScaleWidth] = useState(480);
+  const [originalDimensions, setOriginalDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
 
+  // 在组件顶部添加useMemo
+  const videoUrl = useMemo(() => {
+    return videoFile ? URL.createObjectURL(videoFile) : null;
+  }, [videoFile]);
+  // 在组件卸载时清理Blob URL
+  useEffect(() => {
+    return () => {
+      if (videoUrl) {
+        URL.revokeObjectURL(videoUrl);
+      }
+    };
+  }, [videoUrl]);
   // 初始化FFmpeg
   useEffect(() => {
     const loadFFmpeg = async () => {
@@ -61,8 +80,13 @@ function VideoToGifConverter() {
     const video = document.createElement("video");
     video.src = url;
 
+    // ... 在视频元数据获取部分添加尺寸获取 ...
     video.onloadedmetadata = () => {
       setDuration(video.duration);
+      setOriginalDimensions({
+        width: video.videoWidth,
+        height: video.videoHeight,
+      });
       setRange([0, Math.min(10, video.duration)]);
       URL.revokeObjectURL(url);
     };
@@ -101,7 +125,7 @@ function VideoToGifConverter() {
         "-i",
         "input.mp4",
         "-vf",
-        "fps=60",
+        `fps=${fps},scale=${scaleWidth}:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse`,
         // "fps=15,scale=480:-1:flags=lanczos",
         "-c:v",
         "gif",
@@ -110,9 +134,7 @@ function VideoToGifConverter() {
 
       // 读取并显示结果
       const data = await ffmpeg.readFile("output.gif");
-      const url = URL.createObjectURL(
-        new Blob([data.buffer], { type: "image/gif" })
-      );
+      const url = URL.createObjectURL(new Blob([data], { type: "image/gif" }));
 
       setGifUrl(url);
       toast.success("转换成功");
@@ -126,9 +148,9 @@ function VideoToGifConverter() {
 
   return (
     <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl">
+      <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl gap-0 py-2">
         <CardHeader>
-          <div className="flex justify-between items-center px-6 pt-6">
+          <div className="flex justify-between items-center px-6 pt-6 ">
             <CardTitle className="text-3xl font-bold text-gray-800">
               视频转GIF工具
             </CardTitle>
@@ -145,10 +167,9 @@ function VideoToGifConverter() {
           </div>
         </CardHeader>
 
-        <CardContent className="grid md:grid-cols-2 gap-8 p-8">
+        <CardContent className="grid md:grid-cols-2 gap-8 p-4">
           {/* 左侧区域 */}
           <div className="space-y-8">
-            {JSON.stringify(videoFile)}
             {!videoFile ? (
               <div
                 {...getRootProps()}
@@ -181,7 +202,7 @@ function VideoToGifConverter() {
                 </Button>
                 <video
                   ref={videoRef}
-                  src={URL.createObjectURL(videoFile)}
+                  src={videoUrl!}
                   controls
                   className="w-full h-96 rounded-xl object-cover shadow-lg"
                 />
@@ -215,8 +236,44 @@ function VideoToGifConverter() {
           </div>
 
           {/* 右侧区域 */}
-          <div className="space-y-8 min-w-[480px]">
-            <div className="space-y-6">
+          <div className="space-y-2 min-w-[480px]">
+            <div className="bg-gray-50 px-6 py-2 rounded-2xl">
+              <div className="">
+                <label className="text-sm font-medium text-gray-700">
+                  帧率 (当前: {fps}fps)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="60"
+                  value={fps}
+                  onChange={(e) =>
+                    setFps(Math.min(60, Math.max(1, +e.target.value)))
+                  }
+                  className="w-full p-2 border rounded-lg"
+                />
+              </div>
+
+              <div className="">
+                <label className="text-sm font-medium text-gray-700">
+                  缩放宽度 (原始: {originalDimensions.width}px)
+                </label>
+                <input
+                  type="number"
+                  min="100"
+                  max="1920"
+                  value={scaleWidth}
+                  onChange={(e) => setScaleWidth(+e.target.value)}
+                  className="w-full p-2 border rounded-lg"
+                />
+              </div>
+
+              <div className="text-sm text-gray-500">
+                高度将按原始比例自动计算，当前高度:{" "}
+                {originalDimensions.width > 0
+                  ? `${Math.round((scaleWidth * originalDimensions.height) / originalDimensions.width)}px`
+                  : "--"}
+              </div>
               {progress > 0 && (
                 <div className="space-y-4">
                   <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -241,6 +298,7 @@ function VideoToGifConverter() {
                   onClick={() => {
                     setVideoFile(null);
                     setGifUrl(null);
+                    setProgress(0); // 添加这行重置进度
                   }}
                   disabled={isProcessing}
                 >
@@ -261,7 +319,7 @@ function VideoToGifConverter() {
               </div>
             </div>
 
-            {gifUrl && (
+            {gifUrl ? (
               <div className="border border-gray-200 rounded-2xl p-4 shadow-lg">
                 <div className="max-h-[560px] overflow-y-auto rounded-lg">
                   <img
@@ -282,6 +340,30 @@ function VideoToGifConverter() {
                   <Download className="h-5 w-5 mr-2" />
                   下载GIF文件
                 </Button>
+              </div>
+            ) : (
+              <div className="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center flex flex-col items-center justify-center">
+                <div className="mb-4 text-blue-500">
+                  <svg
+                    className="w-12 h-12 mx-auto"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <p className="text-lg font-medium text-gray-500 mb-2">
+                  等待生成GIF预览
+                </p>
+                <p className="text-sm text-gray-400">
+                  转换完成后将在此处显示预览
+                </p>
               </div>
             )}
           </div>
