@@ -23,6 +23,7 @@ import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as HexStringConverterImport } from './pages/hexStringConverter'
 import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
+import { Route as Base64ConverterImport } from './pages/base64Converter'
 import { Route as AboutImport } from './pages/about'
 import { Route as IndexImport } from './pages/index'
 
@@ -121,6 +122,12 @@ const BrowserTabsRoute = BrowserTabsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const Base64ConverterRoute = Base64ConverterImport.update({
+  id: '/base64Converter',
+  path: '/base64Converter',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
@@ -149,6 +156,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/base64Converter': {
+      id: '/base64Converter'
+      path: '/base64Converter'
+      fullPath: '/base64Converter'
+      preLoaderRoute: typeof Base64ConverterImport
       parentRoute: typeof rootRoute
     }
     '/browserTabs': {
@@ -257,6 +271,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/hexStringConverter': typeof HexStringConverterRoute
@@ -276,6 +291,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/hexStringConverter': typeof HexStringConverterRoute
@@ -296,6 +312,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/hexStringConverter': typeof HexStringConverterRoute
@@ -317,6 +334,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
     | '/hexStringConverter'
@@ -335,6 +353,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
     | '/hexStringConverter'
@@ -353,6 +372,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
     | '/hexStringConverter'
@@ -373,6 +393,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  Base64ConverterRoute: typeof Base64ConverterRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
@@ -392,6 +413,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  Base64ConverterRoute: Base64ConverterRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
   HexStringConverterRoute: HexStringConverterRoute,
@@ -420,6 +442,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/base64Converter",
         "/browserTabs",
         "/colorConverter",
         "/hexStringConverter",
@@ -441,6 +464,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/base64Converter": {
+      "filePath": "base64Converter.tsx"
     },
     "/browserTabs": {
       "filePath": "browserTabs.tsx"

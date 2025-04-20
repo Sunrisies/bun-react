@@ -75,6 +75,11 @@ function Index() {
       description: "转换视频片段为GIF动图",
       path: "/videoToGif",
     },
+    {
+      title: "图片转base64",
+      description: "图片转base64",
+      path: "/base64Converter",
+    },
   ];
   return (
     <main className="flex justify-center h-full box-border">
