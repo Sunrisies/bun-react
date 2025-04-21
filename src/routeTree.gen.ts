@@ -25,6 +25,7 @@ import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as Base64ConverterImport } from './pages/base64Converter'
 import { Route as AboutImport } from './pages/about'
+import { Route as SpeechToTextImport } from './pages/SpeechToText'
 import { Route as IndexImport } from './pages/index'
 
 // Create Virtual Routes
@@ -134,6 +135,12 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SpeechToTextRoute = SpeechToTextImport.update({
+  id: '/SpeechToText',
+  path: '/SpeechToText',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -149,6 +156,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/SpeechToText': {
+      id: '/SpeechToText'
+      path: '/SpeechToText'
+      fullPath: '/SpeechToText'
+      preLoaderRoute: typeof SpeechToTextImport
       parentRoute: typeof rootRoute
     }
     '/about': {
@@ -270,6 +284,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
@@ -290,6 +305,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
@@ -311,6 +327,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
@@ -333,6 +350,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/SpeechToText'
     | '/about'
     | '/base64Converter'
     | '/browserTabs'
@@ -352,6 +370,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/SpeechToText'
     | '/about'
     | '/base64Converter'
     | '/browserTabs'
@@ -371,6 +390,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/SpeechToText'
     | '/about'
     | '/base64Converter'
     | '/browserTabs'
@@ -392,6 +412,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SpeechToTextRoute: typeof SpeechToTextRoute
   AboutRoute: typeof AboutRoute
   Base64ConverterRoute: typeof Base64ConverterRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
@@ -412,6 +433,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SpeechToTextRoute: SpeechToTextRoute,
   AboutRoute: AboutRoute,
   Base64ConverterRoute: Base64ConverterRoute,
   BrowserTabsRoute: BrowserTabsRoute,
@@ -441,6 +463,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/SpeechToText",
         "/about",
         "/base64Converter",
         "/browserTabs",
@@ -461,6 +484,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/SpeechToText": {
+      "filePath": "SpeechToText.tsx"
     },
     "/about": {
       "filePath": "about.tsx"
