@@ -21,6 +21,7 @@ import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as HexStringConverterImport } from './pages/hexStringConverter'
+import { Route as FileUploaderImport } from './pages/fileUploader'
 import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as Base64ConverterImport } from './pages/base64Converter'
@@ -111,6 +112,12 @@ const HexStringConverterRoute = HexStringConverterImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const FileUploaderRoute = FileUploaderImport.update({
+  id: '/fileUploader',
+  path: '/fileUploader',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ColorConverterRoute = ColorConverterImport.update({
   id: '/colorConverter',
   path: '/colorConverter',
@@ -191,6 +198,13 @@ declare module '@tanstack/react-router' {
       path: '/colorConverter'
       fullPath: '/colorConverter'
       preLoaderRoute: typeof ColorConverterImport
+      parentRoute: typeof rootRoute
+    }
+    '/fileUploader': {
+      id: '/fileUploader'
+      path: '/fileUploader'
+      fullPath: '/fileUploader'
+      preLoaderRoute: typeof FileUploaderImport
       parentRoute: typeof rootRoute
     }
     '/hexStringConverter': {
@@ -289,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
@@ -310,6 +325,7 @@ export interface FileRoutesByTo {
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
@@ -332,6 +348,7 @@ export interface FileRoutesById {
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
@@ -355,6 +372,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
+    | '/fileUploader'
     | '/hexStringConverter'
     | '/imageMetadata'
     | '/imageToPdf'
@@ -375,6 +393,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
+    | '/fileUploader'
     | '/hexStringConverter'
     | '/imageMetadata'
     | '/imageToPdf'
@@ -395,6 +414,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
+    | '/fileUploader'
     | '/hexStringConverter'
     | '/imageMetadata'
     | '/imageToPdf'
@@ -417,6 +437,7 @@ export interface RootRouteChildren {
   Base64ConverterRoute: typeof Base64ConverterRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
+  FileUploaderRoute: typeof FileUploaderRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
   ImageMetadataRoute: typeof ImageMetadataRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
@@ -438,6 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   Base64ConverterRoute: Base64ConverterRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
+  FileUploaderRoute: FileUploaderRoute,
   HexStringConverterRoute: HexStringConverterRoute,
   ImageMetadataRoute: ImageMetadataRoute,
   ImageToPdfRoute: ImageToPdfRoute,
@@ -468,6 +490,7 @@ export const routeTree = rootRoute
         "/base64Converter",
         "/browserTabs",
         "/colorConverter",
+        "/fileUploader",
         "/hexStringConverter",
         "/imageMetadata",
         "/imageToPdf",
@@ -499,6 +522,9 @@ export const routeTree = rootRoute
     },
     "/colorConverter": {
       "filePath": "colorConverter.tsx"
+    },
+    "/fileUploader": {
+      "filePath": "fileUploader.tsx"
     },
     "/hexStringConverter": {
       "filePath": "hexStringConverter.tsx"
