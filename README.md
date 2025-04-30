@@ -1,54 +1,163 @@
-# React + TypeScript + Vite
+# Sunrise React 工具库
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+这是一个基于 React + TypeScript + Vite + Bun 构建的现代化工具库项目，提供多种实用的在线工具。
 
-Currently, two official plugins are available:
+## 技术栈
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **运行时**: Bun v1.0.x
+- **前端框架**: React 19
+- **构建工具**: Vite 6.2.0
+- **路由**: TanStack Router v1.114.4
+- **UI框架**: shadcn/ui + Tailwind CSS 4.0.11
+- **类型检查**: TypeScript 5.7.2
+- **代码规范**: 
+  - ESLint 9.21.0
+  - Biome 1.9.4
+  - Commitlint
+- **工具库**: 
+  - @ffmpeg/ffmpeg - 视频处理
+  - qrcode - 二维码生成
+  - sonner - 提示组件
+  - react-dropzone - 文件拖拽
+  - html2canvas - 页面截图
 
-## Expanding the ESLint configuration
+## 项目特性
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. 🚀 基于最新的 React 19 和 Vite 6
+2. 💪 完整的 TypeScript 支持
+3. 🎨 使用 Tailwind CSS 和 shadcn/ui 构建现代化界面
+4. 📦 模块化的工具集成
+5. 🔍 严格的代码规范和提交规范
+6. 🛠 丰富的开发工具支持
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 现有功能
+
+- 视频转GIF工具
+- 语音转文字
+- 二维码生成器
+- 时间戳转换
+- 图片元数据查看
+- 图片转PDF
+- 音乐播放器
+- WebSocket客户端
+- Base64转换器
+- 颜色转换工具
+- 文件上传工具
+- 浏览器标签管理
+
+## 开发指南
+
+### 环境准备
+
+```bash
+# 安装依赖
+bun install
+
+# 启动开发服务器
+bun dev
+
+# 构建项目
+bun run build
+
+# 预览构建结果
+bun preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## TODO 清单
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 1. 核心功能增强
+- [ ] 文件上传工具
+  - [ ] 添加文件预览功能
+  - [ ] 支持文件夹上传
+  - [ ] 添加上传进度条
+  - [ ] 支持断点续传
+  - [ ] 添加文件类型限制
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- [ ] 视频处理工具
+  - [ ] 支持视频剪辑
+  - [ ] 添加视频压缩功能
+  - [ ] 支持视频水印
+  - [ ] 支持视频格式转换
+  - [ ] 添加视频截图功能
+
+- [ ] 图片处理工具
+  - [ ] 批量图片压缩
+  - [ ] 图片格式转换
+  - [ ] 图片裁剪和调整
+  - [ ] 添加滤镜效果
+  - [ ] 支持图片批量重命名
+
+### 2. 用户体验优化
+- [ ] 界面交互
+  - [ ] 实现深色模式
+  - [ ] 添加国际化支持
+  - [ ] 优化移动端适配
+  - [ ] 添加快捷键支持
+  - [ ] 实现拖拽排序
+
+- [ ] 性能优化
+  - [ ] 实现懒加载
+  - [ ] 优化首屏加载时间
+  - [ ] 添加资源预加载
+  - [ ] 实现离线缓存
+  - [ ] 优化大文件处理性能
+
+### 3. 技术架构提升
+- [ ] 测试覆盖
+  - [ ] 添加单元测试 (Jest)
+  - [ ] 添加集成测试
+  - [ ] 添加端到端测试 (Cypress)
+  - [ ] 添加性能测试
+  - [ ] 实现自动化测试流程
+
+- [ ] 代码质量
+  - [ ] 添加代码审查工作流
+  - [ ] 优化TypeScript类型定义
+  - [ ] 实现自动化代码格式化
+  - [ ] 添加代码复杂度检查
+  - [ ] 优化错误处理机制
+
+### 4. 新功能开发
+- [ ] 文档工具
+  - [ ] Markdown编辑器
+  - [ ] PDF在线编辑
+  - [ ] 文档格式转换
+  - [ ] OCR文字识别
+  - [ ] 电子签名功能
+
+- [ ] 开发工具
+  - [ ] 代码格式化工具
+  - [ ] JSON编辑器
+  - [ ] 正则表达式测试器
+  - [ ] API接口测试工具
+  - [ ] 代码对比工具
+
+### 5. 部署与运维
+- [ ] CI/CD完善
+  - [ ] 自动化部署流程
+  - [ ] 环境配置管理
+  - [ ] 版本发布流程
+  - [ ] 监控告警系统
+  - [ ] 性能监控面板
+
+- [ ] 安全加固
+  - [ ] 添加请求限流
+  - [ ] 实现数据加密
+  - [ ] CSRF防护
+  - [ ] XSS防护
+  - [ ] 敏感信息过滤
+
+### 6. 文档完善
+- [ ] 使用文档
+  - [ ] 工具使用教程
+  - [ ] API接口文档
+  - [ ] 常见问题解答
+  - [ ] 视频教程制作
+  - [ ] 示例代码编写
+
+- [ ] 开发文档
+  - [ ] 架构设计文档
+  - [ ] 开发规范指南
+  - [ ] 组件使用文档
+  - [ ] 部署指南
+  - [ ] 贡献指南
