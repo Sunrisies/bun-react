@@ -81,27 +81,28 @@ function Index() {
       path: "/base64Converter",
     },
     {
-      title:'上传文件',
-      description:'上传文件',
-      path:'/fileUploader'
+      title: '上传文件',
+      description: '上传文件',
+      path: '/fileUploader'
     }
   ];
+
   return (
-    <main className="flex justify-center h-full box-border">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-rows-4 gap-y-[10px] gap-x-[10px] w-full max-w-7xl px-4 mt-10">
+    <main className="px-60 h-full box-border p-4">
+      <div className="flex flex-wrap gap-4 justify-start w-full max-w-[1440px]">
         {list.map((item) => {
           return (
             <Card
-              className="h-[180px] w-[300px] cursor-pointer hover:translate-y-[-5px] transition-all duration-300 border-2 border-gray-300 rounded-md border drop-shadow-sm "
+              key={item.path}
+              className="h-[120px] w-[270px] cursor-pointer hover:translate-y-[-5px] transition-all duration-300 border border-gray-200 hover:border-gray-300 rounded-lg shadow-sm hover:shadow-md"
               onClick={() => navigate({ to: item.path })}
             >
-              <CardHeader>
-                <CardTitle>{item.title}</CardTitle>
-                <CardDescription>{item.description}</CardDescription>
+              <CardHeader className="p-3">
+                <CardTitle className="text-base mb-1">{item.title}</CardTitle>
+                <CardDescription className="text-sm text-gray-500 line-clamp-2">
+                  {item.description}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <p>{item.description}</p>
-              </CardContent>
             </Card>
           );
         })}
