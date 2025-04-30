@@ -80,6 +80,11 @@ function Index() {
       description: "图片转base64",
       path: "/base64Converter",
     },
+    {
+      title:'上传文件',
+      description:'上传文件',
+      path:'/fileUploader'
+    }
   ];
   return (
     <main className="flex justify-center h-full box-border">
