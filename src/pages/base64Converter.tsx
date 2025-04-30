@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Upload, Image, Download } from "lucide-react";
 import { toast } from "sonner";
@@ -13,7 +13,6 @@ function RouteComponent() {
   const [base64String, setBase64String] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
   const [isConverting, setIsConverting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 图片转Base64
   const { getRootProps: getImageRootProps, getInputProps: getImageInputProps } =

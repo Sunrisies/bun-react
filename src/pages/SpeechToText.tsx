@@ -63,7 +63,7 @@ function RouteComponent() {
       console.log("开始转换");
       console.log(await mediaFile.arrayBuffer()); // 这里的mediaFile是File类型，但是没有type属性，需要自己添加
       // 转换音频为wav格式
-      await ffmpeg.writeFile("input", await mediaFile.arrayBuffer());
+      // await ffmpeg.writeFile("input", await mediaFile.arrayBuffer());
       await ffmpeg.exec([
         "-i",
         "input",
@@ -76,9 +76,9 @@ function RouteComponent() {
 
       // 调用语音识别API（示例使用伪代码）
       const wavData = await ffmpeg.readFile("output.wav");
-      //   const result = await callSpeechToTextAPI(wavData); // 需要实际集成STT服务
-
-      //   setTextResult(result);
+      // const result = await callSpeechToTextAPI(wavData); // 需要实际集成STT服务
+      console.log(wavData, 'wavData')
+      setTextResult('===');
     } catch (error) {
       console.log(error); // 这里的error是unknow
       toast.error("转换失败: " + (error as Error).message);
@@ -196,7 +196,8 @@ function RouteComponent() {
 }
 
 // 伪代码示例 - 需要替换为实际的语音识别服务集成
-async function callSpeechToTextAPI(audioData: ArrayBuffer) {
-  // 这里应调用实际的语音识别API（如Whisper、Azure等）
-  return "示例文字稿：此处显示从音视频中提取的文字内容...";
-}
+// async function callSpeechToTextAPI(audioData: ArrayBuffer) {
+//   // 这里应调用实际的语音识别API（如Whisper、Azure等）
+//   console.log("调用语音识别API", audioData);
+//   return "示例文字稿：此处显示从音视频中提取的文字内容...";
+// }
