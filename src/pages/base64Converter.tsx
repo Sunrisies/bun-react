@@ -1,15 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Upload, Image, Download } from "lucide-react";
+import { Copy, Upload, Image, Download, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDropzone } from "react-dropzone";
+
 export const Route = createFileRoute("/base64Converter")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const [base64String, setBase64String] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
   const [isConverting, setIsConverting] = useState(false);
@@ -58,9 +60,15 @@ function RouteComponent() {
     <div className="flex h-full items-center justify-center p-4 bg-gray-50">
       <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-gray-800 px-6 pt-6">
-            Base64与图片互转工具
-          </CardTitle>
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-3xl font-bold text-gray-800">
+              Base64与图片互转工具
+            </CardTitle>
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              返回首页
+            </Button>
+          </div>
         </CardHeader>
 
         <CardContent className="grid md:grid-cols-2 gap-8 p-8">
