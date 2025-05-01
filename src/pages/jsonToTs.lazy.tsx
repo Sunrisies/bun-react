@@ -32,9 +32,8 @@ function RouteComponent() {
 			jsonObject,
 			typeName,
 		)
-		const allNestedTypes = [...nestedTypes, typeDefinition]
-			.reverse()
-			.join("\n\n")
+		// 修改这里：将 typeDefinition 放在最后，这样嵌套的类型会先定义
+		const allNestedTypes = [...nestedTypes, typeDefinition].join("\n\n")
 		return allNestedTypes
 	}
 
@@ -94,7 +93,7 @@ function RouteComponent() {
 	}
 
 	return (
-		<div className="h-full flex flex-col items-center px-4  bg-gray-50">
+		<div className="h-full flex flex-col items-center px-4 bg-gray-50">
 			<div className="w-full flex justify-center items-center my-4 gap-4">
 				<h1 className="text-2xl font-bold text-gray-800">
 					JSON to TypeScript{ " " }
@@ -102,7 +101,7 @@ function RouteComponent() {
 				<Button onClick={ () => navigate({ to: "/" }) }>返回</Button>
 			</div>
 			<div className="w-full flex-1 flex justify-center items-center border border-gray-300 rounded-md p-4 gap-3">
-				<Card className="mb-4 shadow-lg flex-1 h-full max-w-1/2">
+				<Card className="shadow-lg flex-1 h-full max-w-1/2"> {/* 移除 mb-4 */}
 					<CardHeader>
 						<CardTitle>输入 JSON</CardTitle>
 					</CardHeader>
@@ -115,8 +114,8 @@ function RouteComponent() {
 					</CardContent>
 				</Card>
 				<div className="flex justify-between items-center mb-2">
-					<div className="flex gap-2">
-						<Button onClick={ handleConvert } variant="default" className="mr-2">
+					<div className="flex flex-col gap-2"> {/* 修改按钮容器的布局 */}
+						<Button onClick={ handleConvert } variant="default">
 							转换
 						</Button>
 						<Button onClick={ handleClear } variant="default">
