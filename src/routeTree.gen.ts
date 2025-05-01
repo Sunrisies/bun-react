@@ -17,6 +17,7 @@ import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
+import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
@@ -85,6 +86,12 @@ const TimestampConverterRoute = TimestampConverterImport.update({
 const QrGeneratorRoute = QrGeneratorImport.update({
   id: '/qrGenerator',
   path: '/qrGenerator',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PdfMergerRoute = PdfMergerImport.update({
+  id: '/pdfMerger',
+  path: '/pdfMerger',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -235,6 +242,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MusicPlayerImport
       parentRoute: typeof rootRoute
     }
+    '/pdfMerger': {
+      id: '/pdfMerger'
+      path: '/pdfMerger'
+      fullPath: '/pdfMerger'
+      preLoaderRoute: typeof PdfMergerImport
+      parentRoute: typeof rootRoute
+    }
     '/qrGenerator': {
       id: '/qrGenerator'
       path: '/qrGenerator'
@@ -308,6 +322,7 @@ export interface FileRoutesByFullPath {
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
+  '/pdfMerger': typeof PdfMergerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -330,6 +345,7 @@ export interface FileRoutesByTo {
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
+  '/pdfMerger': typeof PdfMergerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -353,6 +369,7 @@ export interface FileRoutesById {
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
+  '/pdfMerger': typeof PdfMergerRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -377,6 +394,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/imageToPdf'
     | '/musicPlayer'
+    | '/pdfMerger'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -398,6 +416,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/imageToPdf'
     | '/musicPlayer'
+    | '/pdfMerger'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -419,6 +438,7 @@ export interface FileRouteTypes {
     | '/imageMetadata'
     | '/imageToPdf'
     | '/musicPlayer'
+    | '/pdfMerger'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -442,6 +462,7 @@ export interface RootRouteChildren {
   ImageMetadataRoute: typeof ImageMetadataRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
+  PdfMergerRoute: typeof PdfMergerRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
@@ -464,6 +485,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageMetadataRoute: ImageMetadataRoute,
   ImageToPdfRoute: ImageToPdfRoute,
   MusicPlayerRoute: MusicPlayerRoute,
+  PdfMergerRoute: PdfMergerRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
@@ -495,6 +517,7 @@ export const routeTree = rootRoute
         "/imageMetadata",
         "/imageToPdf",
         "/musicPlayer",
+        "/pdfMerger",
         "/qrGenerator",
         "/timestampConverter",
         "/videoToGif",
@@ -537,6 +560,9 @@ export const routeTree = rootRoute
     },
     "/musicPlayer": {
       "filePath": "musicPlayer.tsx"
+    },
+    "/pdfMerger": {
+      "filePath": "pdfMerger.tsx"
     },
     "/qrGenerator": {
       "filePath": "qrGenerator.tsx"
