@@ -89,6 +89,11 @@ function Index() {
       title:'PDF合并',
       description: 'PDF合并',
       path: '/pdfMerger'
+    },
+    {
+      title:"图片压缩工具",
+      description: '图片压缩工具',
+      path: '/imageCompressor'
     }
   ];
 
