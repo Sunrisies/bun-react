@@ -84,6 +84,11 @@ function Index() {
       title: '上传文件',
       description: '上传文件',
       path: '/fileUploader'
+    },
+    {
+      title:'PDF合并',
+      description: 'PDF合并',
+      path: '/pdfMerger'
     }
   ];
 
