@@ -21,6 +21,7 @@ import { Route as PortTableImport } from './pages/portTable'
 import { Route as PdfToWordImport } from './pages/pdfToWord'
 import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
+import { Route as JsonFormatterImport } from './pages/jsonFormatter'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as ImageCompressorImport } from './pages/imageCompressor'
@@ -116,6 +117,12 @@ const PdfMergerRoute = PdfMergerImport.update({
 const MusicPlayerRoute = MusicPlayerImport.update({
   id: '/musicPlayer',
   path: '/musicPlayer',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const JsonFormatterRoute = JsonFormatterImport.update({
+  id: '/jsonFormatter',
+  path: '/jsonFormatter',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -305,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImageToPdfImport
       parentRoute: typeof rootRoute
     }
+    '/jsonFormatter': {
+      id: '/jsonFormatter'
+      path: '/jsonFormatter'
+      fullPath: '/jsonFormatter'
+      preLoaderRoute: typeof JsonFormatterImport
+      parentRoute: typeof rootRoute
+    }
     '/musicPlayer': {
       id: '/musicPlayer'
       path: '/musicPlayer'
@@ -409,6 +423,7 @@ export interface FileRoutesByFullPath {
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
+  '/jsonFormatter': typeof JsonFormatterRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
@@ -438,6 +453,7 @@ export interface FileRoutesByTo {
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
+  '/jsonFormatter': typeof JsonFormatterRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
@@ -468,6 +484,7 @@ export interface FileRoutesById {
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
+  '/jsonFormatter': typeof JsonFormatterRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
@@ -499,6 +516,7 @@ export interface FileRouteTypes {
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
+    | '/jsonFormatter'
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
@@ -527,6 +545,7 @@ export interface FileRouteTypes {
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
+    | '/jsonFormatter'
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
@@ -555,6 +574,7 @@ export interface FileRouteTypes {
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
+    | '/jsonFormatter'
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
@@ -585,6 +605,7 @@ export interface RootRouteChildren {
   ImageCompressorRoute: typeof ImageCompressorRoute
   ImageMetadataRoute: typeof ImageMetadataRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
+  JsonFormatterRoute: typeof JsonFormatterRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
   PdfToWordRoute: typeof PdfToWordRoute
@@ -614,6 +635,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageCompressorRoute: ImageCompressorRoute,
   ImageMetadataRoute: ImageMetadataRoute,
   ImageToPdfRoute: ImageToPdfRoute,
+  JsonFormatterRoute: JsonFormatterRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
   PdfToWordRoute: PdfToWordRoute,
@@ -652,6 +674,7 @@ export const routeTree = rootRoute
         "/imageCompressor",
         "/imageMetadata",
         "/imageToPdf",
+        "/jsonFormatter",
         "/musicPlayer",
         "/pdfMerger",
         "/pdfToWord",
@@ -707,6 +730,9 @@ export const routeTree = rootRoute
     },
     "/imageToPdf": {
       "filePath": "imageToPdf.tsx"
+    },
+    "/jsonFormatter": {
+      "filePath": "jsonFormatter.tsx"
     },
     "/musicPlayer": {
       "filePath": "musicPlayer.tsx"

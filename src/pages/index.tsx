@@ -115,6 +115,10 @@ function Index() {
       title: "端口工具",
       description: '端口工具',
       path: '/portTable'
+    }, {
+      title:'JSON格式化',
+      description: 'JSON格式化',
+      path: '/jsonFormatter'
     }
   ];
 
