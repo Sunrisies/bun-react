@@ -23,6 +23,7 @@ import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as ImageCompressorImport } from './pages/imageCompressor'
+import { Route as HttpStatusImport } from './pages/httpStatus'
 import { Route as HexStringConverterImport } from './pages/hexStringConverter'
 import { Route as FileUploaderImport } from './pages/fileUploader'
 import { Route as ColorConverterImport } from './pages/colorConverter'
@@ -124,6 +125,12 @@ const ImageMetadataRoute = ImageMetadataImport.update({
 const ImageCompressorRoute = ImageCompressorImport.update({
   id: '/imageCompressor',
   path: '/imageCompressor',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HttpStatusRoute = HttpStatusImport.update({
+  id: '/httpStatus',
+  path: '/httpStatus',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -233,6 +240,13 @@ declare module '@tanstack/react-router' {
       path: '/hexStringConverter'
       fullPath: '/hexStringConverter'
       preLoaderRoute: typeof HexStringConverterImport
+      parentRoute: typeof rootRoute
+    }
+    '/httpStatus': {
+      id: '/httpStatus'
+      path: '/httpStatus'
+      fullPath: '/httpStatus'
+      preLoaderRoute: typeof HttpStatusImport
       parentRoute: typeof rootRoute
     }
     '/imageCompressor': {
@@ -347,6 +361,7 @@ export interface FileRoutesByFullPath {
   '/colorConverter': typeof ColorConverterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
+  '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
@@ -372,6 +387,7 @@ export interface FileRoutesByTo {
   '/colorConverter': typeof ColorConverterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
+  '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
@@ -398,6 +414,7 @@ export interface FileRoutesById {
   '/colorConverter': typeof ColorConverterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
+  '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
@@ -425,6 +442,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/fileUploader'
     | '/hexStringConverter'
+    | '/httpStatus'
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
@@ -449,6 +467,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/fileUploader'
     | '/hexStringConverter'
+    | '/httpStatus'
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
@@ -473,6 +492,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/fileUploader'
     | '/hexStringConverter'
+    | '/httpStatus'
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
@@ -499,6 +519,7 @@ export interface RootRouteChildren {
   ColorConverterRoute: typeof ColorConverterRoute
   FileUploaderRoute: typeof FileUploaderRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
+  HttpStatusRoute: typeof HttpStatusRoute
   ImageCompressorRoute: typeof ImageCompressorRoute
   ImageMetadataRoute: typeof ImageMetadataRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
@@ -524,6 +545,7 @@ const rootRouteChildren: RootRouteChildren = {
   ColorConverterRoute: ColorConverterRoute,
   FileUploaderRoute: FileUploaderRoute,
   HexStringConverterRoute: HexStringConverterRoute,
+  HttpStatusRoute: HttpStatusRoute,
   ImageCompressorRoute: ImageCompressorRoute,
   ImageMetadataRoute: ImageMetadataRoute,
   ImageToPdfRoute: ImageToPdfRoute,
@@ -558,6 +580,7 @@ export const routeTree = rootRoute
         "/colorConverter",
         "/fileUploader",
         "/hexStringConverter",
+        "/httpStatus",
         "/imageCompressor",
         "/imageMetadata",
         "/imageToPdf",
@@ -597,6 +620,9 @@ export const routeTree = rootRoute
     },
     "/hexStringConverter": {
       "filePath": "hexStringConverter.tsx"
+    },
+    "/httpStatus": {
+      "filePath": "httpStatus.tsx"
     },
     "/imageCompressor": {
       "filePath": "imageCompressor.tsx"
