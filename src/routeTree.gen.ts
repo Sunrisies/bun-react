@@ -17,6 +17,7 @@ import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
+import { Route as PdfToWordImport } from './pages/pdfToWord'
 import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
@@ -87,6 +88,12 @@ const TimestampConverterRoute = TimestampConverterImport.update({
 const QrGeneratorRoute = QrGeneratorImport.update({
   id: '/qrGenerator',
   path: '/qrGenerator',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PdfToWordRoute = PdfToWordImport.update({
+  id: '/pdfToWord',
+  path: '/pdfToWord',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -263,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PdfMergerImport
       parentRoute: typeof rootRoute
     }
+    '/pdfToWord': {
+      id: '/pdfToWord'
+      path: '/pdfToWord'
+      fullPath: '/pdfToWord'
+      preLoaderRoute: typeof PdfToWordImport
+      parentRoute: typeof rootRoute
+    }
     '/qrGenerator': {
       id: '/qrGenerator'
       path: '/qrGenerator'
@@ -338,6 +352,7 @@ export interface FileRoutesByFullPath {
   '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
+  '/pdfToWord': typeof PdfToWordRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -362,6 +377,7 @@ export interface FileRoutesByTo {
   '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
+  '/pdfToWord': typeof PdfToWordRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -387,6 +403,7 @@ export interface FileRoutesById {
   '/imageToPdf': typeof ImageToPdfRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
+  '/pdfToWord': typeof PdfToWordRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -413,6 +430,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/musicPlayer'
     | '/pdfMerger'
+    | '/pdfToWord'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -436,6 +454,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/musicPlayer'
     | '/pdfMerger'
+    | '/pdfToWord'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -459,6 +478,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/musicPlayer'
     | '/pdfMerger'
+    | '/pdfToWord'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -484,6 +504,7 @@ export interface RootRouteChildren {
   ImageToPdfRoute: typeof ImageToPdfRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
+  PdfToWordRoute: typeof PdfToWordRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
@@ -508,6 +529,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageToPdfRoute: ImageToPdfRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
+  PdfToWordRoute: PdfToWordRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
@@ -541,6 +563,7 @@ export const routeTree = rootRoute
         "/imageToPdf",
         "/musicPlayer",
         "/pdfMerger",
+        "/pdfToWord",
         "/qrGenerator",
         "/timestampConverter",
         "/videoToGif",
@@ -589,6 +612,9 @@ export const routeTree = rootRoute
     },
     "/pdfMerger": {
       "filePath": "pdfMerger.tsx"
+    },
+    "/pdfToWord": {
+      "filePath": "pdfToWord.tsx"
     },
     "/qrGenerator": {
       "filePath": "qrGenerator.tsx"

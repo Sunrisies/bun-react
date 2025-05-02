@@ -94,6 +94,10 @@ function Index() {
       title:"图片压缩工具",
       description: '图片压缩工具',
       path: '/imageCompressor'
+    }, {
+      title:"PDF转Word",
+      description: 'PDF转Word',
+      path: '/pdfToWord'
     }
   ];
 
