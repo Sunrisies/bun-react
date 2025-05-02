@@ -17,6 +17,7 @@ import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
+import { Route as PortTableImport } from './pages/portTable'
 import { Route as PdfToWordImport } from './pages/pdfToWord'
 import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
@@ -91,6 +92,12 @@ const TimestampConverterRoute = TimestampConverterImport.update({
 const QrGeneratorRoute = QrGeneratorImport.update({
   id: '/qrGenerator',
   path: '/qrGenerator',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PortTableRoute = PortTableImport.update({
+  id: '/portTable',
+  path: '/portTable',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -319,6 +326,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PdfToWordImport
       parentRoute: typeof rootRoute
     }
+    '/portTable': {
+      id: '/portTable'
+      path: '/portTable'
+      fullPath: '/portTable'
+      preLoaderRoute: typeof PortTableImport
+      parentRoute: typeof rootRoute
+    }
     '/qrGenerator': {
       id: '/qrGenerator'
       path: '/qrGenerator'
@@ -398,6 +412,7 @@ export interface FileRoutesByFullPath {
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
+  '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -426,6 +441,7 @@ export interface FileRoutesByTo {
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
+  '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -455,6 +471,7 @@ export interface FileRoutesById {
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
+  '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -485,6 +502,7 @@ export interface FileRouteTypes {
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
+    | '/portTable'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -512,6 +530,7 @@ export interface FileRouteTypes {
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
+    | '/portTable'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -539,6 +558,7 @@ export interface FileRouteTypes {
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
+    | '/portTable'
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
@@ -568,6 +588,7 @@ export interface RootRouteChildren {
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
   PdfToWordRoute: typeof PdfToWordRoute
+  PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
@@ -596,6 +617,7 @@ const rootRouteChildren: RootRouteChildren = {
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
   PdfToWordRoute: PdfToWordRoute,
+  PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
@@ -633,6 +655,7 @@ export const routeTree = rootRoute
         "/musicPlayer",
         "/pdfMerger",
         "/pdfToWord",
+        "/portTable",
         "/qrGenerator",
         "/timestampConverter",
         "/videoToGif",
@@ -693,6 +716,9 @@ export const routeTree = rootRoute
     },
     "/pdfToWord": {
       "filePath": "pdfToWord.tsx"
+    },
+    "/portTable": {
+      "filePath": "portTable.tsx"
     },
     "/qrGenerator": {
       "filePath": "qrGenerator.tsx"

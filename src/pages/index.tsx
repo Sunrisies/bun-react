@@ -110,6 +110,11 @@ function Index() {
       title: "ascii码对应表",
       description: 'ascii码对应表',
       path: '/asciiTable'
+    },
+    {
+      title: "端口工具",
+      description: '端口工具',
+      path: '/portTable'
     }
   ];
 
