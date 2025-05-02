@@ -98,6 +98,10 @@ function Index() {
       title:"PDF转Word",
       description: 'PDF转Word',
       path: '/pdfToWord'
+    }, {
+      title:"http状态码" ,
+      description: 'http状态码',
+      path: '/httpStatus'
     }
   ];
 
