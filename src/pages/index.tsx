@@ -102,6 +102,10 @@ function Index() {
       title:"http状态码" ,
       description: 'http状态码',
       path: '/httpStatus'
+    }, {
+      title:"http请求头",
+      description: 'http请求头',
+      path: '/httpHeaders'
     }
   ];
 
