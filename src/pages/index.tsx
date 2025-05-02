@@ -106,6 +106,10 @@ function Index() {
       title:"http请求头",
       description: 'http请求头',
       path: '/httpHeaders'
+    }, {
+      title: "ascii码对应表",
+      description: 'ascii码对应表',
+      path: '/asciiTable'
     }
   ];
 

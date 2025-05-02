@@ -30,6 +30,7 @@ import { Route as FileUploaderImport } from './pages/fileUploader'
 import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as Base64ConverterImport } from './pages/base64Converter'
+import { Route as AsciiTableImport } from './pages/asciiTable'
 import { Route as AboutImport } from './pages/about'
 import { Route as SpeechToTextImport } from './pages/SpeechToText'
 import { Route as IndexImport } from './pages/index'
@@ -171,6 +172,12 @@ const Base64ConverterRoute = Base64ConverterImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AsciiTableRoute = AsciiTableImport.update({
+  id: '/asciiTable',
+  path: '/asciiTable',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
@@ -212,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/asciiTable': {
+      id: '/asciiTable'
+      path: '/asciiTable'
+      fullPath: '/asciiTable'
+      preLoaderRoute: typeof AsciiTableImport
       parentRoute: typeof rootRoute
     }
     '/base64Converter': {
@@ -370,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
+  '/asciiTable': typeof AsciiTableRoute
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
@@ -397,6 +412,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
+  '/asciiTable': typeof AsciiTableRoute
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
@@ -425,6 +441,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
+  '/asciiTable': typeof AsciiTableRoute
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
@@ -454,6 +471,7 @@ export interface FileRouteTypes {
     | '/'
     | '/SpeechToText'
     | '/about'
+    | '/asciiTable'
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
@@ -480,6 +498,7 @@ export interface FileRouteTypes {
     | '/'
     | '/SpeechToText'
     | '/about'
+    | '/asciiTable'
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
@@ -506,6 +525,7 @@ export interface FileRouteTypes {
     | '/'
     | '/SpeechToText'
     | '/about'
+    | '/asciiTable'
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
@@ -534,6 +554,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SpeechToTextRoute: typeof SpeechToTextRoute
   AboutRoute: typeof AboutRoute
+  AsciiTableRoute: typeof AsciiTableRoute
   Base64ConverterRoute: typeof Base64ConverterRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
@@ -561,6 +582,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SpeechToTextRoute: SpeechToTextRoute,
   AboutRoute: AboutRoute,
+  AsciiTableRoute: AsciiTableRoute,
   Base64ConverterRoute: Base64ConverterRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
@@ -597,6 +619,7 @@ export const routeTree = rootRoute
         "/",
         "/SpeechToText",
         "/about",
+        "/asciiTable",
         "/base64Converter",
         "/browserTabs",
         "/colorConverter",
@@ -628,6 +651,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/asciiTable": {
+      "filePath": "asciiTable.tsx"
     },
     "/base64Converter": {
       "filePath": "base64Converter.tsx"
