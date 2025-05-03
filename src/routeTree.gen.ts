@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './pages/__root'
 import { Route as YamlJsonConverterImport } from './pages/yamlJsonConverter'
 import { Route as WebsocketClientImport } from './pages/websocketClient'
+import { Route as WatermarkImport } from './pages/watermark'
 import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
@@ -82,6 +83,12 @@ const YamlJsonConverterRoute = YamlJsonConverterImport.update({
 const WebsocketClientRoute = WebsocketClientImport.update({
   id: '/websocketClient',
   path: '/websocketClient',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const WatermarkRoute = WatermarkImport.update({
+  id: '/watermark',
+  path: '/watermark',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -375,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideoToGifImport
       parentRoute: typeof rootRoute
     }
+    '/watermark': {
+      id: '/watermark'
+      path: '/watermark'
+      fullPath: '/watermark'
+      preLoaderRoute: typeof WatermarkImport
+      parentRoute: typeof rootRoute
+    }
     '/websocketClient': {
       id: '/websocketClient'
       path: '/websocketClient'
@@ -445,6 +459,7 @@ export interface FileRoutesByFullPath {
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
+  '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
@@ -476,6 +491,7 @@ export interface FileRoutesByTo {
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
+  '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
@@ -508,6 +524,7 @@ export interface FileRoutesById {
   '/qrGenerator': typeof QrGeneratorRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
+  '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
@@ -541,6 +558,7 @@ export interface FileRouteTypes {
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
+    | '/watermark'
     | '/websocketClient'
     | '/yamlJsonConverter'
     | '/calculateDistance'
@@ -571,6 +589,7 @@ export interface FileRouteTypes {
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
+    | '/watermark'
     | '/websocketClient'
     | '/yamlJsonConverter'
     | '/calculateDistance'
@@ -601,6 +620,7 @@ export interface FileRouteTypes {
     | '/qrGenerator'
     | '/timestampConverter'
     | '/videoToGif'
+    | '/watermark'
     | '/websocketClient'
     | '/yamlJsonConverter'
     | '/calculateDistance'
@@ -633,6 +653,7 @@ export interface RootRouteChildren {
   QrGeneratorRoute: typeof QrGeneratorRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
+  WatermarkRoute: typeof WatermarkRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
   YamlJsonConverterRoute: typeof YamlJsonConverterRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
@@ -664,6 +685,7 @@ const rootRouteChildren: RootRouteChildren = {
   QrGeneratorRoute: QrGeneratorRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
+  WatermarkRoute: WatermarkRoute,
   WebsocketClientRoute: WebsocketClientRoute,
   YamlJsonConverterRoute: YamlJsonConverterRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
@@ -704,6 +726,7 @@ export const routeTree = rootRoute
         "/qrGenerator",
         "/timestampConverter",
         "/videoToGif",
+        "/watermark",
         "/websocketClient",
         "/yamlJsonConverter",
         "/calculateDistance",
@@ -777,6 +800,9 @@ export const routeTree = rootRoute
     },
     "/videoToGif": {
       "filePath": "videoToGif.tsx"
+    },
+    "/watermark": {
+      "filePath": "watermark.tsx"
     },
     "/websocketClient": {
       "filePath": "websocketClient.tsx"
