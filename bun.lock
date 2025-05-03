@@ -16,6 +16,7 @@
         "@radix-ui/react-tabs": "^1.1.9",
         "@tailwindcss/vite": "^4.0.11",
         "@tanstack/react-router": "^1.114.4",
+        "@types/js-yaml": "^4.0.9",
         "@types/qrcode": "^1.5.5",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -23,6 +24,7 @@
         "docx": "^9.4.1",
         "exif-js": "^2.3.0",
         "html2canvas": "^1.4.1",
+        "js-yaml": "^4.1.0",
         "lucide-react": "^0.477.0",
         "pdf-lib": "^1.17.1",
         "pdfjs-dist": "^5.2.133",
@@ -437,6 +439,8 @@
     "@types/conventional-commits-parser": ["@types/conventional-commits-parser@5.0.1", "https://registry.npmmirror.com/@types/conventional-commits-parser/-/conventional-commits-parser-5.0.1.tgz", { "dependencies": { "@types/node": "*" } }, "sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ=="],
 
     "@types/estree": ["@types/estree@1.0.6", "https://registry.npmmirror.com/@types/estree/-/estree-1.0.6.tgz", {}, "sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw=="],
+
+    "@types/js-yaml": ["@types/js-yaml@4.0.9", "https://registry.npmmirror.com/@types/js-yaml/-/js-yaml-4.0.9.tgz", {}, "sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg=="],
 
     "@types/json-schema": ["@types/json-schema@7.0.15", "https://registry.npmmirror.com/@types/json-schema/-/json-schema-7.0.15.tgz", {}, "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA=="],
 

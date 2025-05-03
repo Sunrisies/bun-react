@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './pages/__root'
+import { Route as YamlJsonConverterImport } from './pages/yamlJsonConverter'
 import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
@@ -71,6 +72,12 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
 } as any).lazy(() =>
   import('./pages/calculateDistance.lazy').then((d) => d.Route),
 )
+
+const YamlJsonConverterRoute = YamlJsonConverterImport.update({
+  id: '/yamlJsonConverter',
+  path: '/yamlJsonConverter',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const WebsocketClientRoute = WebsocketClientImport.update({
   id: '/websocketClient',
@@ -375,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WebsocketClientImport
       parentRoute: typeof rootRoute
     }
+    '/yamlJsonConverter': {
+      id: '/yamlJsonConverter'
+      path: '/yamlJsonConverter'
+      fullPath: '/yamlJsonConverter'
+      preLoaderRoute: typeof YamlJsonConverterImport
+      parentRoute: typeof rootRoute
+    }
     '/calculateDistance': {
       id: '/calculateDistance'
       path: '/calculateDistance'
@@ -432,6 +446,7 @@ export interface FileRoutesByFullPath {
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -462,6 +477,7 @@ export interface FileRoutesByTo {
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -493,6 +509,7 @@ export interface FileRoutesById {
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
   '/jsonToTs': typeof JsonToTsLazyRoute
@@ -525,6 +542,7 @@ export interface FileRouteTypes {
     | '/timestampConverter'
     | '/videoToGif'
     | '/websocketClient'
+    | '/yamlJsonConverter'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -554,6 +572,7 @@ export interface FileRouteTypes {
     | '/timestampConverter'
     | '/videoToGif'
     | '/websocketClient'
+    | '/yamlJsonConverter'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -583,6 +602,7 @@ export interface FileRouteTypes {
     | '/timestampConverter'
     | '/videoToGif'
     | '/websocketClient'
+    | '/yamlJsonConverter'
     | '/calculateDistance'
     | '/coordinate'
     | '/jsonToTs'
@@ -614,6 +634,7 @@ export interface RootRouteChildren {
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
+  YamlJsonConverterRoute: typeof YamlJsonConverterRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
@@ -644,6 +665,7 @@ const rootRouteChildren: RootRouteChildren = {
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
   WebsocketClientRoute: WebsocketClientRoute,
+  YamlJsonConverterRoute: YamlJsonConverterRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,
   JsonToTsLazyRoute: JsonToTsLazyRoute,
@@ -683,6 +705,7 @@ export const routeTree = rootRoute
         "/timestampConverter",
         "/videoToGif",
         "/websocketClient",
+        "/yamlJsonConverter",
         "/calculateDistance",
         "/coordinate",
         "/jsonToTs",
@@ -757,6 +780,9 @@ export const routeTree = rootRoute
     },
     "/websocketClient": {
       "filePath": "websocketClient.tsx"
+    },
+    "/yamlJsonConverter": {
+      "filePath": "yamlJsonConverter.tsx"
     },
     "/calculateDistance": {
       "filePath": "calculateDistance.lazy.tsx"
