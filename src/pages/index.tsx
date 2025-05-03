@@ -56,6 +56,11 @@ function Index() {
           title: "图片信息查看器",
           description: "支持查看图片信息",
           path: "/imageMetadata"
+        },
+        {
+          title: "图片水印工具",
+          description: "支持给图片添加文字水印，可批量处理",
+          path: "/watermark"
         }
       ]
     },
