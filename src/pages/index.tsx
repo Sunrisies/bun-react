@@ -148,6 +148,11 @@ function Index() {
           path: "/cssFormatter"
         },
         {
+          title: "SCSS转CSS",
+          description: "SCSS代码转换为CSS代码",
+          path: "/scssConverter"
+        },
+        {
           title: "ascii码对应表",
           description: "ascii码对应表",
           path: "/asciiTable"
