@@ -18,6 +18,7 @@ import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as WatermarkImport } from './pages/watermark'
 import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
+import { Route as ScssConverterImport } from './pages/scssConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as PortTableImport } from './pages/portTable'
 import { Route as PdfToWordImport } from './pages/pdfToWord'
@@ -102,6 +103,12 @@ const VideoToGifRoute = VideoToGifImport.update({
 const TimestampConverterRoute = TimestampConverterImport.update({
   id: '/timestampConverter',
   path: '/timestampConverter',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ScssConverterRoute = ScssConverterImport.update({
+  id: '/scssConverter',
+  path: '/scssConverter',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -382,6 +389,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QrGeneratorImport
       parentRoute: typeof rootRoute
     }
+    '/scssConverter': {
+      id: '/scssConverter'
+      path: '/scssConverter'
+      fullPath: '/scssConverter'
+      preLoaderRoute: typeof ScssConverterImport
+      parentRoute: typeof rootRoute
+    }
     '/timestampConverter': {
       id: '/timestampConverter'
       path: '/timestampConverter'
@@ -472,6 +486,7 @@ export interface FileRoutesByFullPath {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/scssConverter': typeof ScssConverterRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -505,6 +520,7 @@ export interface FileRoutesByTo {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/scssConverter': typeof ScssConverterRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -539,6 +555,7 @@ export interface FileRoutesById {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/scssConverter': typeof ScssConverterRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -574,6 +591,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/scssConverter'
     | '/timestampConverter'
     | '/videoToGif'
     | '/watermark'
@@ -606,6 +624,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/scssConverter'
     | '/timestampConverter'
     | '/videoToGif'
     | '/watermark'
@@ -638,6 +657,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/scssConverter'
     | '/timestampConverter'
     | '/videoToGif'
     | '/watermark'
@@ -672,6 +692,7 @@ export interface RootRouteChildren {
   PdfToWordRoute: typeof PdfToWordRoute
   PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
+  ScssConverterRoute: typeof ScssConverterRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
   WatermarkRoute: typeof WatermarkRoute
@@ -705,6 +726,7 @@ const rootRouteChildren: RootRouteChildren = {
   PdfToWordRoute: PdfToWordRoute,
   PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
+  ScssConverterRoute: ScssConverterRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
   WatermarkRoute: WatermarkRoute,
@@ -747,6 +769,7 @@ export const routeTree = rootRoute
         "/pdfToWord",
         "/portTable",
         "/qrGenerator",
+        "/scssConverter",
         "/timestampConverter",
         "/videoToGif",
         "/watermark",
@@ -820,6 +843,9 @@ export const routeTree = rootRoute
     },
     "/qrGenerator": {
       "filePath": "qrGenerator.tsx"
+    },
+    "/scssConverter": {
+      "filePath": "scssConverter.tsx"
     },
     "/timestampConverter": {
       "filePath": "timestampConverter.tsx"
