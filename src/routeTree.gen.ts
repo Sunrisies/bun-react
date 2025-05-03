@@ -31,6 +31,7 @@ import { Route as HttpStatusImport } from './pages/httpStatus'
 import { Route as HttpHeadersImport } from './pages/httpHeaders'
 import { Route as HexStringConverterImport } from './pages/hexStringConverter'
 import { Route as FileUploaderImport } from './pages/fileUploader'
+import { Route as CssFormatterImport } from './pages/cssFormatter'
 import { Route as ColorConverterImport } from './pages/colorConverter'
 import { Route as BrowserTabsImport } from './pages/browserTabs'
 import { Route as Base64ConverterImport } from './pages/base64Converter'
@@ -182,6 +183,12 @@ const FileUploaderRoute = FileUploaderImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CssFormatterRoute = CssFormatterImport.update({
+  id: '/cssFormatter',
+  path: '/cssFormatter',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ColorConverterRoute = ColorConverterImport.update({
   id: '/colorConverter',
   path: '/colorConverter',
@@ -275,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/colorConverter'
       fullPath: '/colorConverter'
       preLoaderRoute: typeof ColorConverterImport
+      parentRoute: typeof rootRoute
+    }
+    '/cssFormatter': {
+      id: '/cssFormatter'
+      path: '/cssFormatter'
+      fullPath: '/cssFormatter'
+      preLoaderRoute: typeof CssFormatterImport
       parentRoute: typeof rootRoute
     }
     '/fileUploader': {
@@ -444,6 +458,7 @@ export interface FileRoutesByFullPath {
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/cssFormatter': typeof CssFormatterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/httpHeaders': typeof HttpHeadersRoute
@@ -476,6 +491,7 @@ export interface FileRoutesByTo {
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/cssFormatter': typeof CssFormatterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/httpHeaders': typeof HttpHeadersRoute
@@ -509,6 +525,7 @@ export interface FileRoutesById {
   '/base64Converter': typeof Base64ConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/cssFormatter': typeof CssFormatterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/httpHeaders': typeof HttpHeadersRoute
@@ -543,6 +560,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
+    | '/cssFormatter'
     | '/fileUploader'
     | '/hexStringConverter'
     | '/httpHeaders'
@@ -574,6 +592,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
+    | '/cssFormatter'
     | '/fileUploader'
     | '/hexStringConverter'
     | '/httpHeaders'
@@ -605,6 +624,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/browserTabs'
     | '/colorConverter'
+    | '/cssFormatter'
     | '/fileUploader'
     | '/hexStringConverter'
     | '/httpHeaders'
@@ -638,6 +658,7 @@ export interface RootRouteChildren {
   Base64ConverterRoute: typeof Base64ConverterRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
+  CssFormatterRoute: typeof CssFormatterRoute
   FileUploaderRoute: typeof FileUploaderRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
   HttpHeadersRoute: typeof HttpHeadersRoute
@@ -670,6 +691,7 @@ const rootRouteChildren: RootRouteChildren = {
   Base64ConverterRoute: Base64ConverterRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
+  CssFormatterRoute: CssFormatterRoute,
   FileUploaderRoute: FileUploaderRoute,
   HexStringConverterRoute: HexStringConverterRoute,
   HttpHeadersRoute: HttpHeadersRoute,
@@ -711,6 +733,7 @@ export const routeTree = rootRoute
         "/base64Converter",
         "/browserTabs",
         "/colorConverter",
+        "/cssFormatter",
         "/fileUploader",
         "/hexStringConverter",
         "/httpHeaders",
@@ -755,6 +778,9 @@ export const routeTree = rootRoute
     },
     "/colorConverter": {
       "filePath": "colorConverter.tsx"
+    },
+    "/cssFormatter": {
+      "filePath": "cssFormatter.tsx"
     },
     "/fileUploader": {
       "filePath": "fileUploader.tsx"

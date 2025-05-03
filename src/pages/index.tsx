@@ -143,6 +143,11 @@ function Index() {
           path: "/jsonFormatter"
         },
         {
+          title: "CSS格式化",
+          description: "CSS代码格式化工具",
+          path: "/cssFormatter"
+        },
+        {
           title: "ascii码对应表",
           description: "ascii码对应表",
           path: "/asciiTable"
