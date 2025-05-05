@@ -161,7 +161,12 @@ function Index() {
           title: "二维码生成器",
           description: "支持生成二维码",
           path: "/qrGenerator"
-        }
+        },
+        {
+          title: "JavaScript格式化",
+          description: "JavaScript代码格式化工具",
+          path: "/jsFormatter"
+        },
       ]
     },
     {

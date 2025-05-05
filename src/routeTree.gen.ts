@@ -25,6 +25,7 @@ import { Route as PdfToWordImport } from './pages/pdfToWord'
 import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as JsonFormatterImport } from './pages/jsonFormatter'
+import { Route as JsFormatterImport } from './pages/jsFormatter'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as ImageCompressorImport } from './pages/imageCompressor'
@@ -145,6 +146,12 @@ const MusicPlayerRoute = MusicPlayerImport.update({
 const JsonFormatterRoute = JsonFormatterImport.update({
   id: '/jsonFormatter',
   path: '/jsonFormatter',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const JsFormatterRoute = JsFormatterImport.update({
+  id: '/jsFormatter',
+  path: '/jsFormatter',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -347,6 +354,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImageToPdfImport
       parentRoute: typeof rootRoute
     }
+    '/jsFormatter': {
+      id: '/jsFormatter'
+      path: '/jsFormatter'
+      fullPath: '/jsFormatter'
+      preLoaderRoute: typeof JsFormatterImport
+      parentRoute: typeof rootRoute
+    }
     '/jsonFormatter': {
       id: '/jsonFormatter'
       path: '/jsonFormatter'
@@ -480,6 +494,7 @@ export interface FileRoutesByFullPath {
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
+  '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -514,6 +529,7 @@ export interface FileRoutesByTo {
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
+  '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -549,6 +565,7 @@ export interface FileRoutesById {
   '/imageCompressor': typeof ImageCompressorRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
+  '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -585,6 +602,7 @@ export interface FileRouteTypes {
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
+    | '/jsFormatter'
     | '/jsonFormatter'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -618,6 +636,7 @@ export interface FileRouteTypes {
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
+    | '/jsFormatter'
     | '/jsonFormatter'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -651,6 +670,7 @@ export interface FileRouteTypes {
     | '/imageCompressor'
     | '/imageMetadata'
     | '/imageToPdf'
+    | '/jsFormatter'
     | '/jsonFormatter'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -686,6 +706,7 @@ export interface RootRouteChildren {
   ImageCompressorRoute: typeof ImageCompressorRoute
   ImageMetadataRoute: typeof ImageMetadataRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
+  JsFormatterRoute: typeof JsFormatterRoute
   JsonFormatterRoute: typeof JsonFormatterRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
@@ -720,6 +741,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageCompressorRoute: ImageCompressorRoute,
   ImageMetadataRoute: ImageMetadataRoute,
   ImageToPdfRoute: ImageToPdfRoute,
+  JsFormatterRoute: JsFormatterRoute,
   JsonFormatterRoute: JsonFormatterRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
@@ -763,6 +785,7 @@ export const routeTree = rootRoute
         "/imageCompressor",
         "/imageMetadata",
         "/imageToPdf",
+        "/jsFormatter",
         "/jsonFormatter",
         "/musicPlayer",
         "/pdfMerger",
@@ -825,6 +848,9 @@ export const routeTree = rootRoute
     },
     "/imageToPdf": {
       "filePath": "imageToPdf.tsx"
+    },
+    "/jsFormatter": {
+      "filePath": "jsFormatter.tsx"
     },
     "/jsonFormatter": {
       "filePath": "jsonFormatter.tsx"
