@@ -167,6 +167,11 @@ function Index() {
           description: "JavaScript代码格式化工具",
           path: "/jsFormatter"
         },
+        {
+          title:"html转js",
+          description: "html转js",
+          path: "/htmlJsConverter"
+        }
       ]
     },
     {
