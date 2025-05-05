@@ -31,6 +31,7 @@ import { Route as ImageMetadataImport } from './pages/imageMetadata'
 import { Route as ImageCompressorImport } from './pages/imageCompressor'
 import { Route as HttpStatusImport } from './pages/httpStatus'
 import { Route as HttpHeadersImport } from './pages/httpHeaders'
+import { Route as HtmlJsConverterImport } from './pages/htmlJsConverter'
 import { Route as HexStringConverterImport } from './pages/hexStringConverter'
 import { Route as FileUploaderImport } from './pages/fileUploader'
 import { Route as CssFormatterImport } from './pages/cssFormatter'
@@ -185,6 +186,12 @@ const HttpHeadersRoute = HttpHeadersImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const HtmlJsConverterRoute = HtmlJsConverterImport.update({
+  id: '/htmlJsConverter',
+  path: '/htmlJsConverter',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const HexStringConverterRoute = HexStringConverterImport.update({
   id: '/hexStringConverter',
   path: '/hexStringConverter',
@@ -317,6 +324,13 @@ declare module '@tanstack/react-router' {
       path: '/hexStringConverter'
       fullPath: '/hexStringConverter'
       preLoaderRoute: typeof HexStringConverterImport
+      parentRoute: typeof rootRoute
+    }
+    '/htmlJsConverter': {
+      id: '/htmlJsConverter'
+      path: '/htmlJsConverter'
+      fullPath: '/htmlJsConverter'
+      preLoaderRoute: typeof HtmlJsConverterImport
       parentRoute: typeof rootRoute
     }
     '/httpHeaders': {
@@ -489,6 +503,7 @@ export interface FileRoutesByFullPath {
   '/cssFormatter': typeof CssFormatterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
+  '/htmlJsConverter': typeof HtmlJsConverterRoute
   '/httpHeaders': typeof HttpHeadersRoute
   '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
@@ -524,6 +539,7 @@ export interface FileRoutesByTo {
   '/cssFormatter': typeof CssFormatterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
+  '/htmlJsConverter': typeof HtmlJsConverterRoute
   '/httpHeaders': typeof HttpHeadersRoute
   '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
@@ -560,6 +576,7 @@ export interface FileRoutesById {
   '/cssFormatter': typeof CssFormatterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
+  '/htmlJsConverter': typeof HtmlJsConverterRoute
   '/httpHeaders': typeof HttpHeadersRoute
   '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
@@ -597,6 +614,7 @@ export interface FileRouteTypes {
     | '/cssFormatter'
     | '/fileUploader'
     | '/hexStringConverter'
+    | '/htmlJsConverter'
     | '/httpHeaders'
     | '/httpStatus'
     | '/imageCompressor'
@@ -631,6 +649,7 @@ export interface FileRouteTypes {
     | '/cssFormatter'
     | '/fileUploader'
     | '/hexStringConverter'
+    | '/htmlJsConverter'
     | '/httpHeaders'
     | '/httpStatus'
     | '/imageCompressor'
@@ -665,6 +684,7 @@ export interface FileRouteTypes {
     | '/cssFormatter'
     | '/fileUploader'
     | '/hexStringConverter'
+    | '/htmlJsConverter'
     | '/httpHeaders'
     | '/httpStatus'
     | '/imageCompressor'
@@ -701,6 +721,7 @@ export interface RootRouteChildren {
   CssFormatterRoute: typeof CssFormatterRoute
   FileUploaderRoute: typeof FileUploaderRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
+  HtmlJsConverterRoute: typeof HtmlJsConverterRoute
   HttpHeadersRoute: typeof HttpHeadersRoute
   HttpStatusRoute: typeof HttpStatusRoute
   ImageCompressorRoute: typeof ImageCompressorRoute
@@ -736,6 +757,7 @@ const rootRouteChildren: RootRouteChildren = {
   CssFormatterRoute: CssFormatterRoute,
   FileUploaderRoute: FileUploaderRoute,
   HexStringConverterRoute: HexStringConverterRoute,
+  HtmlJsConverterRoute: HtmlJsConverterRoute,
   HttpHeadersRoute: HttpHeadersRoute,
   HttpStatusRoute: HttpStatusRoute,
   ImageCompressorRoute: ImageCompressorRoute,
@@ -780,6 +802,7 @@ export const routeTree = rootRoute
         "/cssFormatter",
         "/fileUploader",
         "/hexStringConverter",
+        "/htmlJsConverter",
         "/httpHeaders",
         "/httpStatus",
         "/imageCompressor",
@@ -833,6 +856,9 @@ export const routeTree = rootRoute
     },
     "/hexStringConverter": {
       "filePath": "hexStringConverter.tsx"
+    },
+    "/htmlJsConverter": {
+      "filePath": "htmlJsConverter.tsx"
     },
     "/httpHeaders": {
       "filePath": "httpHeaders.tsx"
