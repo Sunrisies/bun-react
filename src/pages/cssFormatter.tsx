@@ -5,6 +5,7 @@ import { ArrowLeft, Copy, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/cssFormatter")({
   component: CssFormatter,
@@ -72,10 +73,28 @@ function CssFormatter() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    if (!file.name.endsWith('.css')) {
+      toast.error('请上传.css文件');
+      return;
+    }
+
+    try {
+      const text = await file.text();
+      setInput(text);
+      formatCSS();
+    } catch (err) {
+      toast.error('文件读取失败');
+    }
+  };
+
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-[90%] overflow-hidden">
-        <CardHeader>
+    <div className="flex h-[calc(100vh-64px)]">
+      <Card className="w-full max-w-[90%] m-auto flex flex-col h-[90%]">
+        <CardHeader className="border-b">
           <div className="flex justify-between items-center">
             <CardTitle>CSS 格式化工具</CardTitle>
             <Button onClick={() => navigate({ to: "/" })} variant="ghost">
@@ -84,70 +103,83 @@ function CssFormatter() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {/* 操作按钮 */}
-            <div className="flex justify-end gap-2">
-              <Button onClick={formatCSS} size="sm">
-                格式化
-              </Button>
-              <Button
-                onClick={copyToClipboard}
-                size="sm"
-                variant="outline"
-                disabled={!output}
-              >
-                <Copy className="h-4 w-4 mr-2" />
-                复制
-              </Button>
-              <Button
-                onClick={downloadCss}
-                size="sm"
-                variant="outline"
-                disabled={!output}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                下载
-              </Button>
+        <CardContent className="flex-1 flex flex-col overflow-hidden p-6">
+          <div className="space-y-4 h-full flex flex-col overflow-hidden">
+            {/* 文件上传和操作按钮 */}
+            <div className="flex justify-between gap-6 items-center flex-shrink-0 pb-4 border-b">
+              <div className="flex items-center gap-6">
+                <Input
+                  type="file"
+                  accept=".css"
+                  onChange={handleFileUpload}
+                  className="max-w-xs"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={formatCSS} size="sm">
+                  格式化
+                </Button>
+                <Button
+                  onClick={copyToClipboard}
+                  size="sm"
+                  variant="outline"
+                  disabled={!output}
+                >
+                  <Copy className="h-4 w-4 mr-2" />
+                  复制
+                </Button>
+                <Button
+                  onClick={downloadCss}
+                  size="sm"
+                  variant="outline"
+                  disabled={!output}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  下载
+                </Button>
+              </div>
+            </div>
+
+            {/* 文件拖放提示 */}
+            <div className="border-2 border-dashed rounded-lg p-3 text-center text-gray-500 flex-shrink-0 bg-gray-50/50">
+              <p className="text-sm">支持将.css文件拖放到输入框中</p>
             </div>
 
             {/* 左右布局的编辑区域 */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* 左侧输入 */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">输入 CSS</label>
+            <div className="flex-1 min-h-0 grid grid-cols-2 gap-6 overflow-hidden">
+              <div className="space-y-2 overflow-hidden flex flex-col">
+                <label className="text-sm font-medium flex-shrink-0">输入 CSS</label>
                 <Textarea
                   placeholder="请输入需要格式化的 CSS..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  className="min-h-[500px] font-mono"
+                  className="flex-1 overflow-auto resize-none font-mono p-4"
                 />
               </div>
 
-              {/* 右侧输出 */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">格式化结果</label>
+              <div className="space-y-2 overflow-hidden flex flex-col">
+                <label className="text-sm font-medium flex-shrink-0">格式化结果</label>
                 <Textarea
                   value={output}
                   readOnly
-                  className="min-h-[500px] font-mono bg-gray-50"
+                  className="flex-1 overflow-auto resize-none bg-gray-50 font-mono p-4"
                   placeholder="格式化后的 CSS 将显示在这里..."
                 />
               </div>
             </div>
 
-            {/* 错误提示 */}
-            {error && (
-              <div className="p-4 bg-red-50 rounded-lg">
-                <p className="text-sm text-red-600">{error}</p>
+            {/* 错误提示和说明 */}
+            <div className="flex-shrink-0 space-y-3">
+              {error && (
+                <div className="p-3 bg-red-50 rounded-lg">
+                  <p className="text-sm text-red-600">{error}</p>
+                </div>
+              )}
+              <div className="p-3 bg-blue-50 rounded-lg">
+                <p className="text-sm text-blue-600">
+                  提示：此工具可以帮助您格式化 CSS 代码，使其更易读。支持复制格式化后的结果或下载为文件。
+                </p>
               </div>
-            )}
-
-            {/* 提示信息 */}
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-600">
-                提示：此工具可以帮助您格式化 CSS 代码，使其更易读。支持复制格式化后的结果或下载为文件。
-              </p>
             </div>
           </div>
         </CardContent>
