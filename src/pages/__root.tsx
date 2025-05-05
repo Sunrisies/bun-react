@@ -6,11 +6,11 @@ export const Route = createRootRoute({
 });
 function Root() {
   return (
-    <main className="flex flex-col h-full">
+    <main className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-10 flex justify-center border-b border-gray-200 bg-white shadow-sm">
         <h1 className="text-2xl font-bold py-4">sunrise工具库</h1>
       </header>
-      <div className="flex-1">
+      <div className="flex-1 overflow-hidden">
         <Outlet />
       </div>
       {import.meta.env.MODE === "development" && <TanStackRouterDevtools />}
