@@ -2,12 +2,28 @@ import { Button } from "@/components/ui/button"
 import { createRootRoute, Outlet, useNavigate } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { Info } from "lucide-react"
+import { useEffect } from "react"
 
 export const Route = createRootRoute({
   component: Root,
 })
 function Root() {
   const navigate = useNavigate()
+  useEffect(() => {
+    if (import.meta.env.PROD) {
+      const script = document.createElement('script')
+      script.src = 'https://umami.sunrise1024.top/script.js'
+      script.async = true
+      script.defer = true
+      script.crossOrigin = 'anonymous'  // 添加这一行
+      script.setAttribute('data-website-id', 'c25cfa97-82b1-4a9e-b8bf-c52222f0a8c8')
+      document.head.appendChild(script)
+
+      return () => {
+        document.head.removeChild(script)
+      }
+    }
+  }, [])
   return (
     <main className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-10 flex items-center border-b border-gray-200 bg-white shadow-sm px-4">
