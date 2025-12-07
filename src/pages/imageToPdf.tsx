@@ -24,7 +24,12 @@ import jsPDF from "jspdf"
 export const Route = createFileRoute("/imageToPdf")({
   component: ImageToPdfConverter,
 })
-
+interface ILayout {
+  x: number
+  y: number
+  width: number
+  height: number
+}
 interface ImageFile {
   id: string
   url: string
@@ -136,126 +141,93 @@ function ImageToPdfConverter() {
     pageWidth: number,
     pageHeight: number,
     imageCount: number
-  ) => {
+  ): ILayout[] => {
     const margin = 10
     const spacing = 5
 
+    // 预先计算常用值
+    const availableWidth = pageWidth - 2 * margin
+    const availableHeight = pageHeight - 2 * margin
+
+    // 辅助函数：创建单个布局项
+    const createLayoutItem = (x: number, y: number, width: number, height: number): ILayout => ({
+      x, y, width, height
+    })
+
+    // 辅助函数：创建垂直布局
+    const createVerticalLayout = (count: number): ILayout[] => {
+      const itemHeight = (availableHeight - (count - 1) * spacing) / count
+      return Array.from({ length: count }, (_, i) =>
+        createLayoutItem(
+          margin,
+          margin + i * (itemHeight + spacing),
+          availableWidth,
+          itemHeight
+        )
+      )
+    }
+
+    // 辅助函数：创建网格布局
+    const createGridLayout = (rows: number, cols: number): ILayout[] => {
+      const cellWidth = (availableWidth - (cols - 1) * spacing) / cols
+      const cellHeight = (availableHeight - (rows - 1) * spacing) / rows
+
+      const layout: ILayout[] = []
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          layout.push(
+            createLayoutItem(
+              margin + col * (cellWidth + spacing),
+              margin + row * (cellHeight + spacing),
+              cellWidth,
+              cellHeight
+            )
+          )
+        }
+      }
+      return layout
+    }
+
     switch (imageCount) {
       case 1:
-        return [{
-          x: margin,
-          y: margin,
-          width: pageWidth - 2 * margin,
-          height: pageHeight - 2 * margin
-        }]
+        return [createLayoutItem(margin, margin, availableWidth, availableHeight)]
 
       case 2:
-        return [
-          {
-            x: margin,
-            y: margin,
-            width: pageWidth - 2 * margin,
-            height: (pageHeight - 2 * margin - spacing) / 2
-          },
-          {
-            x: margin,
-            y: margin + (pageHeight - 2 * margin - spacing) / 2 + spacing,
-            width: pageWidth - 2 * margin,
-            height: (pageHeight - 2 * margin - spacing) / 2
-          }
-        ]
+        return createVerticalLayout(2)
 
       case 3:
-        return [
-          {
-            x: margin,
-            y: margin,
-            width: pageWidth - 2 * margin,
-            height: (pageHeight - 2 * margin - 2 * spacing) / 3
-          },
-          {
-            x: margin,
-            y: margin + (pageHeight - 2 * margin - 2 * spacing) / 3 + spacing,
-            width: pageWidth - 2 * margin,
-            height: (pageHeight - 2 * margin - 2 * spacing) / 3
-          },
-          {
-            x: margin,
-            y: margin + 2 * ((pageHeight - 2 * margin - 2 * spacing) / 3 + spacing),
-            width: pageWidth - 2 * margin,
-            height: (pageHeight - 2 * margin - 2 * spacing) / 3
-          }
-        ]
+        return createVerticalLayout(3)
 
       case 4:
-        const cellWidth4 = (pageWidth - 2 * margin - spacing) / 2
-        const cellHeight4 = (pageHeight - 2 * margin - spacing) / 2
-
-        return [
-          { x: margin, y: margin, width: cellWidth4, height: cellHeight4 },
-          { x: margin + cellWidth4 + spacing, y: margin, width: cellWidth4, height: cellHeight4 },
-          { x: margin, y: margin + cellHeight4 + spacing, width: cellWidth4, height: cellHeight4 },
-          {
-            x: margin + cellWidth4 + spacing,
-            y: margin + cellHeight4 + spacing,
-            width: cellWidth4,
-            height: cellHeight4
-          }
-        ]
+        return createGridLayout(2, 2)
 
       case 5:
         // 5张图片布局：上2下3
-        const topRowHeight5 = (pageHeight - 2 * margin - 2 * spacing) * 0.4
-        const bottomRowHeight5 = (pageHeight - 2 * margin - 2 * spacing) * 0.6
+        {
+          const topRowHeight = availableHeight * 0.4 - spacing
+          const bottomRowHeight = availableHeight * 0.6
 
-        return [
           // 第一行：2张图片
-          { x: margin, y: margin, width: (pageWidth - 2 * margin - spacing) / 2, height: topRowHeight5 },
-          { x: margin + (pageWidth - 2 * margin - spacing) / 2 + spacing, y: margin, width: (pageWidth - 2 * margin - spacing) / 2, height: topRowHeight5 },
+          const topRow = createGridLayout(1, 2).map(item => ({
+            ...item,
+            height: topRowHeight
+          }))
 
           // 第二行：3张图片
-          { x: margin, y: margin + topRowHeight5 + spacing, width: (pageWidth - 2 * margin - 2 * spacing) / 3, height: bottomRowHeight5 },
-          { x: margin + (pageWidth - 2 * margin - 2 * spacing) / 3 + spacing, y: margin + topRowHeight5 + spacing, width: (pageWidth - 2 * margin - 2 * spacing) / 3, height: bottomRowHeight5 },
-          { x: margin + 2 * ((pageWidth - 2 * margin - 2 * spacing) / 3 + spacing), y: margin + topRowHeight5 + spacing, width: (pageWidth - 2 * margin - 2 * spacing) / 3, height: bottomRowHeight5 }
-        ]
+          const bottomRow = createGridLayout(1, 3).map(item => ({
+            ...item,
+            y: item.y + topRowHeight + spacing,
+            height: bottomRowHeight
+          }))
+
+          return [...topRow, ...bottomRow]
+        }
 
       case 6:
-        // 6张图片布局：2x3网格（2行3列）
-        const rowHeight6 = (pageHeight - 2 * margin - spacing) / 2
-        const colWidth6 = (pageWidth - 2 * margin - 2 * spacing) / 3
-
-        const layout6 = []
-
-        // 第一行
-        for (let col = 0; col < 3; col++) {
-          layout6.push({
-            x: margin + col * (colWidth6 + spacing),
-            y: margin,
-            width: colWidth6,
-            height: rowHeight6
-          })
-        }
-
-        // 第二行
-        for (let col = 0; col < 3; col++) {
-          layout6.push({
-            x: margin + col * (colWidth6 + spacing),
-            y: margin + rowHeight6 + spacing,
-            width: colWidth6,
-            height: rowHeight6
-          })
-        }
-
-        return layout6
+        return createGridLayout(2, 3)
 
       default:
-        // 默认使用垂直排列
-        return Array.from({ length: imageCount }, (_, i) => ({
-          x: margin,
-          y: margin + i * ((pageHeight - 2 * margin) / imageCount),
-          width: pageWidth - 2 * margin,
-          height: (pageHeight - 2 * margin) / imageCount
-        }))
+        return createVerticalLayout(imageCount)
     }
   }
 

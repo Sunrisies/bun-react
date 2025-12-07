@@ -1,28 +1,20 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, Search } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { ArrowLeft } from "lucide-react"
+import { useState } from "react"
 
 export const Route = createFileRoute("/portTable")({
   component: PortTable,
-});
+})
 
 interface PortInfo {
-  port: number;
-  protocol: "TCP" | "UDP" | "TCP/UDP";
-  service: string;
-  description: string;
-  category: string;
+  port: number
+  protocol: "TCP" | "UDP" | "TCP/UDP"
+  service: string
+  description: string
+  category: string
 }
 
 const PORT_LIST: PortInfo[] = [
@@ -76,34 +68,34 @@ const PORT_LIST: PortInfo[] = [
   { port: 8000, protocol: "TCP", service: "HTTP-ALT", description: "替代HTTP端口", category: "网络服务" },
   { port: 9001, protocol: "TCP", service: "Tor", description: "Tor代理服务", category: "代理服务" },
   { port: 9418, protocol: "TCP", service: "Git", description: "Git协议", category: "版本控制" }
-];
+]
 
 function PortTable() {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("全部");
+  const navigate = useNavigate()
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState<string>("全部")
 
-  const categories = ["全部", ...Array.from(new Set(PORT_LIST.map(port => port.category)))];
+  const categories = ["全部", ...Array.from(new Set(PORT_LIST.map(port => port.category)))]
 
   const filteredPorts = PORT_LIST.filter(port => {
-    const matchSearch = 
+    const matchSearch =
       port.port.toString().includes(searchTerm) ||
       port.protocol.toLowerCase().includes(searchTerm.toLowerCase()) ||
       port.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
       port.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      port.category.toLowerCase().includes(searchTerm.toLowerCase());
+      port.category.toLowerCase().includes(searchTerm.toLowerCase())
 
-    return selectedCategory === "全部" ? matchSearch : matchSearch && port.category === selectedCategory;
-  });
+    return selectedCategory === "全部" ? matchSearch : matchSearch && port.category === selectedCategory
+  })
 
   const getProtocolColor = (protocol: string): string => {
     switch (protocol) {
-      case "TCP": return "text-blue-500";
-      case "UDP": return "text-green-500";
-      case "TCP/UDP": return "text-purple-500";
-      default: return "text-gray-500";
+      case "TCP": return "text-blue-500"
+      case "UDP": return "text-green-500"
+      case "TCP/UDP": return "text-purple-500"
+      default: return "text-gray-500"
     }
-  };
+  }
 
   return (
     <div className="flex h-full items-center justify-center p-4 bg-gray-50">
@@ -111,7 +103,7 @@ function PortTable() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>端口对照表</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -119,53 +111,53 @@ function PortTable() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {/* 搜索和过滤 */}
+            {/* 搜索和过滤 */ }
             <div className="flex gap-4 items-center">
               <Input
                 placeholder="搜索端口、协议或服务..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={ searchTerm }
+                onChange={ (e) => setSearchTerm(e.target.value) }
                 className="max-w-sm"
               />
               <div className="flex gap-2 flex-wrap">
-                {categories.map((category) => (
+                { categories.map((category) => (
                   <Button
-                    key={category}
-                    variant={selectedCategory === category ? "default" : "outline"}
-                    onClick={() => setSelectedCategory(category)}
+                    key={ category }
+                    variant={ selectedCategory === category ? "default" : "outline" }
+                    onClick={ () => setSelectedCategory(category) }
                     size="sm"
                   >
-                    {category}
+                    { category }
                   </Button>
-                ))}
+                )) }
               </div>
             </div>
 
-            {/* 端口网格 */}
+            {/* 端口网格 */ }
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredPorts.map((port) => (
+              { filteredPorts.map((port) => (
                 <div
-                  key={`${port.port}-${port.protocol}`}
+                  key={ `${port.port}-${port.protocol}` }
                   className="p-4 rounded-lg border bg-white hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-lg font-mono font-bold">{port.port}</span>
-                    <span className={`font-mono ${getProtocolColor(port.protocol)}`}>
-                      {port.protocol}
+                    <span className="text-lg font-mono font-bold">{ port.port }</span>
+                    <span className={ `font-mono ${getProtocolColor(port.protocol)}` }>
+                      { port.protocol }
                     </span>
                   </div>
                   <div className="space-y-2">
                     <div>
-                      <span className="font-medium">{port.service}</span>
-                      <span className="text-sm text-gray-500 ml-2">({port.category})</span>
+                      <span className="font-medium">{ port.service }</span>
+                      <span className="text-sm text-gray-500 ml-2">({ port.category })</span>
                     </div>
-                    <p className="text-sm text-gray-600">{port.description}</p>
+                    <p className="text-sm text-gray-600">{ port.description }</p>
                   </div>
                 </div>
-              ))}
+              )) }
             </div>
 
-            {/* 提示信息 */}
+            {/* 提示信息 */ }
             <div className="p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-600">
                 提示：此表列出了最常见的网络服务端口。TCP和UDP是两种主要的传输层协议，某些服务可能同时使用这两种协议。系统端口范围为0-1023，注册端口范围为1024-49151。
@@ -175,5 +167,5 @@ function PortTable() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
