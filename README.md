@@ -1,6 +1,6 @@
 # Sunrise React 工具库
 
-这是一个基于 React + TypeScript + Vite + Bun 构建的现代化工具库项目，提供多种实用的在线工具。
+这是一个基于 React + TypeScript + Vite + Bun 构建的现代化工具库项目，提供多种实用的在线工具。该项目旨在为开发者和普通用户提供一站式解决方案，涵盖文件处理、编码转换、网络工具、地理坐标、开发辅助等多个领域的实用工具。
 
 ## 技术栈
 
@@ -32,24 +32,58 @@
 
 ## 现有功能
 
-- 视频转GIF工具
-- 语音转文字
-- 二维码生成器
-- 时间戳转换
-- 图片元数据查看
-- 图片转PDF
-- 音乐播放器
-- WebSocket客户端
-- Base64转换器
-- 颜色转换工具
-- 文件上传工具
-- 浏览器标签管理
+### 文件处理工具
+- **PDF合并** - 合并多个PDF文件为一个
+- **PDF转Word** - 将PDF文件转换为Word文档
+- **图片转PDF** - 合并多张图片为PDF文件
+- **图片压缩工具** - 压缩图片文件，减小文件大小
+- **视频转GIF** - 转换视频片段为GIF动图
+- **图片转base64** - 将图片转换为base64编码
+- **上传文件** - 支持文件上传和预览
+- **图片信息查看器** - 查看图片的EXIF信息和元数据
+- **图片水印工具** - 给图片添加文字水印，支持批量处理
+
+### 编码转换工具
+- **JSON转TypeScript** - 将JSON对象转换为TypeScript接口定义
+- **十六进制与字符串互转** - 支持十六进制与字符串之间的相互转换
+- **颜色转换器** - 十六进制颜色与RGB颜色之间的相互转换
+- **时间戳转换** - 支持时间戳与日期时间的相互转换
+- **YAML/JSON转换** - 支持YAML和JSON格式之间的相互转换
+
+### 网络工具
+- **WebSocket客户端** - 提供WebSocket连接测试工具
+- **HTTP状态码** - 查看和了解各种HTTP状态码的含义
+- **HTTP请求头** - 查看和了解各种HTTP请求头的含义
+- **端口工具** - 查看常用端口的用途和说明
+
+### 坐标/地理工具
+- **经纬度距离计算** - 计算两个经纬度坐标之间的距离
+- **坐标系转换** - WGS84坐标系与GCJ02坐标系之间的相互转换
+
+### 开发辅助工具
+- **JSON格式化** - 格式化和美化JSON数据
+- **CSS格式化** - 格式化和美化CSS代码
+- **SCSS转CSS** - 将SCSS代码转换为CSS代码
+- **ASCII码表** - 查看ASCII字符与编码的对应关系
+- **二维码生成器** - 根据文本或URL生成二维码
+- **JavaScript格式化** - 格式化和美化JavaScript代码
+- **HTML转JS** - 将HTML代码转换为JavaScript字符串
+
+### 其他工具
+- **签名生成器** - 生成个性化电子签名
+- **浏览器标签** - 导入和管理浏览器标签数据
 
 ## 开发指南
 
 ### 环境准备
 
 ```bash
+# 克隆项目
+git clone https://github.com/Sunrisies/bun-react.git
+
+# 进入项目目录
+cd bun-react
+
 # 安装依赖
 bun install
 
@@ -62,6 +96,105 @@ bun run build
 # 预览构建结果
 bun preview
 ```
+
+### 项目结构
+
+```
+bun-react/
+├── public/                # 静态资源
+│   ├── favicon.svg       # 网站图标
+│   └── workers/          # Web Worker 文件
+├── src/                  # 源代码
+│   ├── assets/           # 项目资源
+│   ├── components/       # 公共组件
+│   │   └── ui/           # UI组件库
+│   ├── pages/            # 页面组件
+│   ├── plugins/          # 插件配置
+│   ├── App.css           # 应用样式
+│   ├── index.css         # 全局样式
+│   ├── main.tsx          # 应用入口
+│   └── vite-env.d.ts     # Vite类型声明
+├── biome.json            # Biome配置
+├── components.json       # shadcn/ui配置
+├── eslint.config.js      # ESLint配置
+├── package.json          # 项目依赖和脚本
+├── tsconfig.json         # TypeScript配置
+├── tsr.config.json       # TanStack Router配置
+└── vite.config.ts        # Vite配置
+```
+
+### 代码规范
+
+本项目使用以下工具确保代码质量和一致性：
+
+- **ESLint** - JavaScript和TypeScript代码检查
+- **Biome** - 代码格式化和检查
+- **Commitlint** - Git提交信息规范
+
+提交代码时，请遵循以下提交信息格式：
+
+```
+<类型>(<范围>): <描述>
+
+[可选的正文]
+
+[可选的脚注]
+```
+
+类型包括：
+- `feat`: 新功能
+- `fix`: 修复bug
+- `docs`: 文档更新
+- `style`: 代码格式化
+- `refactor`: 代码重构
+- `test`: 测试相关
+- `chore`: 构建过程或辅助工具的变动
+
+### 开发流程
+
+1. 从main分支创建新的功能分支
+2. 开发新功能或修复bug
+3. 添加必要的测试
+4. 确保所有测试通过
+5. 提交代码并推送到远程仓库
+6. 创建Pull Request
+7. 等待代码审查和合并
+
+## 项目截图
+
+[在此处添加项目截图]
+
+## 在线体验
+
+您可以通过以下链接在线体验本项目：
+
+[在线演示链接](https://example.com)
+
+## 贡献指南
+
+我们欢迎社区成员为项目做出贡献！以下是参与贡献的基本步骤：
+
+1. Fork 项目到您的 GitHub 账号
+2. 创建您的特性分支 (git checkout -b feature/AmazingFeature)
+3. 提交您的更改 (git commit -m 'Add some AmazingFeature')
+4. 推送到您的分支 (git push origin feature/AmazingFeature)
+5. 创建一个 Pull Request
+
+请确保您的代码符合项目的代码规范，并添加必要的测试。
+
+## 许可证
+
+本项目采用 MIT 许可证。详情请参阅 [LICENSE](LICENSE) 文件。
+
+## 联系方式
+
+- 作者：朝阳
+- 邮箱：3266420686@qq.com
+- GitHub：[@Sunrisies](https://github.com/Sunrisies)
+
+## 致谢
+
+感谢所有为这个项目做出贡献的开发者和用户！
 
 ## TODO 清单
 
