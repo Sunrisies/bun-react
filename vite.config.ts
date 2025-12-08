@@ -33,6 +33,37 @@ export default defineConfig({
         chunkFileNames: "js/[name]-[hash].js", // 引入文件名的名称
         entryFileNames: "js/[name]-[hash].js", // 包的入口文件名称
         assetFileNames: "[ext]/[name]-[hash].[ext]", // 资源文件像 字体，图片等
+        manualChunks(id) {
+          // 将 node_modules 中的包分组
+          if (id.includes("node_modules")) {
+            // dayjs 相关
+            if (id.toString().includes("dayjs")) {
+              return "dayjs";
+            }
+            // PDF 相关
+            if (
+              id.toString().includes("pdf-lib") ||
+              id.toString().includes("pdf2pic")
+            ) {
+              return "pdf";
+            }
+            // 图片处理相关
+            if (
+              id.toString().includes("html2canvas") ||
+              id.toString().includes("jsqr")
+            ) {
+              return "image";
+            }
+            // SCSS 相关
+            if (id.toString().includes("sass")) {
+              return "converter";
+            }
+            // 其他工具库
+            if (id.toString().includes("lodash")) {
+              return "utils";
+            }
+          }
+        },
       },
       plugins: [
         visualizer({
@@ -44,7 +75,7 @@ export default defineConfig({
         viteCompression({
           verbose: true, // 是否在控制台中输出压缩结果
           disable: false,
-          threshold: 10240, // 如果体积大于阈值，将被压缩，单位为b，体积过小时请不要压缩，以免适得其反
+          threshold: 1024, // 如果体积大于阈值，将被压缩，单位为b，体积过小时请不要压缩，以免适得其反
           algorithm: "gzip", // 压缩算法，可选['gzip'，' brotliccompress '，'deflate '，'deflateRaw']
           ext: ".gz",
           deleteOriginFile: false, // 源文件压缩后是否删除

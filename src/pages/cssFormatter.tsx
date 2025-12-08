@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
+import { downloadLocalFile } from "sunrise-utils"
+import { copyToClipboard } from "@/lib/utils"
 
 export const Route = createFileRoute("/cssFormatter")({
   component: CssFormatter,
@@ -49,27 +51,10 @@ function CssFormatter() {
     }
   }
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(output)
-      toast.success("已复制到剪贴板")
-    } catch (err) {
-      console.error("复制失败", err)
-      toast.error("复制失败")
-    }
-  }
-
   const downloadCss = () => {
     try {
       const blob = new Blob([output], { type: "text/css" })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = "formatted.css"
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
+      downloadLocalFile(blob, "formatted.css")
     } catch (err) {
       console.error("下载失败", err)
       toast.error("下载失败")
@@ -124,7 +109,7 @@ function CssFormatter() {
                   格式化
                 </Button>
                 <Button
-                  onClick={ copyToClipboard }
+                  onClick={ () => copyToClipboard(output) }
                   size="sm"
                   variant="outline"
                   disabled={ !output }

@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import yaml from 'js-yaml'
 import { copyToClipboard } from "@/lib/utils"
+import { downloadLocalFile } from "sunrise-utils"
 
 export const Route = createFileRoute("/yamlJsonConverter")({
   component: YamlJsonConverter,
@@ -68,14 +69,8 @@ function YamlJsonConverter() {
     try {
       const extension = output.trim().startsWith("{") ? "json" : "yaml"
       const blob = new Blob([output], { type: "text/plain" })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `converted.${extension}`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
+      downloadLocalFile(blob, `converted.${extension}`)
+      toast.success("下载成功")
     } catch (err) {
       console.error("下载失败", err)
       toast.error("下载失败")
@@ -105,7 +100,7 @@ function YamlJsonConverter() {
                 YAML 转 JSON
               </Button>
               <Button
-                onClick={ () => copyToClipboard }
+                onClick={ () => copyToClipboard(output) }
                 size="sm"
                 variant="outline"
                 disabled={ !output }

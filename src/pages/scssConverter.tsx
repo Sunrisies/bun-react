@@ -5,9 +5,10 @@ import { ArrowLeft, Copy, Download } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
-import { compileString } from 'sass'
+import { compileStringAsync } from 'sass'
 import { Input } from "@/components/ui/input"
 import { copyToClipboard } from "@/lib/utils"
+import { downloadLocalFile } from "sunrise-utils"
 export const Route = createFileRoute("/scssConverter")({
   component: ScssConverter,
 })
@@ -41,7 +42,7 @@ function ScssConverter() {
   const [compress, setCompress] = useState(false)
 
   // 修改转换函数
-  const convertScss = () => {
+  const convertScss = async () => {
     try {
       if (!input.trim()) {
         setOutput("")
@@ -49,7 +50,7 @@ function ScssConverter() {
         return
       }
 
-      const result = compileString(input, {
+      const result = await compileStringAsync(input, {
         style: compress ? "compressed" : "expanded"
       })
       setOutput(result.css)
@@ -64,14 +65,7 @@ function ScssConverter() {
   const downloadCss = () => {
     try {
       const blob = new Blob([output], { type: "text/css" })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = "converted.css"
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
+      downloadLocalFile(blob, "converted.css")
     } catch (err) {
       console.error("下载失败", err)
       toast.error("下载失败")
@@ -80,7 +74,7 @@ function ScssConverter() {
 
   return (
     <div className="flex h-[calc(100vh-64px)]">
-      <Card className="w-full max-w-[90%] m-auto flex flex-col h-[90%]">
+      <Card className="w-full max-w-[96%] m-auto flex flex-col h-[96%] p-2">
         <CardHeader className="border-b">
           <div className="flex justify-between items-center">
             <CardTitle>SCSS 转 CSS 工具</CardTitle>
@@ -109,7 +103,7 @@ function ScssConverter() {
                     onChange={ (e) => setCompress(e.target.checked) }
                     className="h-4 w-4"
                   />
-                  <label htmlFor="compress" className="text-sm">压缩输出</label>
+                  <label htmlFor="compress" className="text-sm w-20">压缩输出</label>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -117,7 +111,7 @@ function ScssConverter() {
                   转换
                 </Button>
                 <Button
-                  onClick={ () => copyToClipboard }
+                  onClick={ () => copyToClipboard(output) }
                   size="sm"
                   variant="outline"
                   disabled={ !output }

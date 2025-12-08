@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
 import { js as beautify } from 'js-beautify'
+import { downloadLocalFile } from "sunrise-utils"
+import { copyToClipboard } from "@/lib/utils"
 
 export const Route = createFileRoute("/jsFormatter")({
   component: JsFormatter,
@@ -73,27 +75,11 @@ function JsFormatter() {
     }
   }
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(output)
-      toast.success("已复制到剪贴板")
-    } catch (err) {
-      console.error("复制失败", err)
-      toast.error("复制失败")
-    }
-  }
-
   const downloadJs = () => {
     try {
       const blob = new Blob([output], { type: "text/javascript" })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = "formatted.js"
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
+      downloadLocalFile(blob, "formatted.js")
+      toast.success("下载成功")
     } catch (err) {
       console.error("下载失败", err)
       toast.error("下载失败")
@@ -130,7 +116,7 @@ function JsFormatter() {
                   格式化
                 </Button>
                 <Button
-                  onClick={ copyToClipboard }
+                  onClick={ () => copyToClipboard(output) }
                   size="sm"
                   variant="outline"
                   disabled={ !output }
