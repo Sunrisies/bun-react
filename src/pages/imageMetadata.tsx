@@ -38,6 +38,7 @@ function RouteComponent() {
     return degrees + minutes / 60 + seconds / 3600
   }
   // 为解决元素隐式具有 "any" 类型的问题，将 window 类型断言为 Record<string, any>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const EXIF = (window as Record<string, any>)["EXIF"]
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -48,6 +49,7 @@ function RouteComponent() {
     reader.onload = (e) => {
       setPreviewUrl(e.target?.result as string)
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     EXIF.getData(file as any, function () {
       try {
         // 为解决 "this" 隐式具有类型 "any" 的问题，明确指定 this 的类型为 File

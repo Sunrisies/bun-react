@@ -7,6 +7,17 @@ import { Textarea } from "@/components/ui/textarea"
 export const Route = createLazyFileRoute("/jsonToTs")({
 	component: RouteComponent,
 })
+type JSONValue =
+	| string
+	| number
+	| boolean
+	| null
+	| undefined
+	| JSONObject
+
+interface JSONObject {
+	[key: string]: JSONValue
+}
 
 function RouteComponent() {
 	const navigate = useNavigate()
@@ -17,11 +28,11 @@ function RouteComponent() {
 		return str.charAt(0).toUpperCase() + str.slice(1)
 	}
 
-	function jsonToTypeScriptType(
+	function jsonToTypeScriptType<T extends JSONValue>(
 		jsonString: string,
 		typeName: string = "RootObject",
 	): string {
-		let jsonObject: any
+		let jsonObject: T
 		try {
 			jsonObject = JSON.parse(jsonString)
 		} catch (error) {

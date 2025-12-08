@@ -13,6 +13,9 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragStartEvent,
+  DragEndEvent,
+  UniqueIdentifier,
 } from "@dnd-kit/core"
 import {
   SortableContext,
@@ -45,7 +48,7 @@ interface PageLayout {
 function ImageToPdfConverter() {
   const navigate = useNavigate()
   const [images, setImages] = useState<ImageFile[]>([])
-  const [activeId, setActiveId] = useState<string | null>(null)
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const [pageLayout, setPageLayout] = useState<PageLayout>({
     imagesPerPage: 1,
     orientation: "portrait",
@@ -119,11 +122,11 @@ function ImageToPdfConverter() {
   })
 
   // 拖拽排序逻辑
-  const handleDragStart = (event: any) => {
+  const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id)
   }
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     if (active.id !== over?.id) {
       setImages((items) => {
