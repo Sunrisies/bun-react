@@ -1,28 +1,20 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, Search } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { ArrowLeft, Search } from "lucide-react"
+import { useState } from "react"
 
 export const Route = createFileRoute("/asciiTable")({
   component: AsciiTable,
-});
+})
 
 interface AsciiCode {
-  dec: number;
-  hex: string;
-  char: string;
-  description: string;
-  category: string;
+  dec: number
+  hex: string
+  char: string
+  description: string
+  category: string
 }
 
 const ASCII_CODES: AsciiCode[] = [
@@ -128,44 +120,44 @@ const ASCII_CODES: AsciiCode[] = [
   { dec: 125, hex: "0x7D", char: "}", description: "右花括号", category: "标点符号" },
   { dec: 126, hex: "0x7E", char: "~", description: "波浪号", category: "标点符号" },
   { dec: 127, hex: "0x7F", char: "DEL", description: "删除", category: "控制字符" }
-];
+]
 
 function AsciiTable() {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [inputChar, setInputChar] = useState("");
-  const [convertResult, setConvertResult] = useState<AsciiCode | null>(null);
+  const navigate = useNavigate()
+  const [searchTerm, setSearchTerm] = useState("")
+  const [inputChar, setInputChar] = useState("")
+  const [convertResult, setConvertResult] = useState<AsciiCode | null>(null)
 
-  const filteredCodes = ASCII_CODES.filter(code => 
+  const filteredCodes = ASCII_CODES.filter(code =>
     code.dec.toString().includes(searchTerm) ||
     code.hex.toLowerCase().includes(searchTerm.toLowerCase()) ||
     code.char.toLowerCase().includes(searchTerm.toLowerCase()) ||
     code.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     code.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   const handleCharInput = (value: string) => {
-    setInputChar(value);
+    setInputChar(value)
     if (value.length > 0) {
-      const charCode = value.charCodeAt(0);
-      const result = ASCII_CODES.find(code => code.dec === charCode);
-      setConvertResult(result || null);
+      const charCode = value.charCodeAt(0)
+      const result = ASCII_CODES.find(code => code.dec === charCode)
+      setConvertResult(result || null)
     } else {
-      setConvertResult(null);
+      setConvertResult(null)
     }
-  };
+  }
 
   const getCategoryColor = (category: string): string => {
     switch (category) {
-      case "控制字符": return "text-red-500";
-      case "空白字符": return "text-gray-500";
-      case "标点符号": return "text-purple-500";
-      case "数字": return "text-blue-500";
-      case "大写字母": return "text-green-500";
-      case "小写字母": return "text-teal-500";
-      default: return "text-gray-500";
+      case "控制字符": return "text-red-500"
+      case "空白字符": return "text-gray-500"
+      case "标点符号": return "text-purple-500"
+      case "数字": return "text-blue-500"
+      case "大写字母": return "text-green-500"
+      case "小写字母": return "text-teal-500"
+      default: return "text-gray-500"
     }
-  };
+  }
 
   return (
     <div className="flex h-full items-center justify-center p-4 bg-gray-50">
@@ -173,7 +165,7 @@ function AsciiTable() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>ASCII 码对照表</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -181,33 +173,33 @@ function AsciiTable() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {/* ASCII转换工具 */}
+            {/* ASCII转换工具 */ }
             <div className="flex flex-col gap-4 p-4 bg-white rounded-lg border">
               <h3 className="text-lg font-medium">ASCII 转换工具</h3>
               <div className="flex gap-4">
                 <Input
                   placeholder="输入字符..."
-                  value={inputChar}
-                  onChange={(e) => handleCharInput(e.target.value)}
-                  maxLength={1}
+                  value={ inputChar }
+                  onChange={ (e) => handleCharInput(e.target.value) }
+                  maxLength={ 1 }
                   className="max-w-xs"
                 />
-                {convertResult && (
+                { convertResult && (
                   <div className="flex gap-4 items-center">
-                    <span>十进制: {convertResult.dec}</span>
-                    <span>十六进制: {convertResult.hex}</span>
-                    <span>描述: {convertResult.description}</span>
+                    <span>十进制: { convertResult.dec }</span>
+                    <span>十六进制: { convertResult.hex }</span>
+                    <span>描述: { convertResult.description }</span>
                   </div>
-                )}
+                ) }
               </div>
             </div>
 
-            {/* 搜索栏 */}
+            {/* 搜索栏 */ }
             <div className="flex gap-2">
               <Input
                 placeholder="搜索ASCII码、字符或描述..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={ searchTerm }
+                onChange={ (e) => setSearchTerm(e.target.value) }
                 className="max-w-sm"
               />
               <Button variant="outline">
@@ -215,37 +207,37 @@ function AsciiTable() {
               </Button>
             </div>
 
-            {/* ASCII码网格 */}
+            {/* ASCII码网格 */ }
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredCodes.map((code) => (
+              { filteredCodes.map((code) => (
                 <div
-                  key={code.dec}
-                  className={`p-4 rounded-lg border bg-white hover:shadow-md transition-shadow`}
+                  key={ code.dec }
+                  className={ `p-4 rounded-lg border bg-white hover:shadow-md transition-shadow` }
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className={`text-lg font-mono ${getCategoryColor(code.category)}`}>
-                      {code.char}
+                    <span className={ `text-lg font-mono ${getCategoryColor(code.category)}` }>
+                      { code.char }
                     </span>
-                    <span className="text-sm text-gray-500">{code.category}</span>
+                    <span className="text-sm text-gray-500">{ code.category }</span>
                   </div>
                   <div className="space-y-1">
                     <div className="flex justify-between">
                       <span className="text-sm text-gray-500">十进制:</span>
-                      <span className="font-mono">{code.dec}</span>
+                      <span className="font-mono">{ code.dec }</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-gray-500">十六进制:</span>
-                      <span className="font-mono">{code.hex}</span>
+                      <span className="font-mono">{ code.hex }</span>
                     </div>
                     <div className="text-sm text-gray-600 mt-2">
-                      {code.description}
+                      { code.description }
                     </div>
                   </div>
                 </div>
-              ))}
+              )) }
             </div>
 
-            {/* 提示信息 */}
+            {/* 提示信息 */ }
             <div className="p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-600">
                 提示：ASCII（美国信息交换标准代码）是最基础的字符编码标准。您可以通过搜索框查找特定的ASCII码信息，或使用转换工具进行字符与ASCII码的转换。
@@ -255,5 +247,5 @@ function AsciiTable() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

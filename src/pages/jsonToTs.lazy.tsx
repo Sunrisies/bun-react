@@ -25,6 +25,7 @@ function RouteComponent() {
 		try {
 			jsonObject = JSON.parse(jsonString)
 		} catch (error) {
+			console.error("Invalid JSON string", error)
 			throw new Error("Invalid JSON string")
 		}
 
@@ -82,6 +83,7 @@ function RouteComponent() {
 			const output = jsonToTypeScriptType(inputJson)
 			setOutputTypescript(output)
 		} catch (error) {
+			console.error("Error converting JSON to TypeScript", error)
 			toast.error("Error converting JSON to TypeScript")
 			// alert(error.message);
 		}
@@ -101,7 +103,7 @@ function RouteComponent() {
 				<Button onClick={ () => navigate({ to: "/" }) }>返回</Button>
 			</div>
 			<div className="w-full flex-1 flex justify-center items-center border border-gray-300 rounded-md p-4 gap-3">
-				<Card className="shadow-lg flex-1 h-full max-w-1/2"> {/* 移除 mb-4 */}
+				<Card className="shadow-lg flex-1 h-full max-w-1/2"> {/* 移除 mb-4 */ }
 					<CardHeader>
 						<CardTitle>输入 JSON</CardTitle>
 					</CardHeader>
@@ -114,7 +116,7 @@ function RouteComponent() {
 					</CardContent>
 				</Card>
 				<div className="flex justify-between items-center mb-2">
-					<div className="flex flex-col gap-2"> {/* 修改按钮容器的布局 */}
+					<div className="flex flex-col gap-2"> {/* 修改按钮容器的布局 */ }
 						<Button onClick={ handleConvert } variant="default">
 							转换
 						</Button>

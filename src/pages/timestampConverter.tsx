@@ -1,84 +1,78 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Clock, Copy, RotateCw } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { copyToClipboard } from "@/lib/utils"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { ArrowLeft, Clock, Copy, RotateCw } from "lucide-react"
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 export const Route = createFileRoute("/timestampConverter")({
   component: RouteComponent,
-});
-// 在现有函数中添加复制方法
-const copyToClipboard = async (text: string) => {
-  try {
-    await navigator.clipboard.writeText(text);
-    toast.success("已复制到剪贴板");
-  } catch (error) {
-    toast.error("复制失败");
-  }
-};
+})
 
 function RouteComponent() {
-  const navigate = useNavigate();
-  const [timestamp, setTimestamp] = useState("");
-  const [datetime, setDatetime] = useState("");
-  const [unit, setUnit] = useState<"seconds" | "milliseconds">("seconds");
-  const [isAutoUpdate, setIsAutoUpdate] = useState(true);
-  const [currentTimestamp, setCurrentTimestamp] = useState(Date.now());
+  const navigate = useNavigate()
+  const [timestamp, setTimestamp] = useState("")
+  const [datetime, setDatetime] = useState("")
+  const [unit, setUnit] = useState<"seconds" | "milliseconds">("seconds")
+  const [isAutoUpdate, setIsAutoUpdate] = useState(true)
+  const [currentTimestamp, setCurrentTimestamp] = useState(Date.now())
 
   // 实时更新逻辑增加开关
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: NodeJS.Timeout
     if (isAutoUpdate) {
       interval = setInterval(() => {
-        setCurrentTimestamp(Date.now());
-      }, 1000);
+        setCurrentTimestamp(Date.now())
+      }, 1000)
     }
-    return () => clearInterval(interval);
-  }, [isAutoUpdate]);
+    return () => clearInterval(interval)
+  }, [isAutoUpdate])
 
   // 新增单位切换功能
   const toggleUnit = () => {
-    setUnit((prev) => (prev === "seconds" ? "milliseconds" : "seconds"));
-  };
+    setUnit((prev) => (prev === "seconds" ? "milliseconds" : "seconds"))
+  }
 
   // 新增复制当前时间戳
   const copyCurrentTimestamp = () => {
     const value =
       unit === "seconds"
         ? Math.floor(currentTimestamp / 1000).toString()
-        : currentTimestamp.toString();
-    navigator.clipboard.writeText(value);
-    toast.success("已复制当前时间戳");
-  };
+        : currentTimestamp.toString()
+    navigator.clipboard.writeText(value)
+    toast.success("已复制当前时间戳")
+  }
 
   // 调整后的转换函数
   const convertToDatetime = () => {
     try {
       const num =
-        unit === "seconds" ? Number(timestamp) * 1000 : Number(timestamp);
+        unit === "seconds" ? Number(timestamp) * 1000 : Number(timestamp)
       return new Date(num).toLocaleString("zh-CN", {
         timeZone: "Asia/Shanghai",
         dateStyle: "full",
         timeStyle: "long",
-      });
+      })
     } catch (error) {
-      return "无效时间戳";
+      console.error("时间戳转换失败", error)
+      return "无效时间戳"
     }
-  };
+  }
 
   // 调整后的转换函数
   const convertToTimestamp = () => {
     try {
-      const date = new Date(datetime);
+      const date = new Date(datetime)
       return unit === "seconds"
         ? Math.floor(date.getTime() / 1000).toString()
-        : date.getTime().toString();
+        : date.getTime().toString()
     } catch (error) {
-      return "无效日期格式";
+      console.error("日期转换失败", error)
+      return "无效日期格式"
     }
-  };
+  }
 
   return (
     <div className="flex h-full items-center justify-center p-4 bg-gray-50">
@@ -86,7 +80,7 @@ function RouteComponent() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>时间戳转换器</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -99,24 +93,24 @@ function RouteComponent() {
               <span className="font-medium">当前时间戳：</span>
               <div className="flex gap-2">
                 <span>
-                  {unit === "seconds"
+                  { unit === "seconds"
                     ? Math.floor(currentTimestamp / 1000)
-                    : currentTimestamp}
+                    : currentTimestamp }
                 </span>
-                <span>({unit === "seconds" ? "秒" : "毫秒"})</span>
+                <span>({ unit === "seconds" ? "秒" : "毫秒" })</span>
               </div>
             </div>
             <div className="flex gap-3">
-              <Button onClick={toggleUnit}>
+              <Button onClick={ toggleUnit }>
                 <RotateCw className="h-4 w-4 mr-2" />
                 切换单位
               </Button>
-              <Button onClick={copyCurrentTimestamp}>复制</Button>
+              <Button onClick={ copyCurrentTimestamp }>复制</Button>
               <Button
-                variant={isAutoUpdate ? "destructive" : "outline"}
-                onClick={() => setIsAutoUpdate(!isAutoUpdate)}
+                variant={ isAutoUpdate ? "destructive" : "outline" }
+                onClick={ () => setIsAutoUpdate(!isAutoUpdate) }
               >
-                {isAutoUpdate ? "停止更新" : "恢复更新"}
+                { isAutoUpdate ? "停止更新" : "恢复更新" }
               </Button>
             </div>
           </div>
@@ -125,13 +119,13 @@ function RouteComponent() {
             <div className="flex gap-3 items-center">
               <div className="flex gap-2">
                 <Input
-                  value={timestamp}
-                  onChange={(e) => setTimestamp(e.target.value)}
+                  value={ timestamp }
+                  onChange={ (e) => setTimestamp(e.target.value) }
                   placeholder="输入时间戳"
                   className="flex-1"
                 />
                 <Button
-                  onClick={() =>
+                  onClick={ () =>
                     setTimestamp(
                       unit === "seconds"
                         ? Math.floor(Date.now() / 1000).toString()
@@ -143,12 +137,12 @@ function RouteComponent() {
                 </Button>
               </div>
               <div className="border rounded p-3 bg-gray-50 relative flex flex-1">
-                <pre>{convertToDatetime()}</pre>
+                <pre>{ convertToDatetime() }</pre>
                 <Button
                   size="sm"
                   variant="ghost"
                   className="absolute top-1 right-1 h-8 w-8 p-2"
-                  onClick={() => copyToClipboard(convertToDatetime())}
+                  onClick={ () => copyToClipboard(convertToDatetime()) }
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -160,11 +154,11 @@ function RouteComponent() {
                 <Input
                   className="flex-1"
                   type="datetime-local"
-                  value={datetime}
-                  onChange={(e) => setDatetime(e.target.value)}
+                  value={ datetime }
+                  onChange={ (e) => setDatetime(e.target.value) }
                 />
                 <Button
-                  onClick={() =>
+                  onClick={ () =>
                     setDatetime(new Date().toISOString().slice(0, 16))
                   }
                 >
@@ -172,12 +166,12 @@ function RouteComponent() {
                 </Button>
               </div>
               <div className="border rounded p-3 bg-gray-50 relative flex flex-1">
-                <pre className="flex-1 ">{convertToTimestamp()}</pre>
+                <pre className="flex-1 ">{ convertToTimestamp() }</pre>
                 <Button
                   size="sm"
                   variant="ghost"
                   className="absolute top-1 right-1 h-8 w-8 p-2"
-                  onClick={() => copyToClipboard(convertToTimestamp())}
+                  onClick={ () => copyToClipboard(convertToTimestamp()) }
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -187,5 +181,5 @@ function RouteComponent() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { compileString } from 'sass'
 import { Input } from "@/components/ui/input"
+import { copyToClipboard } from "@/lib/utils"
 export const Route = createFileRoute("/scssConverter")({
   component: ScssConverter,
 })
@@ -31,6 +32,7 @@ function ScssConverter() {
       setInput(text)
       convertScss()
     } catch (err) {
+      console.error("文件读取失败", err)
       toast.error('文件读取失败')
     }
   }
@@ -53,17 +55,9 @@ function ScssConverter() {
       setOutput(result.css)
       setError(null)
     } catch (err) {
+      console.error("SCSS 转 CSS 失败", err)
       setError("SCSS 格式无效，请检查输入")
       setOutput("")
-    }
-  }
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(output)
-      toast.success("已复制到剪贴板")
-    } catch (err) {
-      toast.error("复制失败")
     }
   }
 
@@ -79,6 +73,7 @@ function ScssConverter() {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
     } catch (err) {
+      console.error("下载失败", err)
       toast.error("下载失败")
     }
   }
@@ -122,7 +117,7 @@ function ScssConverter() {
                   转换
                 </Button>
                 <Button
-                  onClick={ copyToClipboard }
+                  onClick={ () => copyToClipboard }
                   size="sm"
                   variant="outline"
                   disabled={ !output }
