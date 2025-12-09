@@ -22,6 +22,7 @@ import {
   arrayMove,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
+import { SortableImageItem } from "@/components/sortable-item"
 import jsPDF from "jspdf"
 
 export const Route = createFileRoute("/imageToPdf")({
@@ -242,6 +243,9 @@ function ImageToPdfConverter() {
     }
 
     try {
+      // 创建一个新数组，避免直接修改原始数组
+      const sortedImages = [...images]
+      
       const pdf = new jsPDF({
         orientation: pageLayout.orientation,
         unit: 'mm',
@@ -256,8 +260,8 @@ function ImageToPdfConverter() {
       const layout = calculateImageLayout(pageWidth, pageHeight, imagesPerPage)
 
       // 按布局排列图片
-      for (let i = 0; i < images.length; i++) {
-        const img = images[i]
+      for (let i = 0; i < sortedImages.length; i++) {
+        const img = sortedImages[i]
         const layoutIndex = i % imagesPerPage
 
         // 如果当前页已满或不是第一张图片，且需要换页
@@ -268,44 +272,59 @@ function ImageToPdfConverter() {
           })
         }
 
-        const imgElement = new Image()
-        imgElement.src = img.url
+        // 使用 fetch 和 createObjectURL 确保图片数据正确加载
+        try {
+          const response = await fetch(img.url)
+          const blob = await response.blob()
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result as string)
+            reader.onerror = reject
+            reader.readAsDataURL(blob)
+          })
+          
+          const imgElement = new Image()
+          imgElement.src = dataUrl
+          
+          await new Promise<void>((resolve, reject) => {
+            imgElement.onload = () => {
+              try {
+                const { x, y, width, height } = layout[layoutIndex]
 
-        await new Promise((resolve, reject) => {
-          imgElement.onload = () => {
-            try {
-              const { x, y, width, height } = layout[layoutIndex]
+                // 保持图片比例
+                const imgRatio = imgElement.width / imgElement.height
+                const layoutRatio = width / height
 
-              // 保持图片比例
-              const imgRatio = imgElement.width / imgElement.height
-              const layoutRatio = width / height
+                let drawWidth = width
+                let drawHeight = height
+                let drawX = x
+                let drawY = y
 
-              let drawWidth = width
-              let drawHeight = height
-              let drawX = x
-              let drawY = y
+                if (imgRatio > layoutRatio) {
+                  // 图片更宽，以宽度为准
+                  drawHeight = width / imgRatio
+                  drawY = y + (height - drawHeight) / 2
+                } else {
+                  // 图片更高，以高度为准
+                  drawWidth = height * imgRatio
+                  drawX = x + (width - drawWidth) / 2
+                }
 
-              if (imgRatio > layoutRatio) {
-                // 图片更宽，以宽度为准
-                drawHeight = width / imgRatio
-                drawY = y + (height - drawHeight) / 2
-              } else {
-                // 图片更高，以高度为准
-                drawWidth = height * imgRatio
-                drawX = x + (width - drawWidth) / 2
+                pdf.addImage(dataUrl, "JPEG", drawX, drawY, drawWidth, drawHeight)
+                resolve()
+              } catch (error) {
+                reject(error)
               }
-
-              pdf.addImage(imgElement, "JPEG", drawX, drawY, drawWidth, drawHeight)
-              resolve(true)
-            } catch (error) {
-              reject(error)
             }
-          }
 
-          imgElement.onerror = () => {
-            reject(new Error(`无法加载图片: ${img.name}`))
-          }
-        })
+            imgElement.onerror = () => {
+              reject(new Error(`无法加载图片: ${img.name}`))
+            }
+          })
+        } catch (error) {
+          console.error(`处理图片 ${img.name} 时出错:`, error)
+          toast.error(`处理图片 ${img.name} 时出错`)
+        }
       }
 
       // 生成文件名
@@ -486,88 +505,19 @@ function ImageToPdfConverter() {
                 >
                   <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
                     { images.map((img, index) => (
-                      <div
-                        key={ img.id }
-                        className="border rounded-lg p-3 bg-white hover:bg-gray-50 transition-colors flex items-center gap-3 group"
-                      >
-                        {/* 序号 */ }
-                        <div className="w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      <div key={img.id} className="relative">
+                        {/* 序号标记 */}
+                        <div className="absolute left-[-40px] top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full text-sm font-medium z-10">
                           { index + 1 }
                         </div>
-
-                        {/* 拖拽手柄 */ }
-                        <div
-                          className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 p-1"
-                          onClick={ (e) => e.stopPropagation() }
-                        >
-                          <div className="flex flex-col space-y-1">
-                            <div className="w-4 h-0.5 bg-gray-400"></div>
-                            <div className="w-4 h-0.5 bg-gray-400"></div>
-                            <div className="w-4 h-0.5 bg-gray-400"></div>
-                          </div>
-                        </div>
-
-                        {/* 图片缩略图 */ }
-                        <div className="flex-shrink-0">
-                          <img
-                            src={ img.url }
-                            alt={ img.name }
-                            className="h-12 w-12 object-cover rounded border shadow-sm"
-                          />
-                        </div>
-
-                        {/* 文件信息 */ }
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium text-gray-800 truncate">{ img.name }</p>
-                          <p className="text-xs text-gray-500">
-                            { formatFileSize(img.size) }
-                          </p>
-                        </div>
-
-                        {/* 操作按钮 */ }
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={ () => {
-                              // 预览图片
-                              const newWindow = window.open()
-                              if (newWindow) {
-                                newWindow.document.write(`
-                                  <html>
-                                    <head>
-                                      <title>${img.name}</title>
-                                      <style>
-                                        body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f0f0f0; }
-                                        img { max-width: 90vw; max-height: 90vh; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-                                      </style>
-                                    </head>
-                                    <body>
-                                      <img src="${img.url}" alt="${img.name}" />
-                                    </body>
-                                  </html>
-                                `)
-                              }
-                            } }
-                            className="h-8 w-8 p-0"
-                          >
-                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={ () => {
-                              setImages(prev => prev.filter(i => i.id !== img.id))
-                              toast.success("图片已删除")
-                            } }
-                            className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
+                        <SortableImageItem
+                          id={img.id}
+                          image={img}
+                          onDelete={(id) => {
+                            setImages(prev => prev.filter(i => i.id !== id))
+                            toast.success("图片已删除")
+                          }}
+                        />
                       </div>
                     )) }
                   </div>

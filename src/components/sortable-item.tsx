@@ -26,6 +26,8 @@ export function SortableImageItem({ id, image, onDelete }: SortableImageItemProp
     } = useSortable({ id })
 
     const [showPreview, setShowPreview] = useState(false)
+    const [showLargePreview, setShowLargePreview] = useState(false)
+    const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 })
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -63,12 +65,35 @@ export function SortableImageItem({ id, image, onDelete }: SortableImageItemProp
                 </div>
 
                 {/* 图片缩略图 */ }
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 relative">
                     <img
                         src={ image.url }
                         alt={ image.name }
-                        className="h-12 w-12 object-cover rounded border"
-                        onClick={ () => setShowPreview(true) }
+                        className="h-12 w-12 object-cover rounded border cursor-pointer"
+                        onMouseEnter={ (e) => {
+                            const rect = e.currentTarget.getBoundingClientRect()
+                            // 计算预览框位置，确保不超出视窗
+                            const previewWidth = 500
+                            const previewHeight = 500
+
+                            let x = rect.right + 10
+                            let y = rect.top
+
+                            // 如果右侧空间不足，显示在左侧
+                            if (x + previewWidth > window.innerWidth) {
+                                x = rect.left - previewWidth - 10
+                            }
+
+                            // 如果底部空间不足，向上调整
+                            if (y + previewHeight > window.innerHeight) {
+                                y = window.innerHeight - previewHeight - 10
+                            }
+
+                            setPreviewPosition({ x, y })
+                            setShowPreview(true)
+                        } }
+                        onMouseLeave={ () => setShowPreview(false) }
+                        onClick={ () => setShowLargePreview(true) }
                     />
                 </div>
 
@@ -85,8 +110,28 @@ export function SortableImageItem({ id, image, onDelete }: SortableImageItemProp
                     <Button
                         variant="ghost"
                         size="sm"
-                        onClick={ () => setShowPreview(true) }
+                        onClick={ () => {
+                            // 打开新窗口显示大图
+                            const newWindow = window.open()
+                            if (newWindow) {
+                                newWindow.document.write(`
+                                    <html>
+                                        <head>
+                                            <title>${image.name}</title>
+                                            <style>
+                                                body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f0f0f0; }
+                                                img { max-width: 90vw; max-height: 90vh; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <img src="${image.url}" alt="${image.name}" />
+                                        </body>
+                                    </html>
+                                `)
+                            }
+                        } }
                         className="h-8 w-8 p-0"
+                        title="在新窗口中查看大图"
                     >
                         <Eye className="h-4 w-4" />
                     </Button>
@@ -101,29 +146,70 @@ export function SortableImageItem({ id, image, onDelete }: SortableImageItemProp
                 </div>
             </div>
 
-            {/* 图片预览模态框 */ }
+            {/* 图片悬浮预览 */ }
             { showPreview && (
-                <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-                    <div className="relative bg-white rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
+                <div
+                    className="fixed z-50 bg-white rounded-lg shadow-xl border overflow-hidden"
+                    style={ {
+                        left: `${previewPosition.x}px`,
+                        top: `${previewPosition.y}px`,
+                        width: '500px',
+                        maxHeight: '600px'
+                    } }
+                    onMouseEnter={ () => setShowPreview(true) }
+                    onMouseLeave={ () => setShowPreview(false) }
+                >
+                    <div className="relative" style={ { paddingBottom: '75%' } }>
                         <img
                             src={ image.url }
                             alt={ image.name }
-                            className="w-full h-auto"
+                            className="absolute inset-0 w-full h-full object-contain bg-gray-50"
                         />
-                        <div className="absolute top-4 right-4">
+                    </div>
+                    <div className="p-2 bg-white border-t">
+                        <p className="text-xs font-medium truncate">{ image.name }</p>
+                        <p className="text-xs text-gray-500">
+                            { formatFileSize(image.size) }
+                        </p>
+                    </div>
+                </div>
+            ) }
+
+            {/* 点击缩略图显示的大图弹窗 */ }
+            { showLargePreview && (
+                <div className="fixed inset-0  bg-black/70 z-50 flex items-center justify-center p-4"
+                    onClick={ () => setShowLargePreview(false) }>
+                    <div className="relative bg-white rounded-lg max-w-5xl max-h-[90vh] overflow-auto"
+                        onClick={ (e) => e.stopPropagation() }>
+                        <img
+                            src={ image.url }
+                            alt={ image.name }
+                            className="w-[400px] object-contain"
+                        />
+                        <div className="absolute top-4 right-4 flex gap-2">
                             <Button
-                                onClick={ () => setShowPreview(false) }
+                                onClick={ () => {
+                                    // 下载图片
+                                    const link = document.createElement('a')
+                                    link.href = image.url
+                                    link.download = image.name
+                                    document.body.appendChild(link)
+                                    link.click()
+                                    document.body.removeChild(link)
+                                    toast.success("图片已开始下载")
+                                } }
                                 variant="secondary"
                                 size="sm"
                             >
-                                关闭预览
+                                下载图片
                             </Button>
-                        </div>
-                        <div className="p-4 bg-white">
-                            <p className="font-medium">{ image.name }</p>
-                            <p className="text-sm text-gray-500">
-                                尺寸: { formatFileSize(image.size) }
-                            </p>
+                            <Button
+                                onClick={ () => setShowLargePreview(false) }
+                                variant="secondary"
+                                size="sm"
+                            >
+                                关闭
+                            </Button>
                         </div>
                     </div>
                 </div>

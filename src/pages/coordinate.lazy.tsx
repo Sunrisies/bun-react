@@ -20,7 +20,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { useState, useRef } from "react"
-import { gcj02ToWgs84, wgs84ToGcj02 } from "sunrise-utils"
+import { CoordinateTransform } from "sunrise-utils"
 
 export const Route = createLazyFileRoute("/coordinate")({
   component: RouteComponent,
@@ -152,12 +152,12 @@ function RouteComponent() {
       // 先判断当前是什么转什么
       if (fromFormat === "WGS84" && toFormat === "GCJ02") {
         // 84转02
-        const [convertedLng, convertedLat] = wgs84ToGcj02(lng, lat)
+        const [convertedLng, convertedLat] = CoordinateTransform.wgs84ToGcj02(lng, lat)
         setTargetCoord(`${convertedLng},${convertedLat}`)
       }
       if (fromFormat === "GCJ02" && toFormat === "WGS84") {
         // 02转84
-        const [convertedLng, convertedLat] = gcj02ToWgs84(lng, lat)
+        const [convertedLng, convertedLat] = CoordinateTransform.gcj02ToWgs84(lng, lat)
         setTargetCoord(`${convertedLng},${convertedLat}`)
       }
     } catch (error) {
@@ -205,9 +205,9 @@ function RouteComponent() {
 
           let convertedLng, convertedLat
           if (fromFormat === "WGS84" && toFormat === "GCJ02") {
-            [convertedLng, convertedLat] = wgs84ToGcj02(lng, lat)
+            [convertedLng, convertedLat] = CoordinateTransform.wgs84ToGcj02(lng, lat)
           } else if (fromFormat === "GCJ02" && toFormat === "WGS84") {
-            [convertedLng, convertedLat] = gcj02ToWgs84(lng, lat)
+            [convertedLng, convertedLat] = CoordinateTransform.gcj02ToWgs84(lng, lat)
           }
 
           // 限制坐标精度到6位小数
