@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Copy, Download } from "lucide-react"
+import { ArrowLeft, Copy, Download, Info } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
@@ -78,14 +78,31 @@ function YamlJsonConverter() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-[90%] overflow-hidden">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
+      <Card className="w-full h-full  px-3 py-2 mx-auto shadow-lg">
         <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>YAML/JSON 转换工具</CardTitle>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <CardTitle className="text-2xl font-bold text-gray-800 flex gap-3">YAML/JSON 转换工具
+              {/* 使用提示 - 悬浮图标 */ }
+              <div className="relative inline-block group">
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
+                  <Info className="h-6 w-6" />
+                </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-80 p-4 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-l border-t border-gray-200"></div>
+                  <div className="p-4 bg-blue-50 rounded-lg">
+                    <p className="text-sm text-blue-600">
+                      提示：此工具可以在 YAML 和 JSON 格式之间进行转换。支持复制转换后的结果或下载为文件。如果输入格式有误，工具会提示错误信息。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardTitle>
+
             <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
+
             </Button>
           </div>
         </CardHeader>
@@ -131,7 +148,7 @@ function YamlJsonConverter() {
                     setInput(e.target.value)
                     setError(null)
                   } }
-                  className="min-h-[500px] font-mono"
+                  className="max-h-[600px] font-mono min-h-[600px]"
                 />
               </div>
 
@@ -141,7 +158,7 @@ function YamlJsonConverter() {
                 <Textarea
                   value={ output }
                   readOnly
-                  className="min-h-[500px] font-mono bg-gray-50"
+                  className="min-h-[600px] max-h-[600px]  font-mono bg-gray-50"
                   placeholder="转换结果将显示在这里..."
                 />
               </div>
@@ -153,13 +170,6 @@ function YamlJsonConverter() {
                 <p className="text-sm text-red-600">{ error }</p>
               </div>
             ) }
-
-            {/* 提示信息 */ }
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-600">
-                提示：此工具可以在 YAML 和 JSON 格式之间进行转换。支持复制转换后的结果或下载为文件。如果输入格式有误，工具会提示错误信息。
-              </p>
-            </div>
           </div>
         </CardContent>
       </Card>
