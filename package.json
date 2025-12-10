@@ -41,6 +41,7 @@
     "js-beautify": "^1.15.4",
     "js-yaml": "^4.1.0",
     "jspdf": "^3.0.1",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.477.0",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.2.133",

@@ -67,7 +67,7 @@ function ImageToPdfConverter() {
     return () => {
       images.forEach((img) => URL.revokeObjectURL(img.url))
     }
-  }, []) // 移除images依赖，只在组件卸载时执行
+  }) // 移除images依赖，只在组件卸载时执行
 
   // 修改后的onDrop处理函数
   const onDrop = useCallback((acceptedFiles: File[]) => {

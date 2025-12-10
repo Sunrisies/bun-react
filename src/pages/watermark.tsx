@@ -1,14 +1,14 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ArrowLeft, Download, Upload, Trash2, Eye, RotateCw, X } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "sonner"
-import { Slider } from "@/components/ui/slider"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { Slider } from "@/components/ui/slider"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import JSZip from 'jszip'
+import { ArrowLeft, Download, Eye, Trash2, Upload, X } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { toast } from "sonner"
+import { downloadLocalFile } from "sunrise-utils"
 export const Route = createFileRoute("/watermark")({
   component: Watermark,
 })
@@ -31,9 +31,8 @@ function Watermark() {
   const [color, setColor] = useState<string>("#000000")
   const [rotation, setRotation] = useState<number>(-45)
   const [watermarkMode, setWatermarkMode] = useState<'single' | 'multiple'>('multiple')
-
+  const [activePreset, setActivePreset] = useState<'subtle' | 'bold' | 'diagonal'>("diagonal") // 'subtle', 'bold', 'diagonal', 或 null
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // 处理文件选择
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -178,8 +177,10 @@ function Watermark() {
       // 更新图片的水印URL
       const watermarkedUrl = canvas.toDataURL('image/jpeg', 0.9)
 
-      setImages(prev => prev.map((img, index) =>
-        index === activeImageIndex ? { ...img, watermarkedUrl } : img
+      setImages(prev => prev.map((img, index) => {
+        console.log(index, activeImageIndex)
+        return index === activeImageIndex ? { ...img, watermarkedUrl } : img
+      }
       ))
 
       toast.success("水印添加成功")
@@ -304,7 +305,7 @@ function Watermark() {
   }
 
   // 下载所有图片
-  const downloadAll = () => {
+  const downloadAll = async () => {
     const watermarkedImages = images.filter(img => img.watermarkedUrl)
 
     if (watermarkedImages.length === 0) {
@@ -312,20 +313,53 @@ function Watermark() {
       return
     }
 
-    watermarkedImages.forEach((image, index) => {
-      setTimeout(() => {
-        const link = document.createElement('a')
-        link.href = image.watermarkedUrl!
-        link.download = `watermarked_${image.name}`
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-      }, index * 300) // 分批下载避免浏览器限制
-    })
+    try {
+      toast.loading(`正在打包 ${watermarkedImages.length} 张图片...`)
 
-    toast.success(`正在下载 ${watermarkedImages.length} 张图片`)
+      const zip = new JSZip()
+      const folder = zip.folder("watermarked-images")
+
+      // 为每张图片创建Promise
+      const imagePromises = watermarkedImages.map(async (image, index) => {
+        try {
+          // 从base64 URL获取blob
+          const response = await fetch(image.watermarkedUrl!)
+          const blob = await response.blob()
+
+          // 获取文件扩展名
+          const filename = `watermarked_${index + 1}_${image.name}`
+
+          folder?.file(filename, blob)
+          return true
+        } catch (error) {
+          console.error(`下载图片失败: ${image.name}`, error)
+          return false
+        }
+      })
+
+      // 等待所有图片处理完成
+      const results = await Promise.all(imagePromises)
+      const successCount = results.filter(Boolean).length
+
+      if (successCount === 0) {
+        toast.dismiss()
+        toast.error("所有图片下载失败")
+        return
+      }
+
+      // 生成zip文件
+      const content = await zip.generateAsync({ type: "blob" })
+      downloadLocalFile(content, `watermarked-images-${new Date().getTime()}.zip`)
+
+      toast.dismiss()
+      toast.success(`成功打包 ${successCount} 张图片`)
+
+    } catch (error) {
+      toast.dismiss()
+      toast.error("打包失败，请重试")
+      console.error("打包失败:", error)
+    }
   }
-
   // 应用预设
   const applyPreset = (preset: 'subtle' | 'bold' | 'diagonal') => {
     switch (preset) {
@@ -335,6 +369,7 @@ function Watermark() {
         setOpacity(0.2)
         setColor("#000000")
         setRotation(0)
+        setActivePreset("subtle")
         break
       case 'bold':
         setWatermarkText("严禁盗用")
@@ -342,6 +377,7 @@ function Watermark() {
         setOpacity(0.5)
         setColor("#FF0000")
         setRotation(0)
+        setActivePreset("bold")
         break
       case 'diagonal':
         setWatermarkText("原创保护")
@@ -349,6 +385,7 @@ function Watermark() {
         setOpacity(0.3)
         setColor("#000000")
         setRotation(-45)
+        setActivePreset("diagonal")
         break
     }
     toast.success("预设已应用")
@@ -364,10 +401,44 @@ function Watermark() {
         }
       })
     }
-  }, [images])
+  })
 
   const currentImage = images[activeImageIndex]
+  // 首先在状态中添加新的状态变量
+  const [zoomedImage, setZoomomedImage] = useState<{ url: string, type: 'original' | 'watermarked' } | null>(null) // {url, type: 'original' | 'watermarked'}
 
+  // 添加模态框组件
+  const ZoomModal = () => {
+    if (!zoomedImage) return null
+
+    return (
+      <div
+        className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+        onClick={ () => setZoomomedImage(null) }
+      >
+        <div
+          className="relative max-w-[90vw] max-h-[90vh]"
+          onClick={ (e) => e.stopPropagation() }
+        >
+          <button
+            onClick={ () => setZoomomedImage(null) }
+            className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <img
+            src={ zoomedImage.url }
+            alt={ zoomedImage.type === 'original' ? '原图大图' : '水印效果大图' }
+            className="max-w-full max-h-[80vh] object-contain rounded-lg"
+          />
+          <div className="absolute bottom-4 left-4 text-white text-sm bg-black/50 px-3 py-1 rounded-full">
+            { zoomedImage.type === 'original' ? '原图' : '水印效果' } •
+            点击任意位置关闭
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
       <Card className="w-full h-full mx-auto shadow-lg p-0">
@@ -426,21 +497,21 @@ function Watermark() {
                 <div className="space-y-1">
                   <div className="grid grid-cols-3 gap-2">
                     <Button
-                      variant="outline"
+                      variant={ activePreset === 'subtle' ? 'default' : 'outline' }
                       onClick={ () => applyPreset('subtle') }
                       className="text-sm"
                     >
                       柔和水印
                     </Button>
                     <Button
-                      variant="outline"
+                      variant={ activePreset === 'bold' ? 'default' : 'outline' }
                       onClick={ () => applyPreset('bold') }
                       className="text-sm"
                     >
                       醒目水印
                     </Button>
                     <Button
-                      variant="outline"
+                      variant={ activePreset === 'diagonal' ? 'default' : 'outline' }
                       onClick={ () => applyPreset('diagonal') }
                       className="text-sm"
                     >
@@ -657,7 +728,11 @@ function Watermark() {
                           <img
                             src={ currentImage?.originalUrl }
                             alt="原图预览"
-                            className="w-full h-full object-contain"
+                            className="w-full h-full object-contain cursor-pointer"
+                            onClick={ () => setZoomomedImage({
+                              url: currentImage?.originalUrl,
+                              type: 'original'
+                            }) }
                           />
                         </div>
                       </div>
@@ -679,23 +754,12 @@ function Watermark() {
                             src={ currentImage?.watermarkedUrl || currentImage?.originalUrl }
                             alt="水印效果"
                             className="w-full h-full object-contain"
+                            onClick={ () => setZoomomedImage({
+                              url: currentImage?.watermarkedUrl || currentImage?.originalUrl,
+                              type: 'watermarked'
+                            }) }
                           />
-                          {/* 水印预览层（仅当有水印时显示） */ }
-                          { currentImage?.watermarkedUrl && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div
-                                className="text-center opacity-50"
-                                style={ {
-                                  fontSize: `${fontSize}px`,
-                                  color: color,
-                                  opacity: opacity,
-                                  transform: `rotate(${rotation}deg)`,
-                                } }
-                              >
-                                { watermarkText }
-                              </div>
-                            </div>
-                          ) }
+
                         </div>
                       </div>
                     </div>
@@ -713,19 +777,15 @@ function Watermark() {
                   <p className="text-gray-500 max-w-md mb-6">
                     上传图片开始添加水印。支持批量上传，操作简单快捷。
                   </p>
-                  <Button
-                    onClick={ () => fileInputRef.current?.click() }
-                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                  >
-                    <Upload className="h-4 w-4 mr-2" />
-                    上传第一张图片
-                  </Button>
+
                 </div>
               ) }
             </div>
           </div>
         </CardContent>
       </Card>
+      <ZoomModal />
     </div>
+
   )
 }
