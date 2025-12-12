@@ -1,27 +1,23 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, Search } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { useMemo, useState } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AlertCircle, ArrowLeft, Copy, Globe, Info, Search, Server, Shield } from "lucide-react"
+import { copyToClipboard } from "@/lib/utils"
 
 export const Route = createFileRoute("/httpHeaders")({
   component: HttpHeaders,
-});
+})
 
 interface HttpHeader {
-  name: string;
-  description: string;
-  example: string;
-  category: "通用头" | "请求头" | "响应头" | "实体头";
+  name: string
+  description: string
+  example: string
+  category: "通用头" | "请求头" | "响应头" | "实体头"
 }
 
 const HTTP_HEADERS: HttpHeader[] = [
@@ -356,94 +352,255 @@ const HTTP_HEADERS: HttpHeader[] = [
     example: "Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT",
     category: "实体头"
   }
-];
+]
+
+const CATEGORIES = ["所有", "通用头", "请求头", "响应头", "实体头"]
+const COMMON_HEADERS = [
+  "Accept",
+  "Accept-Encoding",
+  "Accept-Language",
+  "Authorization",
+  "Cache-Control",
+  "Connection",
+  "Content-Type",
+  "Cookie",
+  "Host",
+  "Origin",
+  "Referer",
+  "User-Agent",
+  "Set-Cookie",
+  "ETag",
+]
 
 function HttpHeaders() {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate()
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("所有")
 
-  const filteredHeaders = HTTP_HEADERS.filter(header => 
-    header.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    header.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    header.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredHeaders = useMemo(() => {
+    return HTTP_HEADERS.filter((header) => {
+      const q = searchTerm.trim().toLowerCase()
+      const matchesSearch = q === "" ||
+        header.name.toLowerCase().includes(q) ||
+        header.description.toLowerCase().includes(q) ||
+        header.example.toLowerCase().includes(q)
+      const matchesCategory = selectedCategory === "所有" || header.category === selectedCategory
+      return matchesSearch && matchesCategory
+    })
+  }, [searchTerm, selectedCategory])
 
-  const getCategoryColor = (category: string): string => {
+  const getCategoryStyle = (category: string) => {
     switch (category) {
-      case "通用头": return "text-purple-500";
-      case "请求头": return "text-blue-500";
-      case "响应头": return "text-green-500";
-      case "实体头": return "text-orange-500";
-      default: return "text-gray-500";
+      case "通用头":
+        return { bg: "from-indigo-400 to-indigo-500", text: "text-indigo-600", icon: <Globe className="h-5 w-5" /> }
+      case "请求头":
+        return { bg: "from-blue-400 to-blue-500", text: "text-blue-600", icon: <Shield className="h-5 w-5" /> }
+      case "响应头":
+        return { bg: "from-green-400 to-green-500", text: "text-green-600", icon: <Server className="h-5 w-5" /> }
+      case "实体头":
+        return { bg: "from-orange-400 to-orange-500", text: "text-orange-600", icon: <Info className="h-5 w-5" /> }
+      default:
+        return { bg: "from-gray-400 to-gray-500", text: "text-gray-600", icon: <Info className="h-5 w-5" /> }
     }
-  };
+  }
+
+  const commonList = HTTP_HEADERS.filter((h) => COMMON_HEADERS.includes(h.name))
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-[90%] overflow-hidden">
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>HTTP 请求头查询</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3">
+      <div className="mx-auto">
+        <div className="mb-2">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                HTTP 请求头大全
+                <div className="relative inline-block group">
+                  <div className="inline-flex items-center justify-center ml-2 w-8 h-8 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
+                    <Info className="h-6 w-6" />
+                  </div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-80 p-4 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-l border-t border-gray-200"></div>
+                    <div>
+                      <div className="space-y-3">
+                        <h3 className="font-medium text-gray-800 flex items-center gap-2">
+                          <Info className="h-5 w-5 text-blue-500" />
+                          使用说明
+                        </h3>
+                        <ul className="space-y-2 text-sm text-gray-600">
+                          <li className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></div>
+                            <span>通过搜索与类别筛选快速定位头信息</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></div>
+                            <span>点击复制图标复制名称或示例到剪贴板</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></div>
+                            <span>使用常用标签页快速查看高频请求头</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="space-y-3 mt-2">
+                        <h3 className="font-medium text-gray-800 flex items-center gap-2">
+                          <AlertCircle className="h-5 w-5 text-orange-500" />
+                          请求头分类
+                        </h3>
+                        <div className="space-y-2">
+                          {CATEGORIES.slice(1).map((category) => (
+                            <div key={category} className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">{category}</span>
+                              <span className="font-medium text-gray-800">
+                                {HTTP_HEADERS.filter((h) => h.category === category).length} 个
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h1>
+            </div>
+            <Button onClick={() => navigate({ to: "/" })} variant="outline">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {/* 搜索栏 */}
-            <div className="flex gap-2">
-              <Input
-                placeholder="搜索请求头名称、描述或类别..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-sm"
-              />
-              <Button variant="outline">
-                <Search className="h-4 w-4" />
-              </Button>
-            </div>
+        </div>
 
-            {/* 请求头表格 */}
-            <div className="border rounded-lg overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[150px]">名称</TableHead>
-                    <TableHead>描述</TableHead>
-                    <TableHead>示例</TableHead>
-                    <TableHead className="w-[100px]">类别</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredHeaders.map((header) => (
-                    <TableRow key={header.name}>
-                      <TableCell className="font-mono font-medium">
-                        {header.name}
-                      </TableCell>
-                      <TableCell>{header.description}</TableCell>
-                      <TableCell className="font-mono text-sm">
-                        {header.example}
-                      </TableCell>
-                      <TableCell className={getCategoryColor(header.category)}>
-                        {header.category}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-
-            {/* 提示信息 */}
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-600">
-                提示：HTTP 头信息是客户端和服务器端交换数据的重要方式。通过搜索框可以快速查找特定的头信息及其用途。
-              </p>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="md:col-span-2">
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl">筛选面板</CardTitle>
+                <CardDescription>按类别与关键词筛选请求头</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Input
+                      placeholder="搜索名称、描述或示例"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button variant="outline" className="shrink-0"><Search className="h-4 w-4" /></Button>
+                  </div>
+                  <div>
+                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="选择类别" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CATEGORIES.map((c) => (
+                          <SelectItem key={c} value={c}>{c}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="cursor-pointer" onClick={() => setSelectedCategory("所有")}>全部</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-indigo-600" onClick={() => setSelectedCategory("通用头")}>通用</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-blue-600" onClick={() => setSelectedCategory("请求头")}>请求</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-green-600" onClick={() => setSelectedCategory("响应头")}>响应</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-orange-600" onClick={() => setSelectedCategory("实体头")}>实体</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+          <div className="md:col-span-10">
+            <Tabs defaultValue="all">
+              <TabsList className="grid grid-cols-2">
+                <TabsTrigger value="all">全部</TabsTrigger>
+                <TabsTrigger value="common">常用</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="all">
+                {filteredHeaders.length === 0 ? (
+                  <Card className="mt-4">
+                    <CardContent className="p-8 text-center">
+                      <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-700 mb-2">未找到匹配的请求头</h3>
+                      <p className="text-gray-500">尝试调整搜索词或选择其他类别</p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4">
+                    {filteredHeaders.map((header) => {
+                      const style = getCategoryStyle(header.category)
+                      return (
+                        <Card key={header.name} className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                          <CardContent className="p-4">
+                            <div className="flex items-start justify-between mb-4">
+                              <div className={`rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm`}>
+                                <div className="text-white font-bold text-xl">{header.name}</div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Button variant="ghost" size="icon" onClick={() => copyToClipboard(header.name)}>
+                                  <Copy className="h-4 w-4" />
+                                </Button>
+                                <Badge variant="outline" className={style.text}>{header.category}</Badge>
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2 text-gray-600">
+                                {style.icon}
+                                <span className="font-medium">说明</span>
+                              </div>
+                              <p className="text-gray-700 text-sm leading-relaxed">{header.description}</p>
+                            </div>
+                            <div className="mt-3">
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-600 text-sm">示例</span>
+                                <Button variant="outline" size="sm" onClick={() => copyToClipboard(header.example)}>
+                                  <Copy className="h-4 w-4 mr-1" />复制示例
+                                </Button>
+                              </div>
+                              <div className="mt-2 p-2 bg-gray-50 rounded border text-sm font-mono break-words">{header.example}</div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )
+                    })}
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value="common">
+                <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4">
+                  {commonList.map((header) => {
+                    const style = getCategoryStyle(header.category)
+                    return (
+                      <Card key={header.name} className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                        <CardContent className="p-4">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className={`rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm`}>
+                              <div className="text-white font-bold text-xl">{header.name}</div>
+                            </div>
+                            <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">常用</Badge>
+                          </div>
+                          <p className="text-gray-700 text-sm leading-relaxed">{header.description}</p>
+                          <div className="mt-3">
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-600 text-sm">示例</span>
+                              <Button variant="outline" size="sm" onClick={() => copyToClipboard(header.example)}>
+                                <Copy className="h-4 w-4 mr-1" />复制示例
+                              </Button>
+                            </div>
+                            <div className="mt-2 p-2 bg-gray-50 rounded border text-sm font-mono break-words">{header.example}</div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )
+                  })}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
