@@ -5,6 +5,7 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { useEffect } from "react"
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -12,6 +13,35 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const navigate = useNavigate()
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined") {
+        if (window.history && "scrollRestoration" in window.history) {
+          window.history.scrollRestoration = "manual"
+        }
+        const raw = sessionStorage.getItem("HOME_STATE")
+        if (raw) {
+          const parsed = JSON.parse(raw)
+          const y = Number(parsed?.scrollY || 0)
+          if (!Number.isNaN(y) && y > 0) {
+            requestAnimationFrame(() => {
+              window.scrollTo({ top: y, behavior: "auto" })
+            })
+          }
+        }
+      }
+    } catch { }
+  }, [])
+
+  const handleEnterTool = (path: string) => {
+    try {
+      const state = {
+        scrollY: typeof window !== "undefined" ? window.scrollY : 0,
+      }
+      sessionStorage.setItem("HOME_STATE", JSON.stringify(state))
+    } catch { }
+    navigate({ to: path })
+  }
   const categories = [
     {
       title: "文件处理工具",
@@ -193,27 +223,27 @@ function Index() {
   return (
     <main className="px-60 h-full box-border p-4">
       <div className="flex flex-col gap-8 w-full max-w-[1440px]">
-        { categories.map((category) => (
-          <div key={ category.title } className="space-y-4">
-            <h2 className="text-2xl font-bold text-gray-800">{ category.title }</h2>
+        {categories.map((category) => (
+          <div key={category.title} className="space-y-4">
+            <h2 className="text-2xl font-bold text-gray-800">{category.title}</h2>
             <div className="flex flex-wrap gap-4">
-              { category.items.map((item) => (
+              {category.items.map((item) => (
                 <Card
-                  key={ item.path }
+                  key={item.path}
                   className="h-[120px] w-[270px] cursor-pointer hover:translate-y-[-5px] transition-all duration-300 border border-gray-200 hover:border-gray-300 rounded-lg shadow-sm hover:shadow-md"
-                  onClick={ () => navigate({ to: item.path }) }
+                  onClick={() => handleEnterTool(item.path)}
                 >
                   <CardHeader className="p-3">
-                    <CardTitle className="text-base mb-1">{ item.title }</CardTitle>
+                    <CardTitle className="text-base mb-1">{item.title}</CardTitle>
                     <CardDescription className="text-sm text-gray-500 line-clamp-2">
-                      { item.description }
+                      {item.description}
                     </CardDescription>
                   </CardHeader>
                 </Card>
-              )) }
+              ))}
             </div>
           </div>
-        )) }
+        ))}
       </div>
     </main>
   )
