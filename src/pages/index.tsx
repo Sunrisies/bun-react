@@ -5,7 +5,7 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -13,6 +13,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const navigate = useNavigate()
+  const observerRef = useRef<IntersectionObserver | null>(null)
   useEffect(() => {
     try {
       if (typeof window !== "undefined") {
@@ -28,6 +29,32 @@ function Index() {
               window.scrollTo({ top: y, behavior: "auto" })
             })
           }
+        }
+        
+        // 滚动动画初始化
+        observerRef.current = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate-fade-in")
+                observerRef.current?.unobserve(entry.target)
+              }
+            })
+          },
+          {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+          }
+        )
+        
+        // 观察所有需要动画的元素
+        const animatedElements = document.querySelectorAll(".animate-on-scroll")
+        animatedElements.forEach((el) => {
+          observerRef.current?.observe(el)
+        })
+        
+        return () => {
+          observerRef.current?.disconnect()
         }
       }
     } catch { }
@@ -233,8 +260,8 @@ function Index() {
         </div>
 
         <div className="max-w-7xl mx-auto space-y-10">
-          { categories.map((category) => (
-            <div key={ category.title } className="space-y-4">
+          { categories.map((category, index) => (
+            <div key={ category.title } className="space-y-4 animate-on-scroll opacity-0" style={{animationDelay: `${index * 100}ms`}}>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
                 <h2 className="text-xl font-semibold text-gray-800">{ category.title }</h2>
