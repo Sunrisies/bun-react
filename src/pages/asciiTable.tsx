@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { ArrowLeft, Search } from "lucide-react"
-import { useState } from "react"
+import { ArrowLeft, Search, Copy, Info, AlertCircle, Hash, Type } from "lucide-react"
+import { useState, useMemo } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { copyToClipboard } from "@/lib/utils"
 
 export const Route = createFileRoute("/asciiTable")({
   component: AsciiTable,
@@ -127,14 +130,22 @@ function AsciiTable() {
   const [searchTerm, setSearchTerm] = useState("")
   const [inputChar, setInputChar] = useState("")
   const [convertResult, setConvertResult] = useState<AsciiCode | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState("所有")
 
-  const filteredCodes = ASCII_CODES.filter(code =>
-    code.dec.toString().includes(searchTerm) ||
-    code.hex.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    code.char.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    code.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    code.category.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const categories = ["所有", "控制字符", "空白字符", "标点符号", "数字", "大写字母", "小写字母"]
+
+  const filteredCodes = useMemo(() => {
+    return ASCII_CODES.filter(code => {
+      const q = searchTerm.trim().toLowerCase()
+      const matchesSearch = q === "" ||
+        code.dec.toString().includes(q) ||
+        code.hex.toLowerCase().includes(q) ||
+        code.char.toLowerCase().includes(q) ||
+        code.description.toLowerCase().includes(q)
+      const matchesCategory = selectedCategory === "所有" || code.category === selectedCategory
+      return matchesSearch && matchesCategory
+    })
+  }, [searchTerm, selectedCategory])
 
   const handleCharInput = (value: string) => {
     setInputChar(value)
@@ -147,105 +158,245 @@ function AsciiTable() {
     }
   }
 
-  const getCategoryColor = (category: string): string => {
+  const getCategoryStyle = (category: string) => {
     switch (category) {
-      case "控制字符": return "text-red-500"
-      case "空白字符": return "text-gray-500"
-      case "标点符号": return "text-purple-500"
-      case "数字": return "text-blue-500"
-      case "大写字母": return "text-green-500"
-      case "小写字母": return "text-teal-500"
-      default: return "text-gray-500"
+      case "控制字符":
+        return { bg: "from-red-400 to-red-500", text: "text-red-600", icon: <AlertCircle className="h-5 w-5" /> }
+      case "空白字符":
+        return { bg: "from-gray-400 to-gray-500", text: "text-gray-600", icon: <Type className="h-5 w-5" /> }
+      case "标点符号":
+        return { bg: "from-purple-400 to-purple-500", text: "text-purple-600", icon: <Hash className="h-5 w-5" /> }
+      case "数字":
+        return { bg: "from-blue-400 to-blue-500", text: "text-blue-600", icon: <Hash className="h-5 w-5" /> }
+      case "大写字母":
+        return { bg: "from-green-400 to-green-500", text: "text-green-600", icon: <Type className="h-5 w-5" /> }
+      case "小写字母":
+        return { bg: "from-teal-400 to-teal-500", text: "text-teal-600", icon: <Type className="h-5 w-5" /> }
+      default:
+        return { bg: "from-gray-400 to-gray-500", text: "text-gray-600", icon: <Info className="h-5 w-5" /> }
     }
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-[90%] overflow-hidden">
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>ASCII 码对照表</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3">
+      <div className="mx-auto">
+        <div className="mb-2">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                ASCII 码对照表
+                <div className="relative inline-block group">
+                  <div className="inline-flex items-center justify-center ml-2 w-8 h-8 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
+                    <Info className="h-6 w-6" />
+                  </div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-80 p-4 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-l border-t border-gray-200"></div>
+                    <div>
+                      <div className="space-y-3">
+                        <h3 className="font-medium text-gray-800 flex items-center gap-2">
+                          <Info className="h-5 w-5 text-blue-500" />
+                          使用说明
+                        </h3>
+                        <ul className="space-y-2 text-sm text-gray-600">
+                          <li className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></div>
+                            <span>通过搜索与类别筛选快速定位字符信息</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></div>
+                            <span>点击复制图标复制ASCII码到剪贴板</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></div>
+                            <span>使用转换工具快速查询单个字符的ASCII码</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="space-y-3 mt-2">
+                        <h3 className="font-medium text-gray-800 flex items-center gap-2">
+                          <AlertCircle className="h-5 w-5 text-orange-500" />
+                          ASCII码分类
+                        </h3>
+                        <div className="space-y-2">
+                          { categories.slice(1).map((category) => (
+                            <div key={ category } className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">{ category }</span>
+                              <span className="font-medium text-gray-800">
+                                { ASCII_CODES.filter((code) => code.category === category).length } 个
+                              </span>
+                            </div>
+                          )) }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h1>
+            </div>
+            <Button onClick={ () => navigate({ to: "/" }) } variant="outline">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {/* ASCII转换工具 */ }
-            <div className="flex flex-col gap-4 p-4 bg-white rounded-lg border">
-              <h3 className="text-lg font-medium">ASCII 转换工具</h3>
-              <div className="flex gap-4">
-                <Input
-                  placeholder="输入字符..."
-                  value={ inputChar }
-                  onChange={ (e) => handleCharInput(e.target.value) }
-                  maxLength={ 1 }
-                  className="max-w-xs"
-                />
-                { convertResult && (
-                  <div className="flex gap-4 items-center">
-                    <span>十进制: { convertResult.dec }</span>
-                    <span>十六进制: { convertResult.hex }</span>
-                    <span>描述: { convertResult.description }</span>
-                  </div>
-                ) }
-              </div>
-            </div>
+        </div>
 
-            {/* 搜索栏 */ }
-            <div className="flex gap-2">
-              <Input
-                placeholder="搜索ASCII码、字符或描述..."
-                value={ searchTerm }
-                onChange={ (e) => setSearchTerm(e.target.value) }
-                className="max-w-sm"
-              />
-              <Button variant="outline">
-                <Search className="h-4 w-4" />
-              </Button>
-            </div>
+        {/* ASCII转换工具 */ }
 
-            {/* ASCII码网格 */ }
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              { filteredCodes.map((code) => (
-                <div
-                  key={ code.dec }
-                  className={ `p-4 rounded-lg border bg-white hover:shadow-md transition-shadow` }
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className={ `text-lg font-mono ${getCategoryColor(code.category)}` }>
-                      { code.char }
-                    </span>
-                    <span className="text-sm text-gray-500">{ code.category }</span>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="md:col-span-2">
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl">筛选面板</CardTitle>
+                <CardDescription>按类别与关键词筛选ASCII码</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Input
+                      placeholder="搜索ASCII码、字符或描述"
+                      value={ searchTerm }
+                      onChange={ (e) => setSearchTerm(e.target.value) }
+                      className="flex-1"
+                    />
+                    <Button variant="outline" className="shrink-0"><Search className="h-4 w-4" /></Button>
                   </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-500">十进制:</span>
-                      <span className="font-mono">{ code.dec }</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-500">十六进制:</span>
-                      <span className="font-mono">{ code.hex }</span>
-                    </div>
-                    <div className="text-sm text-gray-600 mt-2">
-                      { code.description }
+                  <div>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="outline" className="cursor-pointer" onClick={ () => setSelectedCategory("所有") }>全部</Badge>
+                      <Badge variant="outline" className="cursor-pointer text-red-600" onClick={ () => setSelectedCategory("控制字符") }>控制</Badge>
+                      <Badge variant="outline" className="cursor-pointer text-gray-600" onClick={ () => setSelectedCategory("空白字符") }>空白</Badge>
+                      <Badge variant="outline" className="cursor-pointer text-purple-600" onClick={ () => setSelectedCategory("标点符号") }>标点</Badge>
+                      <Badge variant="outline" className="cursor-pointer text-blue-600" onClick={ () => setSelectedCategory("数字") }>数字</Badge>
+                      <Badge variant="outline" className="cursor-pointer text-green-600" onClick={ () => setSelectedCategory("大写字母") }>大写</Badge>
+                      <Badge variant="outline" className="cursor-pointer text-teal-600" onClick={ () => setSelectedCategory("小写字母") }>小写</Badge>
                     </div>
                   </div>
                 </div>
-              )) }
-            </div>
-
-            {/* 提示信息 */ }
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-600">
-                提示：ASCII（美国信息交换标准代码）是最基础的字符编码标准。您可以通过搜索框查找特定的ASCII码信息，或使用转换工具进行字符与ASCII码的转换。
-              </p>
-            </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+          <div className="md:col-span-10">
+            <Tabs defaultValue="all">
+              <TabsList className="grid grid-cols-2">
+                <TabsTrigger value="all">全部</TabsTrigger>
+                <TabsTrigger value="common">常用</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="all">
+                { filteredCodes.length === 0 ? (
+                  <Card className="mt-4">
+                    <CardContent className="p-8 text-center">
+                      <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-700 mb-2">未找到匹配的ASCII码</h3>
+                      <p className="text-gray-500">尝试调整搜索词或选择其他类别</p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+                    { filteredCodes.map((code) => {
+                      const style = getCategoryStyle(code.category)
+                      return (
+                        <Card key={ code.dec } className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                          <CardContent className="p-4">
+                            <div className="flex items-start justify-between mb-4">
+                              <div className={ `rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm flex items-center justify-center w-12 h-12` }>
+                                <div className="text-white font-bold text-xl">{ code.char }</div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Button variant="ghost" size="icon" onClick={ () => copyToClipboard(code.dec.toString()) }>
+                                  <Copy className="h-4 w-4" />
+                                </Button>
+                                <Badge variant="outline" className={ style.text }>{ code.category }</Badge>
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2 text-gray-600">
+                                { style.icon }
+                                <span className="font-medium">字符信息</span>
+                              </div>
+                              <p className="text-gray-700 text-sm leading-relaxed">{ code.description }</p>
+                            </div>
+                            <div className="mt-3 space-y-2">
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-600 text-sm">十进制</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-mono text-sm">{ code.dec }</span>
+                                  <Button variant="ghost" size="sm" onClick={ () => copyToClipboard(code.dec.toString()) }>
+                                    <Copy className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-600 text-sm">十六进制</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-mono text-sm">{ code.hex }</span>
+                                  <Button variant="ghost" size="sm" onClick={ () => copyToClipboard(code.hex) }>
+                                    <Copy className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )
+                    }) }
+                  </div>
+                ) }
+              </TabsContent>
+
+              <TabsContent value="common">
+                <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+                  { ASCII_CODES.filter(code =>
+                    code.dec >= 32 && code.dec <= 126 &&
+                    (code.category === "数字" || code.category === "大写字母" || code.category === "小写字母")
+                  ).map((code) => {
+                    const style = getCategoryStyle(code.category)
+                    return (
+                      <Card key={ code.dec } className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                        <CardContent className="p-4">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className={ `rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm flex items-center justify-center w-12 h-12` }>
+                              <div className="text-white font-bold text-xl">{ code.char }</div>
+                            </div>
+                            <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">常用</Badge>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2 text-gray-600">
+                              { style.icon }
+                              <span className="font-medium">字符信息</span>
+                            </div>
+                            <p className="text-gray-700 text-sm leading-relaxed">{ code.description }</p>
+                          </div>
+                          <div className="mt-3 space-y-2">
+                            <div className="flex justify-between items-center">
+                              <span className="text-gray-600 text-sm">十进制</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-sm">{ code.dec }</span>
+                                <Button variant="ghost" size="sm" onClick={ () => copyToClipboard(code.dec.toString()) }>
+                                  <Copy className="h-3 w-3" />
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-gray-600 text-sm">十六进制</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-sm">{ code.hex }</span>
+                                <Button variant="ghost" size="sm" onClick={ () => copyToClipboard(code.hex) }>
+                                  <Copy className="h-3 w-3" />
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )
+                  }) }
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
