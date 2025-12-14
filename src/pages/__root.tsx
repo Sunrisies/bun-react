@@ -49,16 +49,16 @@ function Root() {
   }, [isDark])
   return (
     <main className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-10 flex items-center border-b border-border bg-background shadow-sm px-4">
+      <header className="sticky top-0 z-100 flex items-center border-b border-border bg-background shadow-sm px-4">
         <div className="container max-w-[1440px] mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold py-4">sunrise工具库</h1>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-              <Switch checked={isDark} onCheckedChange={setIsDark} />
+              { isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" /> }
+              <Switch checked={ isDark } onCheckedChange={ setIsDark } />
             </div>
             <Button
-              onClick={() => navigate({ to: "/about" })}
+              onClick={ () => navigate({ to: "/about" }) }
               variant="ghost"
               className="flex items-center gap-2"
             >
@@ -71,7 +71,7 @@ function Root() {
       <div className="flex-1 overflow-hidden">
         <Outlet />
       </div>
-      {import.meta.env.MODE === "development" && <TanStackRouterDevtools />}
+      { import.meta.env.MODE === "development" && <TanStackRouterDevtools /> }
     </main>
   )
 }

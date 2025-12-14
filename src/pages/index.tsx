@@ -221,29 +221,46 @@ function Index() {
   ]
 
   return (
-    <main className="px-60 h-full box-border p-4">
-      <div className="flex flex-col gap-8 w-full max-w-[1440px]">
-        {categories.map((category) => (
-          <div key={category.title} className="space-y-4">
-            <h2 className="text-2xl font-bold text-gray-800">{category.title}</h2>
-            <div className="flex flex-wrap gap-4">
-              {category.items.map((item) => (
-                <Card
-                  key={item.path}
-                  className="h-[120px] w-[270px] cursor-pointer hover:translate-y-[-5px] transition-all duration-300 border border-gray-200 hover:border-gray-300 rounded-lg shadow-sm hover:shadow-md"
-                  onClick={() => handleEnterTool(item.path)}
-                >
-                  <CardHeader className="p-3">
-                    <CardTitle className="text-base mb-1">{item.title}</CardTitle>
-                    <CardDescription className="text-sm text-gray-500 line-clamp-2">
-                      {item.description}
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
+    <main className="px-6 md:px-10 lg:px-20 py-8 min-h-screen relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={ { animationDelay: "2s" } }></div>
+      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={ { animationDelay: "4s" } }></div>
+      <div className="relative z-10">
+        <div className="max-w-7xl mx-auto mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">工具集合</h1>
+          <p className="text-gray-600">一站式解决您的日常需求</p>
+        </div>
+
+        <div className="max-w-7xl mx-auto space-y-10">
+          { categories.map((category) => (
+            <div key={ category.title } className="space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
+                <h2 className="text-xl font-semibold text-gray-800">{ category.title }</h2>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{ category.items.length } 个工具</span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                { category.items.map((item) => (
+                  <Card
+                    key={ item.path }
+                    className="cursor-pointer bg-white border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 rounded-lg overflow-hidden"
+                    onClick={ () => handleEnterTool(item.path) }
+                  >
+                    <CardHeader className="p-4 pb-3">
+                      <CardTitle className="text-base font-medium text-gray-800 mb-1">{ item.title }</CardTitle>
+                      <CardDescription className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                        { item.description }
+                      </CardDescription>
+                    </CardHeader>
+                    <div className="h-0.5 bg-gray-100"></div>
+                  </Card>
+                )) }
+              </div>
             </div>
-          </div>
-        ))}
+          )) }
+        </div>
       </div>
     </main>
   )
