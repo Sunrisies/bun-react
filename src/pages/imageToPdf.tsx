@@ -67,7 +67,8 @@ function ImageToPdfConverter() {
     return () => {
       images.forEach((img) => URL.revokeObjectURL(img.url))
     }
-  },) // 移除images依赖，只在组件卸载时执行
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // 移除images依赖，只在组件卸载时执行
 
   // 修改后的onDrop处理函数
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -209,7 +210,8 @@ function ImageToPdfConverter() {
         return createHorizontalLayout(3)
 
       case 4:
-        return createGridLayout(1, 4)
+        // 2×2 grid layout
+        return createGridLayout(2, 2)
 
       case 5:
         if (isHorizontal) {
@@ -237,7 +239,8 @@ function ImageToPdfConverter() {
         }
 
       case 6:
-        return createGridLayout(1, 6)
+        // 2×3 grid layout (2 rows, 3 columns)
+        return createGridLayout(2, 3)
 
       default:
         return createHorizontalLayout(imageCount)
