@@ -147,9 +147,9 @@ function VideoToGifConverter() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
-      <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl gap-0 py-2 dark:bg-gray-800 dark:border-gray-700">
-        <CardHeader>
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
+      <Card className="w-full max-w-screen-xl mx-auto rounded-2xl shadow-xl h-full flex flex-col dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center px-6 pt-6 ">
             <CardTitle className="text-3xl font-bold text-gray-800 dark:text-gray-100">
               视频转GIF工具
@@ -167,7 +167,7 @@ function VideoToGifConverter() {
           </div>
         </CardHeader>
 
-        <CardContent className="grid md:grid-cols-2 gap-8 p-4">
+        <CardContent className="grid md:grid-cols-2 gap-8 p-4 flex-1 overflow-y-auto min-h-0">
           {/* 左侧区域 */}
           <div className="space-y-8">
             {!videoFile ? (

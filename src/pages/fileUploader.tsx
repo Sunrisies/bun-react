@@ -174,9 +174,9 @@ function FileUploaderComponent() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
-      <Card className="w-full max-w-3xl">
-        <CardHeader>
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
+      <Card className="w-full max-w-3xl mx-auto h-full flex flex-col dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle>文件上传工具</CardTitle>
             <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
@@ -185,7 +185,7 @@ function FileUploaderComponent() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 flex-1 overflow-y-auto min-h-0 p-6">
           {/* 上传区域 */}
           <div
             {...getRootProps()}

@@ -85,9 +85,9 @@ function About() {
           <p>版本: {packageJson.version}</p>
           <div className="mt-4">
             <p className="font-medium">GitHub 仓库：</p>
-            <a 
-              href="https://github.com/Sunrisies/bun-react" 
-              target="_blank" 
+            <a
+              href="https://github.com/Sunrisies/bun-react"
+              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
             >
@@ -102,9 +102,9 @@ function About() {
             <CardContent className="pt-6">
               <p className="text-gray-600">
                 请访问我们的 GitHub 仓库查看完整的提交记录和更新历史：
-                <a 
-                  href="https://github.com/Sunrisies/bun-react/commits/main" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/Sunrisies/bun-react/commits/main"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline ml-1"
                 >
@@ -145,9 +145,9 @@ function About() {
                 </p>
                 <p className="text-gray-600">
                   <span className="font-medium">GitHub：</span>
-                  <a 
-                    href="https://github.com/Sunrisies" 
-                    target="_blank" 
+                  <a
+                    href="https://github.com/Sunrisies"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:underline ml-1"
                   >

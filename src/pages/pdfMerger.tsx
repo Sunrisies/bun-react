@@ -54,8 +54,8 @@ function PdfMergerComponent() {
       for (const file of pdfFiles) {
         const fileBuffer = await file.arrayBuffer();
         // 修改这里：添加 ignoreEncryption 选项
-        const pdf = await PDFDocument.load(fileBuffer, { 
-          ignoreEncryption: true 
+        const pdf = await PDFDocument.load(fileBuffer, {
+          ignoreEncryption: true
         });
         const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
         copiedPages.forEach((page) => {
@@ -66,12 +66,12 @@ function PdfMergerComponent() {
       const mergedPdfFile = await mergedPdf.save();
       const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      
+
       const link = document.createElement('a');
       link.href = url;
       link.download = `merged_${Date.now()}.pdf`;
       link.click();
-      
+
       URL.revokeObjectURL(url);
       toast.success("PDF合并成功！");
     } catch (error) {

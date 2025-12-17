@@ -100,35 +100,35 @@ function JsFormatter() {
         </CardHeader>
         <CardContent className="flex-1 flex flex-col overflow-hidden">
           <div className="space-y-6 h-full flex flex-col overflow-hidden">
-            {/* 文件上传和操作按钮 */ }
+            {/* 文件上传和操作按钮 */}
             <div className="flex justify-between items-center flex-shrink-0">
               <div className="flex gap-4 items-center">
                 <Input
                   type="file"
                   accept=".js,.jsx"
-                  onChange={ handleFileUpload }
+                  onChange={handleFileUpload}
                   className="max-w-xs"
                 />
 
               </div>
               <div className="flex gap-2">
-                <Button onClick={ () => formatJs() } size="sm">
+                <Button onClick={() => formatJs()} size="sm">
                   格式化
                 </Button>
                 <Button
-                  onClick={ () => copyToClipboard(output) }
+                  onClick={() => copyToClipboard(output)}
                   size="sm"
                   variant="outline"
-                  disabled={ !output }
+                  disabled={!output}
                 >
                   <Copy className="h-4 w-4 mr-2" />
                   复制
                 </Button>
                 <Button
-                  onClick={ downloadJs }
+                  onClick={downloadJs}
                   size="sm"
                   variant="outline"
-                  disabled={ !output }
+                  disabled={!output}
                 >
                   <Download className="h-4 w-4 mr-2" />
                   下载
@@ -136,22 +136,22 @@ function JsFormatter() {
               </div>
             </div>
 
-            {/* 文件拖放提示 */ }
+            {/* 文件拖放提示 */}
             <div className="border-2 border-dashed rounded-lg p-4 text-center text-gray-500 flex-shrink-0">
               <p>支持将.js或.jsx文件拖放到输入框中</p>
             </div>
 
-            {/* 编辑区域 */ }
+            {/* 编辑区域 */}
             <div className="flex-1 min-h-0 grid grid-cols-2 gap-4 overflow-hidden">
               <div className="space-y-2 overflow-hidden flex flex-col">
                 <label className="text-sm font-medium flex-shrink-0">输入 JavaScript</label>
                 <Textarea
                   placeholder="请输入需要格式化的 JavaScript 代码..."
-                  value={ input }
-                  onChange={ (e) => {
+                  value={input}
+                  onChange={(e) => {
                     setInput(e.target.value)
                     // 移除实时格式化，改为手动触发
-                  } }
+                  }}
                   className="flex-1 overflow-auto resize-none font-mono"
                 />
               </div>
@@ -159,7 +159,7 @@ function JsFormatter() {
               <div className="space-y-2 overflow-hidden flex flex-col">
                 <label className="text-sm font-medium flex-shrink-0">格式化结果</label>
                 <Textarea
-                  value={ output }
+                  value={output}
                   readOnly
                   className="flex-1 overflow-auto resize-none bg-gray-50 font-mono"
                   placeholder="格式化后的代码将显示在这里..."
@@ -167,13 +167,13 @@ function JsFormatter() {
               </div>
             </div>
 
-            {/* 错误提示和说明 */ }
+            {/* 错误提示和说明 */}
             <div className="flex-shrink-0">
-              { error && (
+              {error && (
                 <div className="p-4 bg-red-50 rounded-lg mb-4">
-                  <p className="text-sm text-red-600">{ error }</p>
+                  <p className="text-sm text-red-600">{error}</p>
                 </div>
-              ) }
+              )}
               <div className="p-4 bg-blue-50 rounded-lg">
                 <p className="text-sm text-blue-600">
                   提示：此工具可以帮助您格式化 JavaScript 代码，支持自定义格式化选项。可以通过复制或下载获取格式化后的代码。

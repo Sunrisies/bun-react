@@ -145,8 +145,8 @@ function HttpStatus() {
   const commonStatusCodes = [200, 301, 302, 304, 400, 401, 403, 404, 405, 408, 418, 429, 500, 502, 503, 504]
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3">
-      <div className=" mx-auto">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3 overflow-hidden">
+      <div className="mx-auto h-full flex flex-col">
         {/* 头部区域 */}
         <div className="mb-2">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

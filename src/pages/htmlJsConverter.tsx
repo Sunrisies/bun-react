@@ -110,7 +110,7 @@ document.getElementById('container').innerHTML = \`${cleanHtml}\`;`
         <CardHeader className="border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">HTML 转 JavaScript 工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -118,34 +118,34 @@ document.getElementById('container').innerHTML = \`${cleanHtml}\`;`
         </CardHeader>
         <CardContent className="flex-1 flex flex-col overflow-hidden p-6">
           <div className="space-y-4 h-full flex flex-col overflow-hidden">
-            {/* 文件上传和操作按钮 */ }
+            {/* 文件上传和操作按钮 */}
             <div className="flex justify-between gap-6 items-center flex-shrink-0 pb-4 border-b">
               <div className="flex items-center gap-6">
                 <Input
                   type="file"
                   accept=".html"
-                  onChange={ handleFileUpload }
+                  onChange={handleFileUpload}
                   className="max-w-xs"
                 />
               </div>
               <div className="flex gap-2">
-                <Button onClick={ () => convertHtmlToJs(input) } size="sm">
+                <Button onClick={() => convertHtmlToJs(input)} size="sm">
                   转换
                 </Button>
                 <Button
-                  onClick={ () => copyToClipboard(output) }
+                  onClick={() => copyToClipboard(output)}
                   size="sm"
                   variant="outline"
-                  disabled={ !output }
+                  disabled={!output}
                 >
                   <Copy className="h-4 w-4 mr-2" />
                   复制
                 </Button>
                 <Button
-                  onClick={ downloadFile }
+                  onClick={downloadFile}
                   size="sm"
                   variant="outline"
-                  disabled={ !output }
+                  disabled={!output}
                 >
                   <Download className="h-4 w-4 mr-2" />
                   下载
@@ -153,19 +153,19 @@ document.getElementById('container').innerHTML = \`${cleanHtml}\`;`
               </div>
             </div>
 
-            {/* 文件拖放提示 */ }
+            {/* 文件拖放提示 */}
             <div className="border-2 border-dashed rounded-lg p-3 text-center text-gray-500 flex-shrink-0 bg-gray-50/50">
               <p className="text-sm">支持将.html文件拖放到输入框中</p>
             </div>
 
-            {/* 左右布局的编辑区域 */ }
+            {/* 左右布局的编辑区域 */}
             <div className="flex-1 min-h-0 grid grid-cols-2 gap-6 overflow-hidden">
               <div className="space-y-2 overflow-hidden flex flex-col">
                 <label className="text-sm font-medium flex-shrink-0">输入 HTML</label>
                 <Textarea
                   placeholder="请输入HTML代码..."
-                  value={ input }
-                  onChange={ (e) => setInput(e.target.value) }
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
                   className="flex-1 overflow-auto resize-none font-mono p-4"
                 />
               </div>
@@ -173,7 +173,7 @@ document.getElementById('container').innerHTML = \`${cleanHtml}\`;`
               <div className="space-y-2 overflow-hidden flex flex-col">
                 <label className="text-sm font-medium flex-shrink-0">转换结果 (JavaScript)</label>
                 <Textarea
-                  value={ output }
+                  value={output}
                   readOnly
                   className="flex-1 overflow-auto resize-none bg-gray-50 font-mono p-4"
                   placeholder="转换后的JavaScript代码将显示在这里..."
@@ -181,13 +181,13 @@ document.getElementById('container').innerHTML = \`${cleanHtml}\`;`
               </div>
             </div>
 
-            {/* 错误提示和说明 */ }
+            {/* 错误提示和说明 */}
             <div className="flex-shrink-0 space-y-3">
-              { error && (
+              {error && (
                 <div className="p-3 bg-red-50 rounded-lg">
-                  <p className="text-sm text-red-600">{ error }</p>
+                  <p className="text-sm text-red-600">{error}</p>
                 </div>
-              ) }
+              )}
               <div className="p-3 bg-blue-50 rounded-lg">
                 <p className="text-sm text-blue-600">
                   提示：此工具可以帮助您将 HTML 代码转换为 JavaScript 代码。支持复制转换后的结果或下载为文件。转换结果包含多种使用方式供您选择。

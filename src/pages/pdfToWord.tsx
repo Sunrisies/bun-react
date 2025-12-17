@@ -53,15 +53,15 @@ function PdfToWord() {
       const arrayBuffer = await pdfFile.arrayBuffer();
       const pdfDoc = await pdfjsLib.getDocument(arrayBuffer).promise;
       const numPages = pdfDoc.numPages;
-      
+
       // 存储所有文本内容
       const paragraphs: Paragraph[] = [];
-      
+
       // 遍历每一页提取文本
       for (let i = 1; i <= numPages; i++) {
         const page = await pdfDoc.getPage(i);
         const content = await page.getTextContent();
-        
+
         // 添加页面标题
         paragraphs.push(
           new Paragraph({
@@ -75,13 +75,13 @@ function PdfToWord() {
             ]
           })
         );
-        
+
         // 处理页面内容
         let currentText = '';
         for (const item of content.items) {
           if ('str' in item) {
             currentText += item.str + ' ';
-            
+
             // 当遇到换行或段落结束时创建新段落
             if (currentText.includes('\n') || item.str.endsWith('.')) {
               if (currentText.trim()) {
@@ -100,7 +100,7 @@ function PdfToWord() {
             }
           }
         }
-        
+
         // 处理最后一段文本
         if (currentText.trim()) {
           paragraphs.push(
@@ -126,11 +126,11 @@ function PdfToWord() {
 
       // 生成Word文件
       const buffer = await Packer.toBuffer(doc);
-      const blob = new Blob([buffer], { 
+      const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       });
       const url = URL.createObjectURL(blob);
-      
+
       setConvertedUrl(url);
       toast.success("转换成功");
     } catch (error) {
@@ -143,7 +143,7 @@ function PdfToWord() {
 
   const downloadWord = () => {
     if (!convertedUrl) return;
-    
+
     const link = document.createElement('a');
     link.href = convertedUrl;
     const timestamp = Date.now();

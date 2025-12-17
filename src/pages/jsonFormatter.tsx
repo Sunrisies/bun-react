@@ -69,49 +69,49 @@ function JsonFormatter() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {/* 操作按钮 */ }
+            {/* 操作按钮 */}
             <div className="flex justify-end gap-2">
-              <Button onClick={ formatJson } size="sm">
+              <Button onClick={formatJson} size="sm">
                 格式化
               </Button>
               <Button
-                onClick={ () => copyToClipboard(output) }
+                onClick={() => copyToClipboard(output)}
                 size="sm"
                 variant="outline"
-                disabled={ !output }
+                disabled={!output}
               >
                 <Copy className="h-4 w-4 mr-2" />
                 复制
               </Button>
               <Button
-                onClick={ downloadJson }
+                onClick={downloadJson}
                 size="sm"
                 variant="outline"
-                disabled={ !output }
+                disabled={!output}
               >
                 <Download className="h-4 w-4 mr-2" />
                 下载
               </Button>
             </div>
 
-            {/* 左右布局的编辑区域 */ }
+            {/* 左右布局的编辑区域 */}
             <div className="grid grid-cols-2 gap-4">
-              {/* 左侧输入 */ }
+              {/* 左侧输入 */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">输入 JSON</label>
                 <Textarea
                   placeholder="请输入需要格式化的 JSON..."
-                  value={ input }
-                  onChange={ (e) => handleInputChange(e.target.value) }
+                  value={input}
+                  onChange={(e) => handleInputChange(e.target.value)}
                   className="min-h-[500px] font-mono"
                 />
               </div>
 
-              {/* 右侧输出 */ }
+              {/* 右侧输出 */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">格式化结果</label>
                 <Textarea
-                  value={ output }
+                  value={output}
                   readOnly
                   className="min-h-[500px] font-mono bg-gray-50"
                   placeholder="格式化后的 JSON 将显示在这里..."
@@ -119,14 +119,14 @@ function JsonFormatter() {
               </div>
             </div>
 
-            {/* 错误提示 */ }
-            { error && (
+            {/* 错误提示 */}
+            {error && (
               <div className="p-4 bg-red-50 rounded-lg">
-                <p className="text-sm text-red-600">{ error }</p>
+                <p className="text-sm text-red-600">{error}</p>
               </div>
-            ) }
+            )}
 
-            {/* 提示信息 */ }
+            {/* 提示信息 */}
             <div className="p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-600">
                 提示：此工具可以帮助您格式化 JSON 数据，使其更易读。支持复制格式化后的结果或下载为文件。如果输入的 JSON 格式有误，工具会提示错误信息。

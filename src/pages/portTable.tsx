@@ -111,53 +111,53 @@ function PortTable() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {/* 搜索和过滤 */ }
+            {/* 搜索和过滤 */}
             <div className="flex gap-4 items-center">
               <Input
                 placeholder="搜索端口、协议或服务..."
-                value={ searchTerm }
-                onChange={ (e) => setSearchTerm(e.target.value) }
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
               />
               <div className="flex gap-2 flex-wrap">
-                { categories.map((category) => (
+                {categories.map((category) => (
                   <Button
-                    key={ category }
-                    variant={ selectedCategory === category ? "default" : "outline" }
-                    onClick={ () => setSelectedCategory(category) }
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "outline"}
+                    onClick={() => setSelectedCategory(category)}
                     size="sm"
                   >
-                    { category }
+                    {category}
                   </Button>
-                )) }
+                ))}
               </div>
             </div>
 
-            {/* 端口网格 */ }
+            {/* 端口网格 */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4">
-              { filteredPorts.map((port) => (
+              {filteredPorts.map((port) => (
                 <div
-                  key={ `${port.port}-${port.protocol}` }
+                  key={`${port.port}-${port.protocol}`}
                   className="p-4 rounded-lg border bg-white hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-lg font-mono font-bold">{ port.port }</span>
-                    <span className={ `font-mono ${getProtocolColor(port.protocol)}` }>
-                      { port.protocol }
+                    <span className="text-lg font-mono font-bold">{port.port}</span>
+                    <span className={`font-mono ${getProtocolColor(port.protocol)}`}>
+                      {port.protocol}
                     </span>
                   </div>
                   <div className="space-y-2">
                     <div>
-                      <span className="font-medium">{ port.service }</span>
-                      <span className="text-sm text-gray-500 ml-2">({ port.category })</span>
+                      <span className="font-medium">{port.service}</span>
+                      <span className="text-sm text-gray-500 ml-2">({port.category})</span>
                     </div>
-                    <p className="text-sm text-gray-600">{ port.description }</p>
+                    <p className="text-sm text-gray-600">{port.description}</p>
                   </div>
                 </div>
-              )) }
+              ))}
             </div>
 
-            {/* 提示信息 */ }
+            {/* 提示信息 */}
             <div className="p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-600">
                 提示：此表列出了最常见的网络服务端口。TCP和UDP是两种主要的传输层协议，某些服务可能同时使用这两种协议。系统端口范围为0-1023，注册端口范围为1024-49151。

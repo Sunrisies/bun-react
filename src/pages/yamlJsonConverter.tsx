@@ -83,7 +83,7 @@ function YamlJsonConverter() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <CardTitle className="text-2xl font-bold text-gray-800 flex gap-3">YAML/JSON 转换工具
-              {/* 使用提示 - 悬浮图标 */ }
+              {/* 使用提示 - 悬浮图标 */}
               <div className="relative inline-block group">
                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
                   <Info className="h-6 w-6" />
@@ -108,55 +108,55 @@ function YamlJsonConverter() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {/* 操作按钮 */ }
+            {/* 操作按钮 */}
             <div className="flex justify-end gap-2">
-              <Button onClick={ convertJsonToYaml } size="sm">
+              <Button onClick={convertJsonToYaml} size="sm">
                 JSON 转 YAML
               </Button>
-              <Button onClick={ convertYamlToJson } size="sm">
+              <Button onClick={convertYamlToJson} size="sm">
                 YAML 转 JSON
               </Button>
               <Button
-                onClick={ () => copyToClipboard(output) }
+                onClick={() => copyToClipboard(output)}
                 size="sm"
                 variant="outline"
-                disabled={ !output }
+                disabled={!output}
               >
                 <Copy className="h-4 w-4 mr-2" />
                 复制
               </Button>
               <Button
-                onClick={ downloadResult }
+                onClick={downloadResult}
                 size="sm"
                 variant="outline"
-                disabled={ !output }
+                disabled={!output}
               >
                 <Download className="h-4 w-4 mr-2" />
                 下载
               </Button>
             </div>
 
-            {/* 左右布局的编辑区域 */ }
+            {/* 左右布局的编辑区域 */}
             <div className="grid grid-cols-2 gap-4">
-              {/* 左侧输入 */ }
+              {/* 左侧输入 */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">输入</label>
                 <Textarea
                   placeholder="请输入 YAML 或 JSON 内容..."
-                  value={ input }
-                  onChange={ (e) => {
+                  value={input}
+                  onChange={(e) => {
                     setInput(e.target.value)
                     setError(null)
-                  } }
+                  }}
                   className="max-h-[600px] font-mono min-h-[600px]"
                 />
               </div>
 
-              {/* 右侧输出 */ }
+              {/* 右侧输出 */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">转换结果</label>
                 <Textarea
-                  value={ output }
+                  value={output}
                   readOnly
                   className="min-h-[600px] max-h-[600px]  font-mono bg-gray-50"
                   placeholder="转换结果将显示在这里..."
@@ -164,12 +164,12 @@ function YamlJsonConverter() {
               </div>
             </div>
 
-            {/* 错误提示 */ }
-            { error && (
+            {/* 错误提示 */}
+            {error && (
               <div className="p-4 bg-red-50 rounded-lg">
-                <p className="text-sm text-red-600">{ error }</p>
+                <p className="text-sm text-red-600">{error}</p>
               </div>
-            ) }
+            )}
           </div>
         </CardContent>
       </Card>

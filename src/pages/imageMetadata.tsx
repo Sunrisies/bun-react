@@ -94,9 +94,9 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
-      <Card className="w-full max-w-6xl dark:bg-gray-800 dark:border-gray-700">
-        <CardHeader>
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
+      <Card className="w-full max-w-6xl mx-auto h-full flex flex-col dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">图片信息查看器</CardTitle>
             <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
@@ -105,7 +105,7 @@ function RouteComponent() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 flex-1 overflow-y-auto min-h-0 p-6">
           {/* 文件上传 */}
           <div className="flex flex-col gap-4">
             <input

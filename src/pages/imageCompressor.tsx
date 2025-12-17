@@ -148,9 +148,9 @@ function ImageCompressor() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
-      <Card className="w-full max-w-[90%] overflow-hidden">
-        <CardHeader>
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
+      <Card className="w-full max-w-[90%] mx-auto h-full flex flex-col dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle>图片压缩工具</CardTitle>
             <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
@@ -159,7 +159,7 @@ function ImageCompressor() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-1 overflow-y-auto min-h-0 p-6">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* 左侧控制面板 */}
             <div className="lg:w-1/3 space-y-6">
