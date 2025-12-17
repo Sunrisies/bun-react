@@ -18,6 +18,7 @@ import { Route as WebsocketClientImport } from './pages/websocketClient'
 import { Route as WatermarkImport } from './pages/watermark'
 import { Route as VideoToGifImport } from './pages/videoToGif'
 import { Route as TimestampConverterImport } from './pages/timestampConverter'
+import { Route as TextDiffImport } from './pages/textDiff'
 import { Route as ScssConverterImport } from './pages/scssConverter'
 import { Route as QrGeneratorImport } from './pages/qrGenerator'
 import { Route as PortTableImport } from './pages/portTable'
@@ -105,6 +106,12 @@ const VideoToGifRoute = VideoToGifImport.update({
 const TimestampConverterRoute = TimestampConverterImport.update({
   id: '/timestampConverter',
   path: '/timestampConverter',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TextDiffRoute = TextDiffImport.update({
+  id: '/textDiff',
+  path: '/textDiff',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -424,6 +431,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScssConverterImport
       parentRoute: typeof rootRoute
     }
+    '/textDiff': {
+      id: '/textDiff'
+      path: '/textDiff'
+      fullPath: '/textDiff'
+      preLoaderRoute: typeof TextDiffImport
+      parentRoute: typeof rootRoute
+    }
     '/timestampConverter': {
       id: '/timestampConverter'
       path: '/timestampConverter'
@@ -517,6 +531,7 @@ export interface FileRoutesByFullPath {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -553,6 +568,7 @@ export interface FileRoutesByTo {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -590,6 +606,7 @@ export interface FileRoutesById {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -628,6 +645,7 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/textDiff'
     | '/timestampConverter'
     | '/videoToGif'
     | '/watermark'
@@ -663,6 +681,7 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/textDiff'
     | '/timestampConverter'
     | '/videoToGif'
     | '/watermark'
@@ -698,6 +717,7 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/textDiff'
     | '/timestampConverter'
     | '/videoToGif'
     | '/watermark'
@@ -735,6 +755,7 @@ export interface RootRouteChildren {
   PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   ScssConverterRoute: typeof ScssConverterRoute
+  TextDiffRoute: typeof TextDiffRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
   WatermarkRoute: typeof WatermarkRoute
@@ -771,6 +792,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   ScssConverterRoute: ScssConverterRoute,
+  TextDiffRoute: TextDiffRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
   WatermarkRoute: WatermarkRoute,
@@ -816,6 +838,7 @@ export const routeTree = rootRoute
         "/portTable",
         "/qrGenerator",
         "/scssConverter",
+        "/textDiff",
         "/timestampConverter",
         "/videoToGif",
         "/watermark",
@@ -898,6 +921,9 @@ export const routeTree = rootRoute
     },
     "/scssConverter": {
       "filePath": "scssConverter.tsx"
+    },
+    "/textDiff": {
+      "filePath": "textDiff.tsx"
     },
     "/timestampConverter": {
       "filePath": "timestampConverter.tsx"

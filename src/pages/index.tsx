@@ -30,7 +30,7 @@ function Index() {
             })
           }
         }
-        
+
         // 滚动动画初始化
         observerRef.current = new IntersectionObserver(
           (entries) => {
@@ -46,13 +46,13 @@ function Index() {
             rootMargin: "0px 0px -50px 0px"
           }
         )
-        
+
         // 观察所有需要动画的元素
         const animatedElements = document.querySelectorAll(".animate-on-scroll")
         animatedElements.forEach((el) => {
           observerRef.current?.observe(el)
         })
-        
+
         return () => {
           observerRef.current?.disconnect()
         }
@@ -227,6 +227,11 @@ function Index() {
           title: "html转js",
           description: "html转js",
           path: "/htmlJsConverter"
+        },
+        {
+          title: "文本对比工具",
+          description: "对比两段文本的差异，支持高亮显示",
+          path: "/textDiff"
         }
       ]
     },
@@ -251,8 +256,8 @@ function Index() {
     <main className="px-6 md:px-10 lg:px-20 py-8 min-h-screen relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
       <div className="absolute top-0 left-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={ { animationDelay: "2s" } }></div>
-      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={ { animationDelay: "4s" } }></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: "2s" }}></div>
+      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: "4s" }}></div>
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">工具集合</h1>
@@ -260,33 +265,33 @@ function Index() {
         </div>
 
         <div className="max-w-7xl mx-auto space-y-10">
-          { categories.map((category, index) => (
-            <div key={ category.title } className="space-y-4 animate-on-scroll opacity-0" style={{animationDelay: `${index * 100}ms`}}>
+          {categories.map((category, index) => (
+            <div key={category.title} className="space-y-4 animate-on-scroll opacity-0" style={{ animationDelay: `${index * 100}ms` }}>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
-                <h2 className="text-xl font-semibold text-gray-800">{ category.title }</h2>
-                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{ category.items.length } 个工具</span>
+                <h2 className="text-xl font-semibold text-gray-800">{category.title}</h2>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{category.items.length} 个工具</span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                { category.items.map((item) => (
+                {category.items.map((item) => (
                   <Card
-                    key={ item.path }
+                    key={item.path}
                     className="cursor-pointer bg-white border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 rounded-lg overflow-hidden"
-                    onClick={ () => handleEnterTool(item.path) }
+                    onClick={() => handleEnterTool(item.path)}
                   >
                     <CardHeader className="p-4 pb-3">
-                      <CardTitle className="text-base font-medium text-gray-800 mb-1">{ item.title }</CardTitle>
+                      <CardTitle className="text-base font-medium text-gray-800 mb-1">{item.title}</CardTitle>
                       <CardDescription className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                        { item.description }
+                        {item.description}
                       </CardDescription>
                     </CardHeader>
                     <div className="h-0.5 bg-gray-100"></div>
                   </Card>
-                )) }
+                ))}
               </div>
             </div>
-          )) }
+          ))}
         </div>
       </div>
     </main>

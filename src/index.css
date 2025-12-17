@@ -124,6 +124,24 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 20px;
   }
+
+  ::view-transition-new(root),
+  ::view-transition-old(root) {
+    animation: none;
+  }
+
+  ::view-transition-group(root) {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
 }
 
 /* 统一修改滚动条 */
@@ -148,7 +166,8 @@
 textarea {
   font-size: 20px;
 }
-#root{
+
+#root {
   height: 100vh;
 }
 
