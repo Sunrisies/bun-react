@@ -99,7 +99,7 @@ function YamlJsonConverter() {
               </div>
             </CardTitle>
 
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
 

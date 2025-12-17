@@ -105,12 +105,12 @@ document.getElementById('container').innerHTML = \`${cleanHtml}\`;`
   }
 
   return (
-    <div className="flex h-[calc(100vh-64px)]">
-      <Card className="w-full max-w-[90%] m-auto flex flex-col h-[90%]">
-        <CardHeader className="border-b">
+    <div className="flex h-[calc(100vh-64px)] bg-gray-50 dark:bg-gray-900">
+      <Card className="w-full max-w-[90%] m-auto flex flex-col h-[90%] dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
-            <CardTitle>HTML 转 JavaScript 工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
+            <CardTitle className="dark:text-gray-100">HTML 转 JavaScript 工具</CardTitle>
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>

@@ -67,14 +67,14 @@ function ImageCompressor() {
       const [value, unit] = sizeStr.split(' ');
       const numValue = parseFloat(value);
       if (isNaN(numValue)) return 0;
-      
+
       const units = {
         'BYTES': 1,
         'KB': 1024,
         'MB': 1024 * 1024,
         'GB': 1024 * 1024 * 1024
       };
-      
+
       const multiplier = units[unit.toUpperCase() as keyof typeof units] || 1;
       return numValue * multiplier;
     } catch (error) {
@@ -138,7 +138,7 @@ function ImageCompressor() {
     const originalName = imageFile.name;
     const extension = compressionOptions.format;
     const nameWithoutExtension = originalName.split('.').slice(0, -1).join('.');
-    
+
     const link = document.createElement('a');
     link.href = compressedUrl;
     link.download = `${nameWithoutExtension}_${timestamp}.${extension}`;
@@ -148,12 +148,12 @@ function ImageCompressor() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-[90%] overflow-hidden">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>图片压缩工具</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>

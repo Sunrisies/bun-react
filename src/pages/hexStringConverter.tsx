@@ -120,12 +120,12 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-3xl">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>十六进制转换器</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -134,8 +134,8 @@ function RouteComponent() {
         <CardContent className="space-y-4">
           <div className="flex gap-2">
             <Select
-              value={ encoding }
-              onValueChange={ (v: EncodingType) => setEncoding(v) }
+              value={encoding}
+              onValueChange={(v: EncodingType) => setEncoding(v)}
             >
               <SelectTrigger className="w-32">
                 <SelectValue placeholder="编码方式" />
@@ -147,8 +147,8 @@ function RouteComponent() {
             </Select>
 
             <Select
-              value={ format }
-              onValueChange={ (v: FormatType) => setFormat(v) }
+              value={format}
+              onValueChange={(v: FormatType) => setFormat(v)}
             >
               <SelectTrigger className="w-32">
                 <SelectValue placeholder="格式" />
@@ -162,37 +162,37 @@ function RouteComponent() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Textarea
-              value={ input }
-              onChange={ (e) => setInput(e.target.value) }
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
               placeholder="输入字符串或十六进制"
-              rows={ 5 }
+              rows={5}
             />
             <div className="relative">
               <Textarea
-                value={ output }
+                value={output}
                 readOnly
                 placeholder="转换结果"
-                rows={ 5 }
+                rows={5}
                 className="pr-10"
               />
-              { output && (
+              {output && (
                 <Button
                   size="sm"
                   variant="ghost"
                   className="absolute top-2 right-2 h-8 w-8 p-2"
-                  onClick={ copyToClipboard }
+                  onClick={copyToClipboard}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
-              ) }
+              )}
             </div>
           </div>
 
           <div className="flex gap-4 justify-center">
-            <Button onClick={ () => handleConvert("toHex") }>
+            <Button onClick={() => handleConvert("toHex")}>
               <RotateCw className="h-4 w-4 mr-2" /> 字符串转十六进制
             </Button>
-            <Button onClick={ () => handleConvert("toString") }>
+            <Button onClick={() => handleConvert("toString")}>
               <RotateCw className="h-4 w-4 mr-2" /> 十六进制转字符串
             </Button>
           </div>

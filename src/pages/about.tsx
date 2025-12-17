@@ -57,7 +57,7 @@ function About() {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">关于项目</h1>
-          <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+          <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
             <ArrowLeft className="h-4 w-4 mr-2" />
             返回首页
           </Button>

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { useState, useCallback, useRef, useEffect } from "react"
+import { useState, useCallback, useRef, useEffect, useMemo, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Upload, RefreshCw, Download, ChevronDown, ChevronUp, FileText, Info } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
@@ -27,6 +27,53 @@ interface DiffNavItem {
     lineNumber: number
     preview: string
 }
+
+interface DiffLineItemProps {
+    item: DiffItem
+    line: string
+    lineIndex: number
+    totalLines: number
+}
+
+// Memoized diff line component for better performance
+const DiffLineItem = memo(({ item, line, lineIndex, totalLines }: DiffLineItemProps) => {
+    const lineNumber = item.lineStart + lineIndex + 1
+    const isLastLine = lineIndex === totalLines - 1
+
+    return (
+        <div
+            id={lineIndex === 0 ? item.id : undefined}
+            className={`
+                flex border-l-4 transition-all duration-200
+                ${item.type === "add" ? "bg-green-50 dark:bg-green-900/20 border-green-500 dark:border-green-400" : ""}
+                ${item.type === "remove" ? "bg-red-50 dark:bg-red-900/20 border-red-500 dark:border-red-400" : ""}
+                ${item.type === "equal" ? "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700" : ""}
+                ${!isLastLine ? "border-b border-gray-100 dark:border-gray-700" : ""}
+            `}
+        >
+            <div className="w-12 flex-shrink-0 text-right pr-2 py-1 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 select-none">
+                {item.type !== "equal" && lineNumber}
+            </div>
+            <div className="flex-1 px-3 py-1 font-mono text-sm whitespace-pre-wrap break-all dark:text-gray-300">
+                {line || <span className="text-gray-300 dark:text-gray-600">(空行)</span>}
+            </div>
+            {item.type !== "equal" && (
+                <div className="w-12 flex-shrink-0 flex items-center justify-center text-xs">
+                    {item.type === "add" ? (
+                        <span className="text-green-600 dark:text-green-400 font-semibold">+</span>
+                    ) : (
+                        <span className="text-red-600 dark:text-red-400 font-semibold">-</span>
+                    )}
+                </div>
+            )}
+        </div>
+    )
+})
+
+// Memoized diff result container
+const MemoizedDiffResult = memo(({ diffResult, renderDiffLine }: { diffResult: DiffItem[], renderDiffLine: (item: DiffItem, index: number) => React.ReactNode }) => {
+    return <>{diffResult.map((item, index) => renderDiffLine(item, index))}</>
+})
 
 function TextDiffTool() {
     const navigate = useNavigate()
@@ -160,45 +207,20 @@ function TextDiffTool() {
         toast.success("已清空所有内容")
     }, [])
 
-    // 渲染差异行
-    const renderDiffLine = (item: DiffItem, index: number) => {
+    // 渲染差异行 - 优化性能
+    const renderDiffLine = useCallback((item: DiffItem, index: number) => {
         const lines = item.value.split("\n").filter((_, i, arr) => i < arr.length - 1 || item.value[item.value.length - 1] !== "\n")
 
-        return lines.map((line, lineIndex) => {
-            const lineNumber = item.lineStart + lineIndex + 1
-            const isLastLine = lineIndex === lines.length - 1
-
-            return (
-                <div
-                    key={`${item.id}-${lineIndex}`}
-                    id={lineIndex === 0 ? item.id : undefined}
-                    className={`
-            flex border-l-4 transition-all duration-200
-            ${item.type === "add" ? "bg-green-50 dark:bg-green-900/20 border-green-500 dark:border-green-400" : ""}
-            ${item.type === "remove" ? "bg-red-50 dark:bg-red-900/20 border-red-500 dark:border-red-400" : ""}
-            ${item.type === "equal" ? "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700" : ""}
-            ${!isLastLine ? "border-b border-gray-100 dark:border-gray-700" : ""}
-          `}
-                >
-                    <div className="w-12 flex-shrink-0 text-right pr-2 py-1 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 select-none">
-                        {item.type !== "equal" && lineNumber}
-                    </div>
-                    <div className="flex-1 px-3 py-1 font-mono text-sm whitespace-pre-wrap break-all dark:text-gray-300">
-                        {line || <span className="text-gray-300 dark:text-gray-600">(空行)</span>}
-                    </div>
-                    {item.type !== "equal" && (
-                        <div className="w-12 flex-shrink-0 flex items-center justify-center text-xs">
-                            {item.type === "add" ? (
-                                <span className="text-green-600 dark:text-green-400 font-semibold">+</span>
-                            ) : (
-                                <span className="text-red-600 dark:text-red-400 font-semibold">-</span>
-                            )}
-                        </div>
-                    )}
-                </div>
-            )
-        })
-    }
+        return lines.map((line, lineIndex) => (
+            <DiffLineItem
+                key={`${item.id}-${lineIndex}`}
+                item={item}
+                line={line}
+                lineIndex={lineIndex}
+                totalLines={lines.length}
+            />
+        ))
+    }, [])
 
     return (
         <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
@@ -413,7 +435,7 @@ function TextDiffTool() {
                                     ref={diffContainerRef}
                                     className={`${showNav && diffNavItems.length > 0 ? "lg:col-span-3" : "lg:col-span-4"} overflow-y-auto`}
                                 >
-                                    {diffResult.map((item, index) => renderDiffLine(item, index))}
+                                    <MemoizedDiffResult diffResult={diffResult} renderDiffLine={renderDiffLine} />
                                 </div>
                             </div>
                         </div>

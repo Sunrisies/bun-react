@@ -147,20 +147,20 @@ function VideoToGifConverter() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl gap-0 py-2">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
+      <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl gap-0 py-2 dark:bg-gray-800 dark:border-gray-700">
         <CardHeader>
           <div className="flex justify-between items-center px-6 pt-6 ">
-            <CardTitle className="text-3xl font-bold text-gray-800">
+            <CardTitle className="text-3xl font-bold text-gray-800 dark:text-gray-100">
               视频转GIF工具
             </CardTitle>
             <Button
               onClick={() => navigate({ to: "/" })}
               variant="ghost"
-              className="gap-2 px-4 py-2 hover:bg-gray-100 rounded-xl"
+              className="gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl"
             >
-              <ArrowLeft className="h-6 w-6 text-blue-600" />
-              <span className="text-lg text-blue-600 font-medium">
+              <ArrowLeft className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              <span className="text-lg text-blue-600 dark:text-blue-400 font-medium">
                 返回首页
               </span>
             </Button>
@@ -174,18 +174,17 @@ function VideoToGifConverter() {
               <div
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all
-                  ${
-                    isDragActive
-                      ? "border-blue-500 bg-blue-50/50"
-                      : "border-gray-300 hover:border-blue-300"
+                  ${isDragActive
+                    ? "border-blue-500 bg-blue-50/50 dark:bg-blue-900/20"
+                    : "border-gray-300 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500"
                   }`}
               >
                 <input {...getInputProps()} />
-                <Upload className="h-12 w-12 mx-auto mb-4 text-blue-500" />
-                <p className="text-xl font-medium text-gray-700 mb-2">
+                <Upload className="h-12 w-12 mx-auto mb-4 text-blue-500 dark:text-blue-400" />
+                <p className="text-xl font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {isDragActive ? "松开鼠标上传" : "拖放视频文件至此或点击选择"}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   支持 MP4、WebM 格式视频文件
                 </p>
               </div>
@@ -195,7 +194,7 @@ function VideoToGifConverter() {
                 <Button
                   {...getRootProps()}
                   variant="outline"
-                  className="w-full py-4 text-blue-500 border-blue-300 hover:bg-blue-50 rounded-xl"
+                  className="w-full py-4 text-blue-500 dark:text-blue-400 border-blue-300 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl"
                 >
                   <Upload className="h-5 w-5 mr-2" />
                   重新选择视频
@@ -208,10 +207,10 @@ function VideoToGifConverter() {
                 />
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       截取时长: {duration.toFixed(1)}秒
                     </span>
-                    <span className="text-sm text-blue-500">
+                    <span className="text-sm text-blue-500 dark:text-blue-400">
                       {range[1] - range[0]}秒片段
                     </span>
                   </div>
@@ -226,7 +225,7 @@ function VideoToGifConverter() {
                     minStepsBetweenThumbs={1}
                     className="py-4"
                   />
-                  <div className="flex justify-between text-gray-600">
+                  <div className="flex justify-between text-gray-600 dark:text-gray-400">
                     <span>开始: {range[0].toFixed(1)}s</span>
                     <span>结束: {range[1].toFixed(1)}s</span>
                   </div>
@@ -237,9 +236,9 @@ function VideoToGifConverter() {
 
           {/* 右侧区域 */}
           <div className="space-y-2 min-w-[480px]">
-            <div className="bg-gray-50 px-6 py-2 rounded-2xl">
+            <div className="bg-gray-50 dark:bg-gray-900 px-6 py-2 rounded-2xl">
               <div className="">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   帧率 (当前: {fps}fps)
                 </label>
                 <input
@@ -250,12 +249,12 @@ function VideoToGifConverter() {
                   onChange={(e) =>
                     setFps(Math.min(60, Math.max(1, +e.target.value)))
                   }
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-2 border dark:border-gray-600 rounded-lg dark:bg-gray-800 dark:text-gray-100"
                 />
               </div>
 
               <div className="">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   缩放宽度 (原始: {originalDimensions.width}px)
                 </label>
                 <input
@@ -264,11 +263,11 @@ function VideoToGifConverter() {
                   max="1920"
                   value={scaleWidth}
                   onChange={(e) => setScaleWidth(+e.target.value)}
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-2 border dark:border-gray-600 rounded-lg dark:bg-gray-800 dark:text-gray-100"
                 />
               </div>
 
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-gray-500 dark:text-gray-400">
                 高度将按原始比例自动计算，当前高度:{" "}
                 {originalDimensions.width > 0
                   ? `${Math.round((scaleWidth * originalDimensions.height) / originalDimensions.width)}px`
@@ -276,15 +275,15 @@ function VideoToGifConverter() {
               </div>
               {progress > 0 && (
                 <div className="space-y-4">
-                  <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-blue-400 to-purple-400 rounded-full transition-all duration-300"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="font-medium text-gray-700">转换进度</span>
-                    <span className="text-blue-500 font-medium">
+                    <span className="font-medium text-gray-700 dark:text-gray-300">转换进度</span>
+                    <span className="text-blue-500 dark:text-blue-400 font-medium">
                       {progress}% 已完成
                     </span>
                   </div>
@@ -320,7 +319,7 @@ function VideoToGifConverter() {
             </div>
 
             {gifUrl ? (
-              <div className="border border-gray-200 rounded-2xl p-4 shadow-lg">
+              <div className="border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-lg dark:bg-gray-800">
                 <div className="max-h-[560px] overflow-y-auto rounded-lg">
                   <img
                     src={gifUrl}
@@ -342,8 +341,8 @@ function VideoToGifConverter() {
                 </Button>
               </div>
             ) : (
-              <div className="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center flex flex-col items-center justify-center">
-                <div className="mb-4 text-blue-500">
+              <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-8 text-center flex flex-col items-center justify-center">
+                <div className="mb-4 text-blue-500 dark:text-blue-400">
                   <svg
                     className="w-12 h-12 mx-auto"
                     fill="none"
@@ -358,10 +357,10 @@ function VideoToGifConverter() {
                     />
                   </svg>
                 </div>
-                <p className="text-lg font-medium text-gray-500 mb-2">
+                <p className="text-lg font-medium text-gray-500 dark:text-gray-400 mb-2">
                   等待生成GIF预览
                 </p>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-400 dark:text-gray-500">
                   转换完成后将在此处显示预览
                 </p>
               </div>

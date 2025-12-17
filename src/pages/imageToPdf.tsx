@@ -369,12 +369,12 @@ function ImageToPdfConverter() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
-      <Card className="w-full h-full max-w-6xl px-3 py-2 mx-auto shadow-lg">
-        <CardHeader className="pb-2 from-blue-50 to-indigo-50 border-b">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
+      <Card className="w-full h-full max-w-6xl px-3 py-2 mx-auto shadow-lg dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="pb-2 from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-b dark:border-gray-700">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <CardTitle className="text-2xl font-bold text-gray-800">
+              <CardTitle className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                 🖼️ 图片转PDF工具
                 {/* 使用提示 - 悬浮图标 */ }
                 <div className="relative inline-block group">

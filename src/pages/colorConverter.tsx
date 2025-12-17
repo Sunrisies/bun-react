@@ -132,11 +132,11 @@ function RouteComponent() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>颜色转换器</CardTitle>
+            <CardTitle className="dark:text-gray-100">颜色转换器</CardTitle>
             <Button
               onClick={() => navigate({ to: "/" })}
               className="gap-2"

@@ -104,12 +104,12 @@ function RouteComponent() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-2xl">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
+      <Card className="w-full max-w-2xl dark:bg-gray-800 dark:border-gray-700">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>二维码生成器</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+            <CardTitle className="dark:text-gray-100">二维码生成器</CardTitle>
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>

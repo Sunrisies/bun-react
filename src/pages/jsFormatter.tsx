@@ -91,8 +91,8 @@ function JsFormatter() {
       <Card className="w-full max-w-[90%] m-auto flex flex-col h-[90%]">
         <CardHeader className="border-b">
           <div className="flex justify-between items-center">
-            <CardTitle>JavaScript 格式化工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
+            <CardTitle className="dark:text-gray-100">JavaScript 格式化工具</CardTitle>
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>

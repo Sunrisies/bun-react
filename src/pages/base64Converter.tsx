@@ -57,14 +57,14 @@ function RouteComponent() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
-      <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
+      <Card className="w-full max-w-screen-xl rounded-2xl shadow-xl dark:bg-gray-800 dark:border-gray-700">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="text-3xl font-bold text-gray-800">
+            <CardTitle className="text-3xl font-bold text-gray-800 dark:text-gray-100">
               Base64与图片互转工具
             </CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -76,14 +76,14 @@ function RouteComponent() {
           <div className="space-y-6">
             <div
               {...getImageRootProps()}
-              className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-blue-300"
+              className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-blue-300 dark:border-gray-600 dark:hover:border-blue-500"
             >
               <input {...getImageInputProps()} />
-              <Upload className="h-12 w-12 mx-auto mb-4 text-blue-500" />
-              <p className="text-xl font-medium text-gray-700 mb-2">
+              <Upload className="h-12 w-12 mx-auto mb-4 text-blue-500 dark:text-blue-400" />
+              <p className="text-xl font-medium text-gray-700 dark:text-gray-300 mb-2">
                 拖放图片文件至此或点击选择
               </p>
-              <p className="text-sm text-gray-500">支持 PNG、JPG、GIF 格式</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">支持 PNG、JPG、GIF 格式</p>
             </div>
 
             {base64String && (
@@ -92,7 +92,7 @@ function RouteComponent() {
                   <textarea
                     value={base64String}
                     readOnly
-                    className="w-full h-32 p-3 border rounded-lg bg-gray-50 text-sm font-mono"
+                    className="w-full h-32 p-3 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 dark:text-gray-100 text-sm font-mono"
                   />
                   <Button
                     variant="ghost"
@@ -102,10 +102,10 @@ function RouteComponent() {
                       toast.success("已复制到剪贴板");
                     }}
                   >
-                    <Copy className="h-5 w-5 text-gray-500" />
+                    <Copy className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   </Button>
                 </div>
-                <p className="text-sm text-gray-500 text-center">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                   已生成Base64字符串，点击上方图标复制
                 </p>
               </div>
@@ -117,7 +117,7 @@ function RouteComponent() {
             <div className="space-y-4">
               <textarea
                 placeholder="在此粘贴Base64字符串..."
-                className="w-full h-32 p-3 border rounded-lg bg-gray-50"
+                className="w-full h-32 p-3 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 dark:text-gray-100"
                 value={base64String}
                 onChange={(e) => setBase64String(e.target.value)}
               />
@@ -138,7 +138,7 @@ function RouteComponent() {
             </div>
 
             {previewUrl && (
-              <div className="border border-gray-200 rounded-2xl p-4 shadow-lg">
+              <div className="border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-lg dark:bg-gray-800">
                 <div className="max-h-96 overflow-y-auto rounded-lg">
                   <img
                     src={previewUrl}

@@ -82,14 +82,14 @@ function PdfMergerComponent() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-3xl rounded-2xl shadow-xl">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="text-2xl font-bold text-gray-800">
               PDF合并工具
             </CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost">
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>

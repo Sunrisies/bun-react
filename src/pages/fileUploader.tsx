@@ -174,93 +174,93 @@ function FileUploaderComponent() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50">
+    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-3xl">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>文件上传工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost">
+            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* 上传区域 */ }
+          {/* 上传区域 */}
           <div
-            { ...getRootProps() }
-            className={ `border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all
+            {...getRootProps()}
+            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all
               ${isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-blue-300"}
-              ${uploading ? "pointer-events-none opacity-50" : ""}` }
+              ${uploading ? "pointer-events-none opacity-50" : ""}`}
           >
-            <input { ...getInputProps() } disabled={ uploading } />
+            <input {...getInputProps()} disabled={uploading} />
             <Upload className="h-12 w-12 mx-auto mb-4 text-blue-500" />
             <p className="text-xl font-medium text-gray-700 mb-2">
-              { isDragActive ? "松开鼠标上传" : uploading ? "文件上传中..." : "拖放文件至此或点击选择" }
+              {isDragActive ? "松开鼠标上传" : uploading ? "文件上传中..." : "拖放文件至此或点击选择"}
             </p>
             <p className="text-sm text-gray-500">
               支持拖拽、点击选择或直接粘贴文件
             </p>
           </div>
 
-          {/* 文件列表 */ }
-          { files.length > 0 && (
+          {/* 文件列表 */}
+          {files.length > 0 && (
             <div className="space-y-4">
               <div className="border rounded-lg divide-y">
-                { files.map(({ file, url }, index) => (
+                {files.map(({ file, url }, index) => (
                   <div
-                    key={ index }
+                    key={index}
                     className="p-3 flex items-center gap-3 hover:bg-gray-50"
                   >
                     <File className="h-5 w-5 text-blue-500" />
                     <div className="flex-1">
-                      <p className="font-medium truncate">{ file.name }</p>
+                      <p className="font-medium truncate">{file.name}</p>
                       <div className="flex items-center gap-2">
                         <p className="text-sm text-gray-500">
-                          { (file.size / 1024).toFixed(2) } KB
+                          {(file.size / 1024).toFixed(2)} KB
                         </p>
-                        { url && (
+                        {url && (
                           <div className="flex items-center gap-2">
                             <Link className="h-4 w-4 text-blue-500" />
-                            <p className="text-sm text-blue-500 truncate">{ url }</p>
+                            <p className="text-sm text-blue-500 truncate">{url}</p>
                             <Button
                               variant="ghost"
                               size="sm"
                               className="h-6 px-2"
-                              onClick={ () => copyUrl(url, index) }
+                              onClick={() => copyUrl(url, index)}
                             >
-                              { copiedIndex === index ? (
+                              {copiedIndex === index ? (
                                 <CheckCheck className="h-4 w-4 text-green-500" />
                               ) : (
                                 <Copy className="h-4 w-4" />
-                              ) }
+                              )}
                             </Button>
                           </div>
-                        ) }
+                        )}
                       </div>
                     </div>
                   </div>
-                )) }
+                ))}
               </div>
 
               <div className="flex justify-end gap-2">
                 <Button
                   variant="destructive"
-                  onClick={ clearFiles }
-                  disabled={ uploading }
+                  onClick={clearFiles}
+                  disabled={uploading}
                 >
                   清空列表
                 </Button>
                 <Button
                   variant="default"
-                  onClick={ handleUpload }
-                  disabled={ uploading }
+                  onClick={handleUpload}
+                  disabled={uploading}
                 >
-                  { uploading ? '上传中...' : '开始上传' }
+                  {uploading ? '上传中...' : '开始上传'}
                 </Button>
               </div>
             </div>
-          ) }
+          )}
 
           <div className="text-center text-sm text-gray-500 mt-4">
             <p>提示：您也可以直接粘贴文件到此页面</p>

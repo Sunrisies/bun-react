@@ -440,17 +440,17 @@ function Watermark() {
     )
   }
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
-      <Card className="w-full h-full mx-auto shadow-lg p-0">
-        <CardHeader className="p-0 m-0 px-4 py-2 from-blue-50 to-indigo-50 border-b">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
+      <Card className="w-full h-full mx-auto shadow-lg p-0 dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="p-0 m-0 px-4 py-2 from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-b dark:border-gray-700">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <CardTitle className="text-2xl font-bold text-gray-800">
+            <CardTitle className="text-2xl font-bold text-gray-800 dark:text-gray-100">
               图片水印工具
             </CardTitle>
             <Button
               onClick={ () => navigate({ to: "/" }) }
               variant="outline"
-              className="border-gray-300 hover:bg-gray-50"
+              className="border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
