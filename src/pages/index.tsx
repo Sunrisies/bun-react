@@ -16,10 +16,12 @@ function Index() {
     const navigate = useNavigate()
     const observerRef = useRef<IntersectionObserver | null>(null)
 
-    // 使用自定义hook创建动态网格背景
+    // 使用hook的方式
     const { canvasRef } = useDynamicGrid({
-        gridSize: 40,
-        speed: 0.5,
+        gridSize: 25,
+        speed: 1.5,
+        borderColor: "#64748b",
+        directionChangeInterval: 3000,
         animate: true
     })
 
@@ -131,6 +133,11 @@ function Index() {
                     title: "图片水印工具",
                     description: "支持给图片添加文字水印，可批量处理",
                     path: "/watermark"
+                },
+                {
+                    title: "音频MD5计算",
+                    description: "计算音频文件的MD5哈希值",
+                    path: "/audioMd5"
                 }
             ]
         },
@@ -269,11 +276,12 @@ function Index() {
 
     return (
         <main className="px-6 md:px-10 lg:px-20 py-8 min-h-screen relative">
-            {/* Canvas dynamic grid background */ }
-            <div className="fixed inset-0 bg-white dark:bg-gray-950 -z-10">
+            {/* 使用hook渲染的Canvas动态网格背景 */ }
+            <div className="fixed inset-0 overflow-hidden" style={ { opacity: 0.9 } }>
                 <canvas
                     ref={ canvasRef }
                     className="w-full h-full"
+                    style={ { display: 'block' } }
                 />
             </div>
 
