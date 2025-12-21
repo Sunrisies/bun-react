@@ -73,12 +73,12 @@ function ScssConverter() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-64px)] bg-gray-50 dark:bg-gray-900">
+    <div className="flex h-[calc(100vh-64px)] ">
       <Card className="w-full max-w-[96%] m-auto flex flex-col h-[96%] p-2 dark:bg-gray-800 dark:border-gray-700">
         <CardHeader className="border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">SCSS 转 CSS 工具</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -86,44 +86,44 @@ function ScssConverter() {
         </CardHeader>
         <CardContent className="flex-1 flex flex-col overflow-hidden">
           <div className="space-y-6 h-full flex flex-col overflow-hidden">
-            {/* 文件上传和操作按钮 - 固定在顶部 */}
+            {/* 文件上传和操作按钮 - 固定在顶部 */ }
             <div className="flex justify-between items-center flex-shrink-0">
               <div className="flex gap-2 items-center">
                 <Input
                   type="file"
                   accept=".scss"
-                  onChange={handleFileUpload}
+                  onChange={ handleFileUpload }
                   className="max-w-xs"
                 />
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="compress"
-                    checked={compress}
-                    onChange={(e) => setCompress(e.target.checked)}
+                    checked={ compress }
+                    onChange={ (e) => setCompress(e.target.checked) }
                     className="h-4 w-4"
                   />
                   <label htmlFor="compress" className="text-sm w-20">压缩输出</label>
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button onClick={convertScss} size="sm">
+                <Button onClick={ convertScss } size="sm">
                   转换
                 </Button>
                 <Button
-                  onClick={() => copyToClipboard(output)}
+                  onClick={ () => copyToClipboard(output) }
                   size="sm"
                   variant="outline"
-                  disabled={!output}
+                  disabled={ !output }
                 >
                   <Copy className="h-4 w-4 mr-2" />
                   复制
                 </Button>
                 <Button
-                  onClick={downloadCss}
+                  onClick={ downloadCss }
                   size="sm"
                   variant="outline"
-                  disabled={!output}
+                  disabled={ !output }
                 >
                   <Download className="h-4 w-4 mr-2" />
                   下载
@@ -131,29 +131,29 @@ function ScssConverter() {
               </div>
             </div>
 
-            {/* 文件拖放提示 - 固定在顶部 */}
+            {/* 文件拖放提示 - 固定在顶部 */ }
             <div className="border-2 border-dashed rounded-lg p-4 text-center text-gray-500 flex-shrink-0">
               <p>支持将.scss文件拖放到输入框中</p>
             </div>
 
-            {/* 编辑区域 - 可滚动 */}
+            {/* 编辑区域 - 可滚动 */ }
             <div className="flex-1 min-h-0 grid grid-cols-2 gap-4 overflow-hidden">
-              {/* 左侧输入 */}
+              {/* 左侧输入 */ }
               <div className="space-y-2 overflow-hidden flex flex-col">
                 <label className="text-sm font-medium flex-shrink-0">输入 SCSS</label>
                 <Textarea
                   placeholder="请输入需要转换的 SCSS..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  value={ input }
+                  onChange={ (e) => setInput(e.target.value) }
                   className="flex-1 overflow-auto resize-none"
                 />
               </div>
 
-              {/* 右侧输出 */}
+              {/* 右侧输出 */ }
               <div className="space-y-2 overflow-hidden flex flex-col">
                 <label className="text-sm font-medium flex-shrink-0">转换结果</label>
                 <Textarea
-                  value={output}
+                  value={ output }
                   readOnly
                   className="flex-1 overflow-auto resize-none bg-gray-50"
                   placeholder="转换后的 CSS 将显示在这里..."
@@ -161,13 +161,13 @@ function ScssConverter() {
               </div>
             </div>
 
-            {/* 错误提示和提示信息 - 固定在底部 */}
+            {/* 错误提示和提示信息 - 固定在底部 */ }
             <div className="flex-shrink-0">
-              {error && (
+              { error && (
                 <div className="p-4 bg-red-50 rounded-lg mb-4">
-                  <p className="text-sm text-red-600">{error}</p>
+                  <p className="text-sm text-red-600">{ error }</p>
                 </div>
-              )}
+              ) }
               <div className="p-4 bg-blue-50 rounded-lg">
                 <p className="text-sm text-blue-600">
                   提示：此工具可以帮助您将 SCSS 代码转换为普通的 CSS 代码。支持复制转换后的结果或下载为文件。

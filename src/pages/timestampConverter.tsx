@@ -75,12 +75,12 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
+    <div className="h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden flex justify-center items-center">
       <Card className="w-full max-w-3xl">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">时间戳转换器</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -93,24 +93,24 @@ function RouteComponent() {
               <span className="font-medium">当前时间戳：</span>
               <div className="flex gap-2">
                 <span>
-                  {unit === "seconds"
+                  { unit === "seconds"
                     ? Math.floor(currentTimestamp / 1000)
-                    : currentTimestamp}
+                    : currentTimestamp }
                 </span>
-                <span>({unit === "seconds" ? "秒" : "毫秒"})</span>
+                <span>({ unit === "seconds" ? "秒" : "毫秒" })</span>
               </div>
             </div>
             <div className="flex gap-3">
-              <Button onClick={toggleUnit}>
+              <Button onClick={ toggleUnit }>
                 <RotateCw className="h-4 w-4 mr-2" />
                 切换单位
               </Button>
-              <Button onClick={copyCurrentTimestamp}>复制</Button>
+              <Button onClick={ copyCurrentTimestamp }>复制</Button>
               <Button
-                variant={isAutoUpdate ? "destructive" : "outline"}
-                onClick={() => setIsAutoUpdate(!isAutoUpdate)}
+                variant={ isAutoUpdate ? "destructive" : "outline" }
+                onClick={ () => setIsAutoUpdate(!isAutoUpdate) }
               >
-                {isAutoUpdate ? "停止更新" : "恢复更新"}
+                { isAutoUpdate ? "停止更新" : "恢复更新" }
               </Button>
             </div>
           </div>
@@ -119,13 +119,13 @@ function RouteComponent() {
             <div className="flex gap-3 items-center">
               <div className="flex gap-2">
                 <Input
-                  value={timestamp}
-                  onChange={(e) => setTimestamp(e.target.value)}
+                  value={ timestamp }
+                  onChange={ (e) => setTimestamp(e.target.value) }
                   placeholder="输入时间戳"
                   className="flex-1"
                 />
                 <Button
-                  onClick={() =>
+                  onClick={ () =>
                     setTimestamp(
                       unit === "seconds"
                         ? Math.floor(Date.now() / 1000).toString()
@@ -137,12 +137,12 @@ function RouteComponent() {
                 </Button>
               </div>
               <div className="border rounded p-3 bg-gray-50 relative flex flex-1">
-                <pre>{convertToDatetime()}</pre>
+                <pre>{ convertToDatetime() }</pre>
                 <Button
                   size="sm"
                   variant="ghost"
                   className="absolute top-1 right-1 h-8 w-8 p-2"
-                  onClick={() => copyToClipboard(convertToDatetime())}
+                  onClick={ () => copyToClipboard(convertToDatetime()) }
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -154,11 +154,11 @@ function RouteComponent() {
                 <Input
                   className="flex-1"
                   type="datetime-local"
-                  value={datetime}
-                  onChange={(e) => setDatetime(e.target.value)}
+                  value={ datetime }
+                  onChange={ (e) => setDatetime(e.target.value) }
                 />
                 <Button
-                  onClick={() =>
+                  onClick={ () =>
                     setDatetime(new Date().toISOString().slice(0, 16))
                   }
                 >
@@ -166,12 +166,12 @@ function RouteComponent() {
                 </Button>
               </div>
               <div className="border rounded p-3 bg-gray-50 relative flex flex-1">
-                <pre className="flex-1 ">{convertToTimestamp()}</pre>
+                <pre className="flex-1 ">{ convertToTimestamp() }</pre>
                 <Button
                   size="sm"
                   variant="ghost"
                   className="absolute top-1 right-1 h-8 w-8 p-2"
-                  onClick={() => copyToClipboard(convertToTimestamp())}
+                  onClick={ () => copyToClipboard(convertToTimestamp()) }
                 >
                   <Copy className="h-4 w-4" />
                 </Button>

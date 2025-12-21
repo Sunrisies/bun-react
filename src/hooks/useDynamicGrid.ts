@@ -7,7 +7,6 @@ interface UseDynamicGridOptions {
   speed?: number;
   animate?: boolean;
   borderColor?: string;
-  hoverColor?: string;
   directionChangeInterval?: number;
 }
 
@@ -26,7 +25,6 @@ export function useDynamicGrid(
     gridSize = 30,
     speed = 2,
     borderColor = "#e2e8f0",
-    hoverColor = "#4299e1",
     directionChangeInterval = 3000,
   } = options;
 
@@ -48,7 +46,6 @@ export function useDynamicGrid(
       direction: "right" as Direction,
       directions: ["right", "left", "up", "down", "diagonal"] as Direction[],
       borderColor: borderColor,
-      hoverColor: hoverColor,
       directionChangeInterval: directionChangeInterval,
     },
   });
@@ -158,7 +155,7 @@ export function useDynamicGrid(
     } else {
       // 亮色模式使用白色渐变
       gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
-      gradient.addColorStop(1, "rgba(255, 255, 255, 0.7)");
+      gradient.addColorStop(1, "rgba(255, 255, 255, 0.5)");
     }
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -235,9 +232,7 @@ export function useDynamicGrid(
       if (newOptions.borderColor !== undefined) {
         state.config.borderColor = newOptions.borderColor;
       }
-      if (newOptions.hoverColor !== undefined) {
-        state.config.hoverColor = newOptions.hoverColor;
-      }
+
       if (newOptions.directionChangeInterval !== undefined) {
         state.config.directionChangeInterval =
           newOptions.directionChangeInterval;
@@ -288,10 +283,8 @@ export function useDynamicGrid(
       const isDark = document.documentElement.classList.contains("dark");
       if (isDark) {
         state.config.borderColor = "#374151"; // dark-gray-700
-        state.config.hoverColor = "#60a5fa"; // blue-400
       } else {
         state.config.borderColor = "#e2e8f0"; // gray-200
-        state.config.hoverColor = "#4299e1"; // blue-500
       }
     };
 

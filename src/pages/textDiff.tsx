@@ -42,8 +42,8 @@ const DiffLineItem = memo(({ item, line, lineIndex, totalLines }: DiffLineItemPr
 
     return (
         <div
-            id={lineIndex === 0 ? item.id : undefined}
-            className={`
+            id={ lineIndex === 0 ? item.id : undefined }
+            className={ `
                 flex border-l-4 transition-all duration-200
                 ${item.type === "add" ? "bg-green-50 dark:bg-green-900/20 border-green-500 dark:border-green-400" : ""}
                 ${item.type === "remove" ? "bg-red-50 dark:bg-red-900/20 border-red-500 dark:border-red-400" : ""}
@@ -52,27 +52,27 @@ const DiffLineItem = memo(({ item, line, lineIndex, totalLines }: DiffLineItemPr
             `}
         >
             <div className="w-12 flex-shrink-0 text-right pr-2 py-1 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 select-none">
-                {item.type !== "equal" && lineNumber}
+                { item.type !== "equal" && lineNumber }
             </div>
             <div className="flex-1 px-3 py-1 font-mono text-sm whitespace-pre-wrap break-all dark:text-gray-300">
-                {line || <span className="text-gray-300 dark:text-gray-600">(空行)</span>}
+                { line || <span className="text-gray-300 dark:text-gray-600">(空行)</span> }
             </div>
-            {item.type !== "equal" && (
+            { item.type !== "equal" && (
                 <div className="w-12 flex-shrink-0 flex items-center justify-center text-xs">
-                    {item.type === "add" ? (
+                    { item.type === "add" ? (
                         <span className="text-green-600 dark:text-green-400 font-semibold">+</span>
                     ) : (
                         <span className="text-red-600 dark:text-red-400 font-semibold">-</span>
-                    )}
+                    ) }
                 </div>
-            )}
+            ) }
         </div>
     )
 })
 
 // Memoized diff result container
 const MemoizedDiffResult = memo(({ diffResult, renderDiffLine }: { diffResult: DiffItem[], renderDiffLine: (item: DiffItem, index: number) => React.ReactNode }) => {
-    return <>{diffResult.map((item, index) => renderDiffLine(item, index))}</>
+    return <>{ diffResult.map((item, index) => renderDiffLine(item, index)) }</>
 })
 
 function TextDiffTool() {
@@ -213,18 +213,18 @@ function TextDiffTool() {
 
         return lines.map((line, lineIndex) => (
             <DiffLineItem
-                key={`${item.id}-${lineIndex}`}
-                item={item}
-                line={line}
-                lineIndex={lineIndex}
-                totalLines={lines.length}
+                key={ `${item.id}-${lineIndex}` }
+                item={ item }
+                line={ line }
+                lineIndex={ lineIndex }
+                totalLines={ lines.length }
             />
         ))
     }, [])
 
     return (
-        <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
-            <style>{`
+        <div className="h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
+            <style>{ `
         .highlight-flash {
           animation: flash 0.5s ease-in-out 3;
         }
@@ -258,7 +258,7 @@ function TextDiffTool() {
                             </div>
                         </div>
                         <Button
-                            onClick={() => navigate({ to: "/" })}
+                            onClick={ () => navigate({ to: "/" }) }
                             variant="outline"
                             className="border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                         >
@@ -269,9 +269,9 @@ function TextDiffTool() {
                 </CardHeader>
 
                 <CardContent className="p-6 flex-1 overflow-y-auto min-h-0">
-                    {/* 输入区域 */}
+                    {/* 输入区域 */ }
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        {/* 左侧文本 */}
+                        {/* 左侧文本 */ }
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <Label htmlFor="left-text" className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -282,12 +282,12 @@ function TextDiffTool() {
                                     id="left-file"
                                     className="hidden"
                                     accept=".txt,.md,.json,.xml,.yaml,.yml,.csv,.log"
-                                    onChange={(e) => e.target.files?.[0] && handleFileUpload("left", e.target.files[0])}
+                                    onChange={ (e) => e.target.files?.[0] && handleFileUpload("left", e.target.files[0]) }
                                 />
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    onClick={() => document.getElementById("left-file")?.click()}
+                                    onClick={ () => document.getElementById("left-file")?.click() }
                                     className="text-xs"
                                 >
                                     <Upload className="h-3 w-3 mr-1" />
@@ -297,13 +297,13 @@ function TextDiffTool() {
                             <Textarea
                                 id="left-text"
                                 placeholder="在此输入或粘贴原始文本..."
-                                value={leftText}
-                                onChange={(e) => setLeftText(e.target.value)}
+                                value={ leftText }
+                                onChange={ (e) => setLeftText(e.target.value) }
                                 className="h-[200px] font-mono text-sm resize-none"
                             />
                         </div>
 
-                        {/* 右侧文本 */}
+                        {/* 右侧文本 */ }
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <Label htmlFor="right-text" className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -314,12 +314,12 @@ function TextDiffTool() {
                                     id="right-file"
                                     className="hidden"
                                     accept=".txt,.md,.json,.xml,.yaml,.yml,.csv,.log"
-                                    onChange={(e) => e.target.files?.[0] && handleFileUpload("right", e.target.files[0])}
+                                    onChange={ (e) => e.target.files?.[0] && handleFileUpload("right", e.target.files[0]) }
                                 />
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    onClick={() => document.getElementById("right-file")?.click()}
+                                    onClick={ () => document.getElementById("right-file")?.click() }
                                     className="text-xs"
                                 >
                                     <Upload className="h-3 w-3 mr-1" />
@@ -329,53 +329,53 @@ function TextDiffTool() {
                             <Textarea
                                 id="right-text"
                                 placeholder="在此输入或粘贴要对比的文本..."
-                                value={rightText}
-                                onChange={(e) => setRightText(e.target.value)}
+                                value={ rightText }
+                                onChange={ (e) => setRightText(e.target.value) }
                                 className="h-[200px] font-mono text-sm resize-none"
                             />
                         </div>
                     </div>
 
-                    {/* 操作按钮 */}
+                    {/* 操作按钮 */ }
                     <div className="flex flex-wrap gap-3 mb-6">
                         <Button
-                            onClick={performDiff}
+                            onClick={ performDiff }
                             className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                         >
                             <RefreshCw className="h-4 w-4 mr-2" />
                             开始对比
                         </Button>
-                        {diffResult.length > 0 && (
+                        { diffResult.length > 0 && (
                             <>
-                                <Button onClick={exportDiff} variant="outline">
+                                <Button onClick={ exportDiff } variant="outline">
                                     <Download className="h-4 w-4 mr-2" />
                                     导出结果
                                 </Button>
-                                <Button onClick={clearAll} variant="outline" className="text-red-600 dark:text-red-400 border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20">
+                                <Button onClick={ clearAll } variant="outline" className="text-red-600 dark:text-red-400 border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20">
                                     <RefreshCw className="h-4 w-4 mr-2" />
                                     清空所有
                                 </Button>
                             </>
-                        )}
+                        ) }
                     </div>
 
-                    {/* 对比结果区域 */}
-                    {diffResult.length > 0 && (
-                        <div className="border dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800 flex flex-col" style={{ height: 'calc(100vh - 650px)', minHeight: '300px' }}>
+                    {/* 对比结果区域 */ }
+                    { diffResult.length > 0 && (
+                        <div className="border dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800 flex flex-col" style={ { height: 'calc(100vh - 650px)', minHeight: '300px' } }>
                             <div className="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-gray-900 border-b dark:border-gray-700">
                                 <h3 className="font-medium text-gray-800 dark:text-gray-100">
                                     对比结果
                                     <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                                        ({diffNavItems.length} 处差异)
+                                        ({ diffNavItems.length } 处差异)
                                     </span>
                                 </h3>
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    onClick={() => setShowNav(!showNav)}
+                                    onClick={ () => setShowNav(!showNav) }
                                     className="text-xs"
                                 >
-                                    {showNav ? (
+                                    { showNav ? (
                                         <>
                                             <ChevronUp className="h-4 w-4 mr-1" />
                                             隐藏导航
@@ -385,13 +385,13 @@ function TextDiffTool() {
                                             <ChevronDown className="h-4 w-4 mr-1" />
                                             显示导航
                                         </>
-                                    )}
+                                    ) }
                                 </Button>
                             </div>
 
                             <div className="grid grid-cols-1 lg:grid-cols-4 gap-0 flex-1 overflow-hidden">
-                                {/* 差异导航 */}
-                                {showNav && diffNavItems.length > 0 && (
+                                {/* 差异导航 */ }
+                                { showNav && diffNavItems.length > 0 && (
                                     <div className="lg:col-span-1 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 overflow-y-auto">
                                         <div className="p-3 border-b dark:border-gray-700 bg-white dark:bg-gray-800">
                                             <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
@@ -400,49 +400,49 @@ function TextDiffTool() {
                                             </h4>
                                         </div>
                                         <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                                            {diffNavItems.map((item, index) => (
+                                            { diffNavItems.map((item, index) => (
                                                 <div
-                                                    key={item.id}
-                                                    onClick={() => scrollToDiff(item.id)}
-                                                    className={`
+                                                    key={ item.id }
+                                                    onClick={ () => scrollToDiff(item.id) }
+                                                    className={ `
                             p-3 cursor-pointer transition-colors hover:bg-white dark:hover:bg-gray-800
                             ${item.type === "add" ? "border-l-4 border-green-500 dark:border-green-400" : "border-l-4 border-red-500 dark:border-red-400"}
                           `}
                                                 >
                                                     <div className="flex items-center justify-between mb-1">
                                                         <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                                                            #{index + 1}
+                                                            #{ index + 1 }
                                                         </span>
                                                         <span
-                                                            className={`
+                                                            className={ `
                                 text-xs px-2 py-0.5 rounded-full font-medium
                                 ${item.type === "add" ? "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300" : "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300"}
                               `}
                                                         >
-                                                            {item.type === "add" ? "新增" : "删除"}
+                                                            { item.type === "add" ? "新增" : "删除" }
                                                         </span>
                                                     </div>
-                                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">行 {item.lineNumber}</div>
-                                                    <div className="text-xs text-gray-700 dark:text-gray-300 truncate font-mono">{item.preview}</div>
+                                                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">行 { item.lineNumber }</div>
+                                                    <div className="text-xs text-gray-700 dark:text-gray-300 truncate font-mono">{ item.preview }</div>
                                                 </div>
-                                            ))}
+                                            )) }
                                         </div>
                                     </div>
-                                )}
+                                ) }
 
-                                {/* 差异内容 */}
+                                {/* 差异内容 */ }
                                 <div
-                                    ref={diffContainerRef}
-                                    className={`${showNav && diffNavItems.length > 0 ? "lg:col-span-3" : "lg:col-span-4"} overflow-y-auto`}
+                                    ref={ diffContainerRef }
+                                    className={ `${showNav && diffNavItems.length > 0 ? "lg:col-span-3" : "lg:col-span-4"} overflow-y-auto` }
                                 >
-                                    <MemoizedDiffResult diffResult={diffResult} renderDiffLine={renderDiffLine} />
+                                    <MemoizedDiffResult diffResult={ diffResult } renderDiffLine={ renderDiffLine } />
                                 </div>
                             </div>
                         </div>
-                    )}
+                    ) }
 
-                    {/* 空状态提示 */}
-                    {diffResult.length === 0 && (
+                    {/* 空状态提示 */ }
+                    { diffResult.length === 0 && (
                         <div className="text-center py-12">
                             <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <FileText className="h-12 w-12 text-gray-400 dark:text-gray-500" />
@@ -452,7 +452,7 @@ function TextDiffTool() {
                                 输入或上传两段文本，然后点击“开始对比”按钮
                             </p>
                         </div>
-                    )}
+                    ) }
                 </CardContent>
             </Card>
         </div>

@@ -224,7 +224,7 @@ function RouteComponent() {
   })
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
+    <div className="h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
       <Card className="w-full max-w-2xl mx-auto h-full flex flex-col dark:bg-gray-800 dark:border-gray-700">
         <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">

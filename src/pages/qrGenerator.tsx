@@ -1,31 +1,31 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import QRCode from "qrcode";
-import html2canvas from "html2canvas";
-import { toast } from "sonner";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { useState, useRef } from "react"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft } from "lucide-react"
+import QRCode from "qrcode"
+import html2canvas from "html2canvas"
+import { toast } from "sonner"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+} from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider"
 
 export const Route = createFileRoute("/qrGenerator")({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const navigate = useNavigate();
-  const [textInput, setTextInput] = useState("");
-  const [qrCodeImage, setQrCodeImage] = useState("");
-  const qrCodeImageRef = useRef<HTMLImageElement>(null);
+  const navigate = useNavigate()
+  const [textInput, setTextInput] = useState("")
+  const [qrCodeImage, setQrCodeImage] = useState("")
+  const qrCodeImageRef = useRef<HTMLImageElement>(null)
   const [qrOptions, setQrOptions] = useState({
     errorCorrectionLevel: "H",
     version: 2,
@@ -50,7 +50,7 @@ function RouteComponent() {
       opacity: 0.8,
       margin: 5,
     }
-  });
+  })
 
   const generateQrCode = async () => {
     try {
@@ -63,53 +63,53 @@ function RouteComponent() {
           light: qrOptions.color.light
         },
         width: qrOptions.width
-      });
-      setQrCodeImage(response);
+      })
+      setQrCodeImage(response)
     } catch (error) {
-      toast.error("生成二维码失败");
-      console.error("生成二维码时出错：", error);
+      toast.error("生成二维码失败")
+      console.error("生成二维码时出错：", error)
     }
-  };
+  }
 
   const downloadQrCode = () => {
-    if (!qrCodeImageRef.current) return;
+    if (!qrCodeImageRef.current) return
 
     html2canvas(qrCodeImageRef.current)
       .then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.href = imgData;
-        link.download = "qrcode.png";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const imgData = canvas.toDataURL("image/png")
+        const link = document.createElement("a")
+        link.href = imgData
+        link.download = "qrcode.png"
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
       })
       .catch((error) => {
-        toast.error("下载二维码失败");
-        console.error("下载二维码时出错：", error);
-      });
-  };
+        toast.error("下载二维码失败")
+        console.error("下载二维码时出错：", error)
+      })
+  }
 
   const copyQrCode = async () => {
     try {
-      const imgData = qrCodeImage;
-      const blob = await fetch(imgData).then((res) => res.blob());
-      const item = new ClipboardItem({ "image/png": blob });
-      await navigator.clipboard.write([item]);
-      toast.success("二维码已复制到剪贴板");
+      const imgData = qrCodeImage
+      const blob = await fetch(imgData).then((res) => res.blob())
+      const item = new ClipboardItem({ "image/png": blob })
+      await navigator.clipboard.write([item])
+      toast.success("二维码已复制到剪贴板")
     } catch (error) {
-      toast.error("复制二维码失败");
-      console.error("复制二维码时出错：", error);
+      toast.error("复制二维码失败")
+      console.error("复制二维码时出错：", error)
     }
-  };
+  }
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
+    <div className="h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
       <Card className="w-full max-w-2xl mx-auto h-full flex flex-col dark:bg-gray-800 dark:border-gray-700">
         <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">二维码生成器</CardTitle>
-            <Button onClick={() => navigate({ to: "/" })} variant="ghost" className="dark:hover:bg-gray-700">
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -121,18 +121,18 @@ function RouteComponent() {
               <div className="space-y-2">
                 <Label>内容</Label>
                 <Input
-                  value={textInput}
-                  onChange={(e) => setTextInput(e.target.value)}
+                  value={ textInput }
+                  onChange={ (e) => setTextInput(e.target.value) }
                   placeholder="输入内容以生成二维码"
-                  onKeyUp={(e) => e.key === "Enter" && generateQrCode()}
+                  onKeyUp={ (e) => e.key === "Enter" && generateQrCode() }
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>纠错级别</Label>
                 <Select
-                  value={qrOptions.errorCorrectionLevel}
-                  onValueChange={(value) =>
+                  value={ qrOptions.errorCorrectionLevel }
+                  onValueChange={ (value) =>
                     setQrOptions((prev) => ({ ...prev, errorCorrectionLevel: value }))
                   }
                 >
@@ -149,13 +149,13 @@ function RouteComponent() {
               </div>
 
               <div className="space-y-2">
-                <Label>边距大小 ({qrOptions.margin})</Label>
+                <Label>边距大小 ({ qrOptions.margin })</Label>
                 <Slider
-                  value={[qrOptions.margin]}
-                  min={0}
-                  max={10}
-                  step={1}
-                  onValueChange={([value]) =>
+                  value={ [qrOptions.margin] }
+                  min={ 0 }
+                  max={ 10 }
+                  step={ 1 }
+                  onValueChange={ ([value]) =>
                     setQrOptions((prev) => ({ ...prev, margin: value }))
                   }
                 />
@@ -165,8 +165,8 @@ function RouteComponent() {
                 <Label>前景色</Label>
                 <Input
                   type="color"
-                  value={qrOptions.color.dark}
-                  onChange={(e) =>
+                  value={ qrOptions.color.dark }
+                  onChange={ (e) =>
                     setQrOptions((prev) => ({
                       ...prev,
                       color: { ...prev.color, dark: e.target.value }
@@ -179,8 +179,8 @@ function RouteComponent() {
                 <Label>背景色</Label>
                 <Input
                   type="color"
-                  value={qrOptions.color.light}
-                  onChange={(e) =>
+                  value={ qrOptions.color.light }
+                  onChange={ (e) =>
                     setQrOptions((prev) => ({
                       ...prev,
                       color: { ...prev.color, light: e.target.value }
@@ -190,42 +190,42 @@ function RouteComponent() {
               </div>
 
               <div className="space-y-2">
-                <Label>尺寸 ({qrOptions.width}px)</Label>
+                <Label>尺寸 ({ qrOptions.width }px)</Label>
                 <Slider
-                  value={[qrOptions.width]}
-                  min={128}
-                  max={512}
-                  step={32}
-                  onValueChange={([value]) =>
+                  value={ [qrOptions.width] }
+                  min={ 128 }
+                  max={ 512 }
+                  step={ 32 }
+                  onValueChange={ ([value]) =>
                     setQrOptions((prev) => ({ ...prev, width: value }))
                   }
                 />
               </div>
 
-              <Button className="w-full" onClick={generateQrCode}>
+              <Button className="w-full" onClick={ generateQrCode }>
                 生成二维码
               </Button>
             </div>
 
             <div className="space-y-4">
-              {qrCodeImage ? (
+              { qrCodeImage ? (
                 <>
                   <div className="border-2 border-dashed rounded-lg p-4 flex justify-center items-center min-h-[300px]">
                     <img
-                      ref={qrCodeImageRef}
-                      src={qrCodeImage}
+                      ref={ qrCodeImageRef }
+                      src={ qrCodeImage }
                       alt="二维码"
-                      style={{
+                      style={ {
                         width: `${qrOptions.width}px`,
                         height: `${qrOptions.width}px`,
-                      }}
+                      } }
                     />
                   </div>
                   <div className="flex gap-2">
-                    <Button className="flex-1" onClick={downloadQrCode}>
+                    <Button className="flex-1" onClick={ downloadQrCode }>
                       下载二维码
                     </Button>
-                    <Button className="flex-1" onClick={copyQrCode}>
+                    <Button className="flex-1" onClick={ copyQrCode }>
                       复制二维码
                     </Button>
                   </div>
@@ -241,17 +241,17 @@ function RouteComponent() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={ 2 }
                       d="M12 4v1m6 11h2m-6 0h-2m4-7a4 4 0 11-8 0 4 4 0 018 0z"
                     />
                   </svg>
                   <p className="text-center">等待生成二维码</p>
                 </div>
-              )}
+              ) }
             </div>
           </div>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

@@ -407,7 +407,7 @@ function HttpHeaders() {
   const commonList = HTTP_HEADERS.filter((h) => COMMON_HEADERS.includes(h.name))
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3">
+    <div className="h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3">
       <div className="mx-auto">
         <div className="mb-2">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -447,14 +447,14 @@ function HttpHeaders() {
                           请求头分类
                         </h3>
                         <div className="space-y-2">
-                          {CATEGORIES.slice(1).map((category) => (
-                            <div key={category} className="flex items-center justify-between text-sm">
-                              <span className="text-gray-600">{category}</span>
+                          { CATEGORIES.slice(1).map((category) => (
+                            <div key={ category } className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">{ category }</span>
                               <span className="font-medium text-gray-800">
-                                {HTTP_HEADERS.filter((h) => h.category === category).length} 个
+                                { HTTP_HEADERS.filter((h) => h.category === category).length } 个
                               </span>
                             </div>
-                          ))}
+                          )) }
                         </div>
                       </div>
                     </div>
@@ -462,7 +462,7 @@ function HttpHeaders() {
                 </div>
               </h1>
             </div>
-            <Button onClick={() => navigate({ to: "/" })} variant="outline">
+            <Button onClick={ () => navigate({ to: "/" }) } variant="outline">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
@@ -481,30 +481,30 @@ function HttpHeaders() {
                   <div className="flex items-center gap-2">
                     <Input
                       placeholder="搜索名称、描述或示例"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      value={ searchTerm }
+                      onChange={ (e) => setSearchTerm(e.target.value) }
                       className="flex-1"
                     />
                     <Button variant="outline" className="shrink-0"><Search className="h-4 w-4" /></Button>
                   </div>
                   <div>
-                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <Select value={ selectedCategory } onValueChange={ setSelectedCategory }>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="选择类别" />
                       </SelectTrigger>
                       <SelectContent>
-                        {CATEGORIES.map((c) => (
-                          <SelectItem key={c} value={c}>{c}</SelectItem>
-                        ))}
+                        { CATEGORIES.map((c) => (
+                          <SelectItem key={ c } value={ c }>{ c }</SelectItem>
+                        )) }
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="cursor-pointer" onClick={() => setSelectedCategory("所有")}>全部</Badge>
-                    <Badge variant="outline" className="cursor-pointer text-indigo-600" onClick={() => setSelectedCategory("通用头")}>通用</Badge>
-                    <Badge variant="outline" className="cursor-pointer text-blue-600" onClick={() => setSelectedCategory("请求头")}>请求</Badge>
-                    <Badge variant="outline" className="cursor-pointer text-green-600" onClick={() => setSelectedCategory("响应头")}>响应</Badge>
-                    <Badge variant="outline" className="cursor-pointer text-orange-600" onClick={() => setSelectedCategory("实体头")}>实体</Badge>
+                    <Badge variant="outline" className="cursor-pointer" onClick={ () => setSelectedCategory("所有") }>全部</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-indigo-600" onClick={ () => setSelectedCategory("通用头") }>通用</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-blue-600" onClick={ () => setSelectedCategory("请求头") }>请求</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-green-600" onClick={ () => setSelectedCategory("响应头") }>响应</Badge>
+                    <Badge variant="outline" className="cursor-pointer text-orange-600" onClick={ () => setSelectedCategory("实体头") }>实体</Badge>
                   </div>
                 </div>
               </CardContent>
@@ -518,7 +518,7 @@ function HttpHeaders() {
               </TabsList>
 
               <TabsContent value="all">
-                {filteredHeaders.length === 0 ? (
+                { filteredHeaders.length === 0 ? (
                   <Card className="mt-4">
                     <CardContent className="p-8 text-center">
                       <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -528,73 +528,73 @@ function HttpHeaders() {
                   </Card>
                 ) : (
                   <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4">
-                    {filteredHeaders.map((header) => {
+                    { filteredHeaders.map((header) => {
                       const style = getCategoryStyle(header.category)
                       return (
-                        <Card key={header.name} className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                        <Card key={ header.name } className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                           <CardContent className="p-4">
                             <div className="flex items-start justify-between mb-4">
-                              <div className={`rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm`}>
-                                <div className="text-white font-bold text-xl">{header.name}</div>
+                              <div className={ `rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm` }>
+                                <div className="text-white font-bold text-xl">{ header.name }</div>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Button variant="ghost" size="icon" onClick={() => copyToClipboard(header.name)}>
+                                <Button variant="ghost" size="icon" onClick={ () => copyToClipboard(header.name) }>
                                   <Copy className="h-4 w-4" />
                                 </Button>
-                                <Badge variant="outline" className={style.text}>{header.category}</Badge>
+                                <Badge variant="outline" className={ style.text }>{ header.category }</Badge>
                               </div>
                             </div>
                             <div className="space-y-2">
                               <div className="flex items-center gap-2 text-gray-600">
-                                {style.icon}
+                                { style.icon }
                                 <span className="font-medium">说明</span>
                               </div>
-                              <p className="text-gray-700 text-sm leading-relaxed">{header.description}</p>
+                              <p className="text-gray-700 text-sm leading-relaxed">{ header.description }</p>
                             </div>
                             <div className="mt-3">
                               <div className="flex items-center justify-between">
                                 <span className="text-gray-600 text-sm">示例</span>
-                                <Button variant="outline" size="sm" onClick={() => copyToClipboard(header.example)}>
+                                <Button variant="outline" size="sm" onClick={ () => copyToClipboard(header.example) }>
                                   <Copy className="h-4 w-4 mr-1" />复制示例
                                 </Button>
                               </div>
-                              <div className="mt-2 p-2 bg-gray-50 rounded border text-sm font-mono break-words">{header.example}</div>
+                              <div className="mt-2 p-2 bg-gray-50 rounded border text-sm font-mono break-words">{ header.example }</div>
                             </div>
                           </CardContent>
                         </Card>
                       )
-                    })}
+                    }) }
                   </div>
-                )}
+                ) }
               </TabsContent>
 
               <TabsContent value="common">
                 <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4">
-                  {commonList.map((header) => {
+                  { commonList.map((header) => {
                     const style = getCategoryStyle(header.category)
                     return (
-                      <Card key={header.name} className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                      <Card key={ header.name } className="border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                         <CardContent className="p-4">
                           <div className="flex items-start justify-between mb-4">
-                            <div className={`rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm`}>
-                              <div className="text-white font-bold text-xl">{header.name}</div>
+                            <div className={ `rounded-lg p-3 bg-gradient-to-br ${style.bg} shadow-sm` }>
+                              <div className="text-white font-bold text-xl">{ header.name }</div>
                             </div>
                             <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">常用</Badge>
                           </div>
-                          <p className="text-gray-700 text-sm leading-relaxed">{header.description}</p>
+                          <p className="text-gray-700 text-sm leading-relaxed">{ header.description }</p>
                           <div className="mt-3">
                             <div className="flex items-center justify-between">
                               <span className="text-gray-600 text-sm">示例</span>
-                              <Button variant="outline" size="sm" onClick={() => copyToClipboard(header.example)}>
+                              <Button variant="outline" size="sm" onClick={ () => copyToClipboard(header.example) }>
                                 <Copy className="h-4 w-4 mr-1" />复制示例
                               </Button>
                             </div>
-                            <div className="mt-2 p-2 bg-gray-50 rounded border text-sm font-mono break-words">{header.example}</div>
+                            <div className="mt-2 p-2 bg-gray-50 rounded border text-sm font-mono break-words">{ header.example }</div>
                           </div>
                         </CardContent>
                       </Card>
                     )
-                  })}
+                  }) }
                 </div>
               </TabsContent>
             </Tabs>

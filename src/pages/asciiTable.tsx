@@ -178,7 +178,7 @@ function AsciiTable() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3">
+    <div className="h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3">
       <div className="mx-auto">
         <div className="mb-2">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

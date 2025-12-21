@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/card"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect, useRef } from "react"
-import { useDynamicGrid } from "@/hooks/useDynamicGrid"
 
 export const Route = createFileRoute("/")({
     component: Index,
@@ -15,15 +14,6 @@ export const Route = createFileRoute("/")({
 function Index() {
     const navigate = useNavigate()
     const observerRef = useRef<IntersectionObserver | null>(null)
-
-    // 使用hook的方式
-    const { canvasRef } = useDynamicGrid({
-        gridSize: 25,
-        speed: 0.25,
-        borderColor: "#64748b",
-        directionChangeInterval: 3000,
-        animate: true
-    })
 
     // 原有的滚动动画和状态恢复逻辑
     useEffect(() => {
@@ -276,21 +266,8 @@ function Index() {
 
     return (
         <main className="px-6 md:px-10 lg:px-20 py-8 min-h-screen relative overflow-hidden">
-            {/* Enhanced Canvas Background with gradient overlay */ }
-            <div className="fixed inset-0 overflow-hidden">
-                <canvas
-                    ref={ canvasRef }
-                    className="w-full h-full"
-                    style={ { display: 'block', opacity: 0.6 } }
-                />
-                {/* Gradient overlay for better readability */ }
-                <div className="fixed inset-0 bg-gradient-to-br from-white/30 via-transparent to-white/20 dark:from-gray-900/40 dark:via-transparent dark:to-gray-900/20 pointer-events-none"></div>
-                {/* Ambient glow effects */ }
-                <div className="fixed top-[-10%] right-[-5%] w-96 h-96 bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-3xl animate-float-slow pointer-events-none"></div>
-                <div className="fixed bottom-[-10%] left-[-5%] w-80 h-80 bg-purple-400/10 dark:bg-purple-500/5 rounded-full blur-3xl animate-float-medium pointer-events-none"></div>
-            </div>
 
-            <div className="relative z-10">
+            <div className="relative ">
                 {/* Hero Section */ }
                 <div className="max-w-7xl mx-auto mb-12 text-center animate-on-scroll opacity-0">
                     <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 dark:from-blue-400/20 dark:to-purple-400/20 rounded-full border border-blue-200/50 dark:border-blue-700/50">

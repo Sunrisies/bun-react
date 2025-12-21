@@ -369,14 +369,14 @@ function ImageToPdfConverter() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
+    <div className="h-[calc(100vh-4.2rem)] p-4 md:p-6 p-4 md:p-6">
       <Card className="w-full h-full max-w-6xl px-3 py-2 mx-auto shadow-lg dark:bg-gray-800 dark:border-gray-700">
         <CardHeader className="pb-2 from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-b dark:border-gray-700">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <CardTitle className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                 🖼️ 图片转PDF工具
-                {/* 使用提示 - 悬浮图标 */}
+                {/* 使用提示 - 悬浮图标 */ }
                 <div className="relative inline-block group">
                   <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
                     <Info className="h-6 w-6" />
@@ -394,7 +394,7 @@ function ImageToPdfConverter() {
               </CardTitle>
             </div>
             <Button
-              onClick={() => navigate({ to: "/" })}
+              onClick={ () => navigate({ to: "/" }) }
               variant="outline"
               className="border-gray-300 hover:bg-gray-50"
             >
@@ -406,13 +406,13 @@ function ImageToPdfConverter() {
 
         <CardContent className="p-0 h-full">
           <div className="flex flex-col lg:flex-row h-full">
-            {/* 左侧区域：上传和设置 */}
+            {/* 左侧区域：上传和设置 */ }
             <div className="lg:w-1/2 px-6 flex  gap-3 border-r border-gray-200 space-y-6">
-              {/* 上传区域 */}
+              {/* 上传区域 */ }
               <div className="w-full flex flex-col gap-2">
                 <div
-                  {...getRootProps()}
-                  className={`
+                  { ...getRootProps() }
+                  className={ `
                   border-2 border-dashed rounded-xl px-8 py-3 text-center cursor-pointer
                   transition-all duration-300 ease-in-out
                   ${isDragActive
@@ -421,12 +421,12 @@ function ImageToPdfConverter() {
                     }
                 `}
                 >
-                  <input {...getInputProps()} />
+                  <input { ...getInputProps() } />
                   <div className="space-y-2">
                     <Upload className="h-8 w-8 mx-auto text-blue-500" />
                     <div>
                       <p className="text-lg font-medium text-gray-700">
-                        {isDragActive ? "松开鼠标上传图片" : "拖放图片到此处或点击上传"}
+                        { isDragActive ? "松开鼠标上传图片" : "拖放图片到此处或点击上传" }
                       </p>
                       <p className="text-sm text-gray-500 mt-2">
                         支持 JPG, PNG, GIF, WebP, BMP 格式
@@ -442,7 +442,7 @@ function ImageToPdfConverter() {
                 </div>
 
                 <div className="gap-4">
-                  {/* 每页图片数量设置 */}
+                  {/* 每页图片数量设置 */ }
                   <div className="space-y-2">
                     <label htmlFor="images-per-page" className="text-sm text-gray-700 flex items-center gap-1">
                       <Grid className="h-4 w-4 text-gray-500" />
@@ -450,8 +450,8 @@ function ImageToPdfConverter() {
                     </label>
                     <select
                       id="images-per-page"
-                      value={pageLayout.imagesPerPage}
-                      onChange={(e) => handleImagesPerPageChange(e.target.value)}
+                      value={ pageLayout.imagesPerPage }
+                      onChange={ (e) => handleImagesPerPageChange(e.target.value) }
                       className="w-full border rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="1">1张（全屏显示）</option>
@@ -466,11 +466,11 @@ function ImageToPdfConverter() {
 
 
                 </div>
-                {/* 操作按钮 */}
-                {images.length > 0 && (
+                {/* 操作按钮 */ }
+                { images.length > 0 && (
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button
-                      onClick={generatePdf}
+                      onClick={ generatePdf }
                       className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md"
                     >
                       <Download className="h-4 w-4 mr-2" />
@@ -478,130 +478,130 @@ function ImageToPdfConverter() {
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => {
+                      onClick={ () => {
                         setImages([])
                         toast.success("已清空所有图片")
-                      }}
+                      } }
                       className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
                       清空所有
                     </Button>
                   </div>
-                )}
-                {images.length > 0 && (
+                ) }
+                { images.length > 0 && (
                   <div className=" pt-4 border-t border-gray-200">
                     <h4 className="text-sm font-medium text-gray-700 mb-2">📐 布局预览</h4>
                     <div className="space-y-2 text-sm text-gray-600">
                       <p className="flex justify-between">
                         <span>每页图片数量:</span>
-                        <span className="font-medium">{pageLayout.imagesPerPage}张</span>
+                        <span className="font-medium">{ pageLayout.imagesPerPage }张</span>
                       </p>
                       <p className="text-xs text-gray-500 mt-3">
-                        {pageLayout.imagesPerPage === 1 && "单张全屏显示"}
-                        {pageLayout.imagesPerPage === 2 && "垂直排列，适合对比展示"}
-                        {pageLayout.imagesPerPage === 3 && "垂直均分，适合连续内容"}
-                        {pageLayout.imagesPerPage === 4 && "2×2网格，均衡布局"}
-                        {pageLayout.imagesPerPage === 5 && "上2下3布局，灵活展示"}
-                        {pageLayout.imagesPerPage === 6 && "2×3网格，紧凑展示"}
+                        { pageLayout.imagesPerPage === 1 && "单张全屏显示" }
+                        { pageLayout.imagesPerPage === 2 && "垂直排列，适合对比展示" }
+                        { pageLayout.imagesPerPage === 3 && "垂直均分，适合连续内容" }
+                        { pageLayout.imagesPerPage === 4 && "2×2网格，均衡布局" }
+                        { pageLayout.imagesPerPage === 5 && "上2下3布局，灵活展示" }
+                        { pageLayout.imagesPerPage === 6 && "2×3网格，紧凑展示" }
                       </p>
                     </div>
-                    {/* 图片统计 */}
+                    {/* 图片统计 */ }
                     <div className="space-y-2">
                       <label className="text-sm text-gray-700 flex items-center gap-1">
                         <ImageIcon className="h-4 w-4 text-gray-500" />
                         图片统计:
                       </label>
                       <div className="text-sm text-gray-600 p-2 bg-gray-50 rounded">
-                        {images.length > 0 ? (
+                        { images.length > 0 ? (
                           <div className="space-y-1">
-                            <p>已选择 <span className="font-bold text-blue-600">{images.length}</span> 张图片</p>
+                            <p>已选择 <span className="font-bold text-blue-600">{ images.length }</span> 张图片</p>
                             <p className="text-xs text-gray-500">
                               预计页数: <span className="font-bold">
-                                {Math.ceil(images.length / pageLayout.imagesPerPage)}
+                                { Math.ceil(images.length / pageLayout.imagesPerPage) }
                               </span> 页
                             </p>
                           </div>
                         ) : (
                           <p className="text-gray-500">暂无图片</p>
-                        )}
+                        ) }
                       </div>
                     </div>
                   </div>
-                )}
+                ) }
               </div>
             </div>
 
-            {/* 右侧区域：图片预览 */}
+            {/* 右侧区域：图片预览 */ }
             <div className="lg:w-1/2 p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium text-gray-700">图片预览 ({images.length}张)</h3>
-                {images.length > 0 && (
+                <h3 className="font-medium text-gray-700">图片预览 ({ images.length }张)</h3>
+                { images.length > 0 && (
                   <p className="text-sm text-gray-500">
                     拖拽图片调整顺序
                   </p>
-                )}
+                ) }
               </div>
 
-              {images.length > 0 ? (
+              { images.length > 0 ? (
                 <>
                   <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragStart={handleDragStart}
-                    onDragEnd={handleDragEnd}
+                    sensors={ sensors }
+                    collisionDetection={ closestCenter }
+                    onDragStart={ handleDragStart }
+                    onDragEnd={ handleDragEnd }
                   >
                     <SortableContext
-                      items={images.map(img => img.id)}
-                      strategy={verticalListSortingStrategy}
+                      items={ images.map(img => img.id) }
+                      strategy={ verticalListSortingStrategy }
                     >
                       <div className="space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
-                        {images.map((img, index) => (
-                          <div key={img.id} className="relative">
-                            {/* 序号标记 */}
+                        { images.map((img, index) => (
+                          <div key={ img.id } className="relative">
+                            {/* 序号标记 */ }
                             <div className="absolute left-[-32px] top-1/2 transform -translate-y-1/2 w-7 h-7 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full text-xs font-medium z-10">
-                              {index + 1}
+                              { index + 1 }
                             </div>
                             <SortableImageItem
-                              id={img.id}
-                              image={img}
-                              onDelete={(id) => {
+                              id={ img.id }
+                              image={ img }
+                              onDelete={ (id) => {
                                 setImages(prev => prev.filter(i => i.id !== id))
                                 toast.success("图片已删除")
-                              }}
+                              } }
                             />
                           </div>
-                        ))}
+                        )) }
                       </div>
                     </SortableContext>
                     <DragOverlay>
-                      {activeId ? (
+                      { activeId ? (
                         <div className="border-2 border-blue-500 rounded-lg p-3 bg-white shadow-xl opacity-80 rotate-1 flex items-center gap-3">
                           <div className="w-7 h-7 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
-                            {images.findIndex(img => img.id === activeId) + 1}
+                            { images.findIndex(img => img.id === activeId) + 1 }
                           </div>
                           <img
-                            src={images.find(img => img.id === activeId)?.url || ''}
+                            src={ images.find(img => img.id === activeId)?.url || '' }
                             alt="拖拽中"
                             className="h-12 w-12 object-cover rounded"
                           />
                           <span className="font-medium truncate max-w-[200px]">
-                            {images.find(img => img.id === activeId)?.name}
+                            { images.find(img => img.id === activeId)?.name }
                           </span>
                         </div>
-                      ) : null}
+                      ) : null }
                     </DragOverlay>
                   </DndContext>
 
-                  {/* 生成按钮（移动端显示） */}
+                  {/* 生成按钮（移动端显示） */ }
                   <div className="lg:hidden mt-6">
                     <Button
-                      onClick={generatePdf}
+                      onClick={ generatePdf }
                       className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md"
                       size="lg"
                     >
                       <Download className="h-5 w-5 mr-2" />
-                      生成PDF文件 ({images.length}张)
+                      生成PDF文件 ({ images.length }张)
                     </Button>
                   </div>
                 </>
@@ -619,7 +619,7 @@ function ImageToPdfConverter() {
                   </p>
 
                 </div>
-              )}
+              ) }
             </div>
           </div>
         </CardContent>

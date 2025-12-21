@@ -4,15 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import {
   AlertCircle,
   AlertTriangle,
   ArrowLeft,
-  Check,
   CheckCircle,
-  Copy,
   Globe,
   Info,
   RefreshCw,
@@ -22,7 +19,7 @@ import {
   X,
   Zap
 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export const Route = createFileRoute("/httpStatus")({
   component: HttpStatus,
@@ -145,9 +142,9 @@ function HttpStatus() {
   const commonStatusCodes = [200, 301, 302, 304, 400, 401, 403, 404, 405, 408, 418, 429, 500, 502, 503, 504]
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3 overflow-hidden">
+    <div className="h-[calc(100vh-4.2rem)] p-4 md:px-6 py-3 overflow-hidden">
       <div className="mx-auto h-full flex flex-col">
-        {/* 头部区域 */}
+        {/* 头部区域 */ }
         <div className="mb-2">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -158,7 +155,7 @@ function HttpStatus() {
                   </div>
                   <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-80 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white dark:bg-gray-800 border-l border-t border-gray-200 dark:border-gray-700"></div>
-                    {/* 底部信息 */}
+                    {/* 底部信息 */ }
                     <div className="">
                       <div className="space-y-3">
                         <h3 className="font-medium text-gray-800 dark:text-gray-100 flex items-center gap-2">
@@ -187,14 +184,14 @@ function HttpStatus() {
                           状态码分类
                         </h3>
                         <div className="space-y-2">
-                          {CATEGORIES.slice(1).map(category => (
-                            <div key={category} className="flex items-center justify-between text-sm">
-                              <span className="text-gray-600 dark:text-gray-400">{category}</span>
+                          { CATEGORIES.slice(1).map(category => (
+                            <div key={ category } className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600 dark:text-gray-400">{ category }</span>
                               <span className="font-medium text-gray-800 dark:text-gray-200">
-                                {HTTP_STATUS_CODES.filter(s => s.category === category).length} 个
+                                { HTTP_STATUS_CODES.filter(s => s.category === category).length } 个
                               </span>
                             </div>
-                          ))}
+                          )) }
                         </div>
                       </div>
                     </div>
@@ -207,7 +204,7 @@ function HttpStatus() {
               </p>
             </div>
             <Button
-              onClick={() => navigate({ to: "/" })}
+              onClick={ () => navigate({ to: "/" }) }
               variant="outline"
               className="border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200"
             >
@@ -217,9 +214,9 @@ function HttpStatus() {
           </div>
         </div>
 
-        {/* 主内容区域 */}
+        {/* 主内容区域 */ }
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
-          {/* 左侧筛选面板 */}
+          {/* 左侧筛选面板 */ }
           <div className="lg:col-span-1">
             <Card className="border-gray-200 shadow-sm sticky top-6">
               <CardHeader>
@@ -227,96 +224,96 @@ function HttpStatus() {
                 <CardDescription>快速找到所需状态码</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* 搜索框 */}
+                {/* 搜索框 */ }
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">搜索</label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                     <Input
                       placeholder="状态码、消息或描述..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      value={ searchTerm }
+                      onChange={ (e) => setSearchTerm(e.target.value) }
                       className="pl-10 border-gray-300 focus:border-blue-400 focus:ring-blue-400"
                     />
-                    {searchTerm && (
+                    { searchTerm && (
                       <button
-                        onClick={() => setSearchTerm("")}
+                        onClick={ () => setSearchTerm("") }
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                       >
                         <X className="h-4 w-4" />
                       </button>
-                    )}
+                    ) }
                   </div>
                 </div>
 
-                {/* 类别筛选 */}
+                {/* 类别筛选 */ }
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">类别</label>
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <Select value={ selectedCategory } onValueChange={ setSelectedCategory }>
                     <SelectTrigger className="border-gray-300">
                       <SelectValue placeholder="选择类别" />
                     </SelectTrigger>
                     <SelectContent>
-                      {CATEGORIES.map(category => (
-                        <SelectItem key={category} value={category}>
+                      { CATEGORIES.map(category => (
+                        <SelectItem key={ category } value={ category }>
                           <div className="flex items-center">
-                            <div className={`w-2 h-2 rounded-full mr-2 ${category === "信息响应" ? "bg-blue-500" :
+                            <div className={ `w-2 h-2 rounded-full mr-2 ${category === "信息响应" ? "bg-blue-500" :
                               category === "成功响应" ? "bg-green-500" :
                                 category === "重定向" ? "bg-yellow-500" :
                                   category === "客户端错误" ? "bg-orange-500" :
                                     category === "服务器错误" ? "bg-red-500" : "bg-gray-500"
-                              }`} />
-                            {category}
+                              }` } />
+                            { category }
                           </div>
                         </SelectItem>
-                      ))}
+                      )) }
                     </SelectContent>
                   </Select>
                 </div>
 
-                {/* 快速筛选 */}
+                {/* 快速筛选 */ }
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">快速筛选</label>
                   <div className="flex flex-wrap gap-2">
                     <Badge
                       variant="outline"
                       className="cursor-pointer hover:bg-blue-50"
-                      onClick={() => setSelectedCategory("所有")}
+                      onClick={ () => setSelectedCategory("所有") }
                     >
                       全部
                     </Badge>
                     <Badge
                       variant="outline"
                       className="cursor-pointer hover:bg-blue-50 text-blue-600"
-                      onClick={() => setSelectedCategory("信息响应")}
+                      onClick={ () => setSelectedCategory("信息响应") }
                     >
                       1xx 信息
                     </Badge>
                     <Badge
                       variant="outline"
                       className="cursor-pointer hover:bg-green-50 text-green-600"
-                      onClick={() => setSelectedCategory("成功响应")}
+                      onClick={ () => setSelectedCategory("成功响应") }
                     >
                       2xx 成功
                     </Badge>
                     <Badge
                       variant="outline"
                       className="cursor-pointer hover:bg-yellow-50 text-yellow-600"
-                      onClick={() => setSelectedCategory("重定向")}
+                      onClick={ () => setSelectedCategory("重定向") }
                     >
                       3xx 重定向
                     </Badge>
                     <Badge
                       variant="outline"
                       className="cursor-pointer hover:bg-orange-50 text-orange-600"
-                      onClick={() => setSelectedCategory("客户端错误")}
+                      onClick={ () => setSelectedCategory("客户端错误") }
                     >
                       4xx 客户端错误
                     </Badge>
                     <Badge
                       variant="outline"
                       className="cursor-pointer hover:bg-red-50 text-red-600"
-                      onClick={() => setSelectedCategory("服务器错误")}
+                      onClick={ () => setSelectedCategory("服务器错误") }
                     >
                       5xx 服务器错误
                     </Badge>
@@ -324,22 +321,22 @@ function HttpStatus() {
                 </div>
 
 
-                {/* 结果统计 */}
+                {/* 结果统计 */ }
                 <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
                   <div className="text-sm text-gray-600">
-                    找到 <span className="font-bold text-gray-800">{filteredCodes.length}</span> 个状态码
-                    {selectedCategory !== "所有" && (
-                      <span>（{selectedCategory}）</span>
-                    )}
+                    找到 <span className="font-bold text-gray-800">{ filteredCodes.length }</span> 个状态码
+                    { selectedCategory !== "所有" && (
+                      <span>（{ selectedCategory }）</span>
+                    ) }
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* 右侧卡片列表 */}
+          {/* 右侧卡片列表 */ }
           <div className="lg:col-span-5">
-            {/* 标签页导航 */}
+            {/* 标签页导航 */ }
             <Tabs defaultValue="all" className="mb-6">
               <TabsList className="grid grid-cols-2">
                 <TabsTrigger value="all">全部状态码</TabsTrigger>
@@ -347,7 +344,7 @@ function HttpStatus() {
               </TabsList>
 
               <TabsContent value="all">
-                {filteredCodes.length === 0 ? (
+                { filteredCodes.length === 0 ? (
                   <Card className="border-gray-200">
                     <CardContent className="p-8 text-center">
                       <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -357,80 +354,80 @@ function HttpStatus() {
                   </Card>
                 ) : (
                   <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-6 gap-4">
-                    {filteredCodes.map((status) => (
+                    { filteredCodes.map((status) => (
                       <Card
-                        key={status.code}
-                        className={`border-gray-200 cursor-pointer p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1
+                        key={ status.code }
+                        className={ `border-gray-200 cursor-pointer p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1
                           }` }
                       >
                         <CardContent className="p-4">
-                          {/* 状态码头部 */}
+                          {/* 状态码头部 */ }
                           <div className="flex items-start justify-between mb-4">
-                            <div className={`rounded-lg p-3 bg-gradient-to-br ${status.color} shadow-sm`}>
-                              <div className="text-white font-bold text-xl">{status.code}</div>
+                            <div className={ `rounded-lg p-3 bg-gradient-to-br ${status.color} shadow-sm` }>
+                              <div className="text-white font-bold text-xl">{ status.code }</div>
                             </div>
                           </div>
 
-                          {/* 状态码信息 */}
+                          {/* 状态码信息 */ }
                           <div className="space-y-3">
                             <div>
-                              <h3 className="font-bold text-gray-800 text-lg">{status.message}</h3>
-                              <p className="text-gray-600 text-sm mt-1">{status.description}</p>
+                              <h3 className="font-bold text-gray-800 text-lg">{ status.message }</h3>
+                              <p className="text-gray-600 text-sm mt-1">{ status.description }</p>
                             </div>
 
                             <div className="flex items-center justify-between">
                               <Badge
                                 variant="outline"
-                                className={`${getCategoryColor(status.category)}`}
+                                className={ `${getCategoryColor(status.category)}` }
                               >
-                                {status.category}
+                                { status.category }
                               </Badge>
 
                               <div className="flex items-center text-gray-500 text-sm">
-                                {status.icon}
+                                { status.icon }
                                 <span className="ml-1">
-                                  {status.code >= 500 ? "服务器错误" :
+                                  { status.code >= 500 ? "服务器错误" :
                                     status.code >= 400 ? "客户端错误" :
                                       status.code >= 300 ? "重定向" :
-                                        status.code >= 200 ? "成功响应" : "信息响应"}
+                                        status.code >= 200 ? "成功响应" : "信息响应" }
                                 </span>
                               </div>
                             </div>
                           </div>
                         </CardContent>
                       </Card>
-                    ))}
+                    )) }
                   </div>
-                )}
+                ) }
               </TabsContent>
 
               <TabsContent value="common">
                 <div className="grid grid-cols-1 h-[700px] overflow-auto md:grid-cols-2 lg:grid-cols-6 gap-4">
-                  {HTTP_STATUS_CODES.filter(status => commonStatusCodes.includes(status.code)).map((status) => (
-                    <Card key={status.code} className="cursor-pointer border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                  { HTTP_STATUS_CODES.filter(status => commonStatusCodes.includes(status.code)).map((status) => (
+                    <Card key={ status.code } className="cursor-pointer border-gray-200 p-0 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between mb-4">
-                          <div className={`rounded-lg p-3 bg-gradient-to-br ${status.color} shadow-sm`}>
-                            <div className="text-white font-bold text-xl">{status.code}</div>
+                          <div className={ `rounded-lg p-3 bg-gradient-to-br ${status.color} shadow-sm` }>
+                            <div className="text-white font-bold text-xl">{ status.code }</div>
                           </div>
                           <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">常用</Badge>
                         </div>
 
                         <div className="space-y-3">
                           <div>
-                            <h3 className="font-bold text-gray-800 text-lg">{status.message}</h3>
-                            <p className="text-gray-600 text-sm mt-1">{status.description}</p>
+                            <h3 className="font-bold text-gray-800 text-lg">{ status.message }</h3>
+                            <p className="text-gray-600 text-sm mt-1">{ status.description }</p>
                           </div>
 
                           <div className="flex items-center justify-between">
-                            <Badge variant="outline" className={getCategoryColor(status.category)}>
-                              {status.category}
+                            <Badge variant="outline" className={ getCategoryColor(status.category) }>
+                              { status.category }
                             </Badge>
                           </div>
                         </div>
                       </CardContent>
                     </Card>
-                  ))}
+                  )) }
                 </div>
               </TabsContent>
             </Tabs>
