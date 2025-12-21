@@ -10,515 +10,221 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 
-// Import Routes
+import { Route as rootRouteImport } from './pages/__root'
+import { Route as YamlJsonConverterRouteImport } from './pages/yamlJsonConverter'
+import { Route as WebsocketClientRouteImport } from './pages/websocketClient'
+import { Route as WatermarkRouteImport } from './pages/watermark'
+import { Route as VideoToGifRouteImport } from './pages/videoToGif'
+import { Route as TimestampConverterRouteImport } from './pages/timestampConverter'
+import { Route as TextDiffRouteImport } from './pages/textDiff'
+import { Route as ScssConverterRouteImport } from './pages/scssConverter'
+import { Route as QrGeneratorRouteImport } from './pages/qrGenerator'
+import { Route as PortTableRouteImport } from './pages/portTable'
+import { Route as PdfToWordRouteImport } from './pages/pdfToWord'
+import { Route as PdfMergerRouteImport } from './pages/pdfMerger'
+import { Route as MusicPlayerRouteImport } from './pages/musicPlayer'
+import { Route as JsonFormatterRouteImport } from './pages/jsonFormatter'
+import { Route as JsFormatterRouteImport } from './pages/jsFormatter'
+import { Route as ImageToPdfRouteImport } from './pages/imageToPdf'
+import { Route as ImageMetadataRouteImport } from './pages/imageMetadata'
+import { Route as ImageCompressorRouteImport } from './pages/imageCompressor'
+import { Route as HttpStatusRouteImport } from './pages/httpStatus'
+import { Route as HttpHeadersRouteImport } from './pages/httpHeaders'
+import { Route as HtmlJsConverterRouteImport } from './pages/htmlJsConverter'
+import { Route as HexStringConverterRouteImport } from './pages/hexStringConverter'
+import { Route as FileUploaderRouteImport } from './pages/fileUploader'
+import { Route as CssFormatterRouteImport } from './pages/cssFormatter'
+import { Route as ColorConverterRouteImport } from './pages/colorConverter'
+import { Route as BrowserTabsRouteImport } from './pages/browserTabs'
+import { Route as Base64ConverterRouteImport } from './pages/base64Converter'
+import { Route as AudioMd5RouteImport } from './pages/audioMd5'
+import { Route as AsciiTableRouteImport } from './pages/asciiTable'
+import { Route as AboutRouteImport } from './pages/about'
+import { Route as SpeechToTextRouteImport } from './pages/SpeechToText'
+import { Route as IndexRouteImport } from './pages/index'
 
-import { Route as rootRoute } from './pages/__root'
-import { Route as YamlJsonConverterImport } from './pages/yamlJsonConverter'
-import { Route as WebsocketClientImport } from './pages/websocketClient'
-import { Route as WatermarkImport } from './pages/watermark'
-import { Route as VideoToGifImport } from './pages/videoToGif'
-import { Route as TimestampConverterImport } from './pages/timestampConverter'
-import { Route as TextDiffImport } from './pages/textDiff'
-import { Route as ScssConverterImport } from './pages/scssConverter'
-import { Route as QrGeneratorImport } from './pages/qrGenerator'
-import { Route as PortTableImport } from './pages/portTable'
-import { Route as PdfToWordImport } from './pages/pdfToWord'
-import { Route as PdfMergerImport } from './pages/pdfMerger'
-import { Route as MusicPlayerImport } from './pages/musicPlayer'
-import { Route as JsonFormatterImport } from './pages/jsonFormatter'
-import { Route as JsFormatterImport } from './pages/jsFormatter'
-import { Route as ImageToPdfImport } from './pages/imageToPdf'
-import { Route as ImageMetadataImport } from './pages/imageMetadata'
-import { Route as ImageCompressorImport } from './pages/imageCompressor'
-import { Route as HttpStatusImport } from './pages/httpStatus'
-import { Route as HttpHeadersImport } from './pages/httpHeaders'
-import { Route as HtmlJsConverterImport } from './pages/htmlJsConverter'
-import { Route as HexStringConverterImport } from './pages/hexStringConverter'
-import { Route as FileUploaderImport } from './pages/fileUploader'
-import { Route as CssFormatterImport } from './pages/cssFormatter'
-import { Route as ColorConverterImport } from './pages/colorConverter'
-import { Route as BrowserTabsImport } from './pages/browserTabs'
-import { Route as Base64ConverterImport } from './pages/base64Converter'
-import { Route as AudioMd5Import } from './pages/audioMd5'
-import { Route as AsciiTableImport } from './pages/asciiTable'
-import { Route as AboutImport } from './pages/about'
-import { Route as SpeechToTextImport } from './pages/SpeechToText'
-import { Route as IndexImport } from './pages/index'
+const SignatureLazyRouteImport = createFileRoute('/signature')()
+const JsonToTsLazyRouteImport = createFileRoute('/jsonToTs')()
+const CoordinateLazyRouteImport = createFileRoute('/coordinate')()
+const CalculateDistanceLazyRouteImport = createFileRoute('/calculateDistance')()
 
-// Create Virtual Routes
-
-const SignatureLazyImport = createFileRoute('/signature')()
-const JsonToTsLazyImport = createFileRoute('/jsonToTs')()
-const CoordinateLazyImport = createFileRoute('/coordinate')()
-const CalculateDistanceLazyImport = createFileRoute('/calculateDistance')()
-
-// Create/Update Routes
-
-const SignatureLazyRoute = SignatureLazyImport.update({
+const SignatureLazyRoute = SignatureLazyRouteImport.update({
   id: '/signature',
   path: '/signature',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./pages/signature.lazy').then((d) => d.Route))
-
-const JsonToTsLazyRoute = JsonToTsLazyImport.update({
+const JsonToTsLazyRoute = JsonToTsLazyRouteImport.update({
   id: '/jsonToTs',
   path: '/jsonToTs',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./pages/jsonToTs.lazy').then((d) => d.Route))
-
-const CoordinateLazyRoute = CoordinateLazyImport.update({
+const CoordinateLazyRoute = CoordinateLazyRouteImport.update({
   id: '/coordinate',
   path: '/coordinate',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./pages/coordinate.lazy').then((d) => d.Route))
-
-const CalculateDistanceLazyRoute = CalculateDistanceLazyImport.update({
+const CalculateDistanceLazyRoute = CalculateDistanceLazyRouteImport.update({
   id: '/calculateDistance',
   path: '/calculateDistance',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./pages/calculateDistance.lazy').then((d) => d.Route),
 )
-
-const YamlJsonConverterRoute = YamlJsonConverterImport.update({
+const YamlJsonConverterRoute = YamlJsonConverterRouteImport.update({
   id: '/yamlJsonConverter',
   path: '/yamlJsonConverter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const WebsocketClientRoute = WebsocketClientImport.update({
+const WebsocketClientRoute = WebsocketClientRouteImport.update({
   id: '/websocketClient',
   path: '/websocketClient',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const WatermarkRoute = WatermarkImport.update({
+const WatermarkRoute = WatermarkRouteImport.update({
   id: '/watermark',
   path: '/watermark',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const VideoToGifRoute = VideoToGifImport.update({
+const VideoToGifRoute = VideoToGifRouteImport.update({
   id: '/videoToGif',
   path: '/videoToGif',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const TimestampConverterRoute = TimestampConverterImport.update({
+const TimestampConverterRoute = TimestampConverterRouteImport.update({
   id: '/timestampConverter',
   path: '/timestampConverter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const TextDiffRoute = TextDiffImport.update({
+const TextDiffRoute = TextDiffRouteImport.update({
   id: '/textDiff',
   path: '/textDiff',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ScssConverterRoute = ScssConverterImport.update({
+const ScssConverterRoute = ScssConverterRouteImport.update({
   id: '/scssConverter',
   path: '/scssConverter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const QrGeneratorRoute = QrGeneratorImport.update({
+const QrGeneratorRoute = QrGeneratorRouteImport.update({
   id: '/qrGenerator',
   path: '/qrGenerator',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const PortTableRoute = PortTableImport.update({
+const PortTableRoute = PortTableRouteImport.update({
   id: '/portTable',
   path: '/portTable',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const PdfToWordRoute = PdfToWordImport.update({
+const PdfToWordRoute = PdfToWordRouteImport.update({
   id: '/pdfToWord',
   path: '/pdfToWord',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const PdfMergerRoute = PdfMergerImport.update({
+const PdfMergerRoute = PdfMergerRouteImport.update({
   id: '/pdfMerger',
   path: '/pdfMerger',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const MusicPlayerRoute = MusicPlayerImport.update({
+const MusicPlayerRoute = MusicPlayerRouteImport.update({
   id: '/musicPlayer',
   path: '/musicPlayer',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const JsonFormatterRoute = JsonFormatterImport.update({
+const JsonFormatterRoute = JsonFormatterRouteImport.update({
   id: '/jsonFormatter',
   path: '/jsonFormatter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const JsFormatterRoute = JsFormatterImport.update({
+const JsFormatterRoute = JsFormatterRouteImport.update({
   id: '/jsFormatter',
   path: '/jsFormatter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ImageToPdfRoute = ImageToPdfImport.update({
+const ImageToPdfRoute = ImageToPdfRouteImport.update({
   id: '/imageToPdf',
   path: '/imageToPdf',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ImageMetadataRoute = ImageMetadataImport.update({
+const ImageMetadataRoute = ImageMetadataRouteImport.update({
   id: '/imageMetadata',
   path: '/imageMetadata',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ImageCompressorRoute = ImageCompressorImport.update({
+const ImageCompressorRoute = ImageCompressorRouteImport.update({
   id: '/imageCompressor',
   path: '/imageCompressor',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const HttpStatusRoute = HttpStatusImport.update({
+const HttpStatusRoute = HttpStatusRouteImport.update({
   id: '/httpStatus',
   path: '/httpStatus',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const HttpHeadersRoute = HttpHeadersImport.update({
+const HttpHeadersRoute = HttpHeadersRouteImport.update({
   id: '/httpHeaders',
   path: '/httpHeaders',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const HtmlJsConverterRoute = HtmlJsConverterImport.update({
+const HtmlJsConverterRoute = HtmlJsConverterRouteImport.update({
   id: '/htmlJsConverter',
   path: '/htmlJsConverter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const HexStringConverterRoute = HexStringConverterImport.update({
+const HexStringConverterRoute = HexStringConverterRouteImport.update({
   id: '/hexStringConverter',
   path: '/hexStringConverter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const FileUploaderRoute = FileUploaderImport.update({
+const FileUploaderRoute = FileUploaderRouteImport.update({
   id: '/fileUploader',
   path: '/fileUploader',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CssFormatterRoute = CssFormatterImport.update({
+const CssFormatterRoute = CssFormatterRouteImport.update({
   id: '/cssFormatter',
   path: '/cssFormatter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ColorConverterRoute = ColorConverterImport.update({
+const ColorConverterRoute = ColorConverterRouteImport.update({
   id: '/colorConverter',
   path: '/colorConverter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const BrowserTabsRoute = BrowserTabsImport.update({
+const BrowserTabsRoute = BrowserTabsRouteImport.update({
   id: '/browserTabs',
   path: '/browserTabs',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const Base64ConverterRoute = Base64ConverterImport.update({
+const Base64ConverterRoute = Base64ConverterRouteImport.update({
   id: '/base64Converter',
   path: '/base64Converter',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AudioMd5Route = AudioMd5Import.update({
+const AudioMd5Route = AudioMd5RouteImport.update({
   id: '/audioMd5',
   path: '/audioMd5',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AsciiTableRoute = AsciiTableImport.update({
+const AsciiTableRoute = AsciiTableRouteImport.update({
   id: '/asciiTable',
   path: '/asciiTable',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AboutRoute = AboutImport.update({
+const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const SpeechToTextRoute = SpeechToTextImport.update({
+const SpeechToTextRoute = SpeechToTextRouteImport.update({
   id: '/SpeechToText',
   path: '/SpeechToText',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/SpeechToText': {
-      id: '/SpeechToText'
-      path: '/SpeechToText'
-      fullPath: '/SpeechToText'
-      preLoaderRoute: typeof SpeechToTextImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/asciiTable': {
-      id: '/asciiTable'
-      path: '/asciiTable'
-      fullPath: '/asciiTable'
-      preLoaderRoute: typeof AsciiTableImport
-      parentRoute: typeof rootRoute
-    }
-    '/audioMd5': {
-      id: '/audioMd5'
-      path: '/audioMd5'
-      fullPath: '/audioMd5'
-      preLoaderRoute: typeof AudioMd5Import
-      parentRoute: typeof rootRoute
-    }
-    '/base64Converter': {
-      id: '/base64Converter'
-      path: '/base64Converter'
-      fullPath: '/base64Converter'
-      preLoaderRoute: typeof Base64ConverterImport
-      parentRoute: typeof rootRoute
-    }
-    '/browserTabs': {
-      id: '/browserTabs'
-      path: '/browserTabs'
-      fullPath: '/browserTabs'
-      preLoaderRoute: typeof BrowserTabsImport
-      parentRoute: typeof rootRoute
-    }
-    '/colorConverter': {
-      id: '/colorConverter'
-      path: '/colorConverter'
-      fullPath: '/colorConverter'
-      preLoaderRoute: typeof ColorConverterImport
-      parentRoute: typeof rootRoute
-    }
-    '/cssFormatter': {
-      id: '/cssFormatter'
-      path: '/cssFormatter'
-      fullPath: '/cssFormatter'
-      preLoaderRoute: typeof CssFormatterImport
-      parentRoute: typeof rootRoute
-    }
-    '/fileUploader': {
-      id: '/fileUploader'
-      path: '/fileUploader'
-      fullPath: '/fileUploader'
-      preLoaderRoute: typeof FileUploaderImport
-      parentRoute: typeof rootRoute
-    }
-    '/hexStringConverter': {
-      id: '/hexStringConverter'
-      path: '/hexStringConverter'
-      fullPath: '/hexStringConverter'
-      preLoaderRoute: typeof HexStringConverterImport
-      parentRoute: typeof rootRoute
-    }
-    '/htmlJsConverter': {
-      id: '/htmlJsConverter'
-      path: '/htmlJsConverter'
-      fullPath: '/htmlJsConverter'
-      preLoaderRoute: typeof HtmlJsConverterImport
-      parentRoute: typeof rootRoute
-    }
-    '/httpHeaders': {
-      id: '/httpHeaders'
-      path: '/httpHeaders'
-      fullPath: '/httpHeaders'
-      preLoaderRoute: typeof HttpHeadersImport
-      parentRoute: typeof rootRoute
-    }
-    '/httpStatus': {
-      id: '/httpStatus'
-      path: '/httpStatus'
-      fullPath: '/httpStatus'
-      preLoaderRoute: typeof HttpStatusImport
-      parentRoute: typeof rootRoute
-    }
-    '/imageCompressor': {
-      id: '/imageCompressor'
-      path: '/imageCompressor'
-      fullPath: '/imageCompressor'
-      preLoaderRoute: typeof ImageCompressorImport
-      parentRoute: typeof rootRoute
-    }
-    '/imageMetadata': {
-      id: '/imageMetadata'
-      path: '/imageMetadata'
-      fullPath: '/imageMetadata'
-      preLoaderRoute: typeof ImageMetadataImport
-      parentRoute: typeof rootRoute
-    }
-    '/imageToPdf': {
-      id: '/imageToPdf'
-      path: '/imageToPdf'
-      fullPath: '/imageToPdf'
-      preLoaderRoute: typeof ImageToPdfImport
-      parentRoute: typeof rootRoute
-    }
-    '/jsFormatter': {
-      id: '/jsFormatter'
-      path: '/jsFormatter'
-      fullPath: '/jsFormatter'
-      preLoaderRoute: typeof JsFormatterImport
-      parentRoute: typeof rootRoute
-    }
-    '/jsonFormatter': {
-      id: '/jsonFormatter'
-      path: '/jsonFormatter'
-      fullPath: '/jsonFormatter'
-      preLoaderRoute: typeof JsonFormatterImport
-      parentRoute: typeof rootRoute
-    }
-    '/musicPlayer': {
-      id: '/musicPlayer'
-      path: '/musicPlayer'
-      fullPath: '/musicPlayer'
-      preLoaderRoute: typeof MusicPlayerImport
-      parentRoute: typeof rootRoute
-    }
-    '/pdfMerger': {
-      id: '/pdfMerger'
-      path: '/pdfMerger'
-      fullPath: '/pdfMerger'
-      preLoaderRoute: typeof PdfMergerImport
-      parentRoute: typeof rootRoute
-    }
-    '/pdfToWord': {
-      id: '/pdfToWord'
-      path: '/pdfToWord'
-      fullPath: '/pdfToWord'
-      preLoaderRoute: typeof PdfToWordImport
-      parentRoute: typeof rootRoute
-    }
-    '/portTable': {
-      id: '/portTable'
-      path: '/portTable'
-      fullPath: '/portTable'
-      preLoaderRoute: typeof PortTableImport
-      parentRoute: typeof rootRoute
-    }
-    '/qrGenerator': {
-      id: '/qrGenerator'
-      path: '/qrGenerator'
-      fullPath: '/qrGenerator'
-      preLoaderRoute: typeof QrGeneratorImport
-      parentRoute: typeof rootRoute
-    }
-    '/scssConverter': {
-      id: '/scssConverter'
-      path: '/scssConverter'
-      fullPath: '/scssConverter'
-      preLoaderRoute: typeof ScssConverterImport
-      parentRoute: typeof rootRoute
-    }
-    '/textDiff': {
-      id: '/textDiff'
-      path: '/textDiff'
-      fullPath: '/textDiff'
-      preLoaderRoute: typeof TextDiffImport
-      parentRoute: typeof rootRoute
-    }
-    '/timestampConverter': {
-      id: '/timestampConverter'
-      path: '/timestampConverter'
-      fullPath: '/timestampConverter'
-      preLoaderRoute: typeof TimestampConverterImport
-      parentRoute: typeof rootRoute
-    }
-    '/videoToGif': {
-      id: '/videoToGif'
-      path: '/videoToGif'
-      fullPath: '/videoToGif'
-      preLoaderRoute: typeof VideoToGifImport
-      parentRoute: typeof rootRoute
-    }
-    '/watermark': {
-      id: '/watermark'
-      path: '/watermark'
-      fullPath: '/watermark'
-      preLoaderRoute: typeof WatermarkImport
-      parentRoute: typeof rootRoute
-    }
-    '/websocketClient': {
-      id: '/websocketClient'
-      path: '/websocketClient'
-      fullPath: '/websocketClient'
-      preLoaderRoute: typeof WebsocketClientImport
-      parentRoute: typeof rootRoute
-    }
-    '/yamlJsonConverter': {
-      id: '/yamlJsonConverter'
-      path: '/yamlJsonConverter'
-      fullPath: '/yamlJsonConverter'
-      preLoaderRoute: typeof YamlJsonConverterImport
-      parentRoute: typeof rootRoute
-    }
-    '/calculateDistance': {
-      id: '/calculateDistance'
-      path: '/calculateDistance'
-      fullPath: '/calculateDistance'
-      preLoaderRoute: typeof CalculateDistanceLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/coordinate': {
-      id: '/coordinate'
-      path: '/coordinate'
-      fullPath: '/coordinate'
-      preLoaderRoute: typeof CoordinateLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/jsonToTs': {
-      id: '/jsonToTs'
-      path: '/jsonToTs'
-      fullPath: '/jsonToTs'
-      preLoaderRoute: typeof JsonToTsLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/signature': {
-      id: '/signature'
-      path: '/signature'
-      fullPath: '/signature'
-      preLoaderRoute: typeof SignatureLazyImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -557,7 +263,6 @@ export interface FileRoutesByFullPath {
   '/jsonToTs': typeof JsonToTsLazyRoute
   '/signature': typeof SignatureLazyRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
@@ -595,9 +300,8 @@ export interface FileRoutesByTo {
   '/jsonToTs': typeof JsonToTsLazyRoute
   '/signature': typeof SignatureLazyRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
@@ -634,7 +338,6 @@ export interface FileRoutesById {
   '/jsonToTs': typeof JsonToTsLazyRoute
   '/signature': typeof SignatureLazyRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -749,7 +452,6 @@ export interface FileRouteTypes {
     | '/signature'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SpeechToTextRoute: typeof SpeechToTextRoute
@@ -786,6 +488,256 @@ export interface RootRouteChildren {
   CoordinateLazyRoute: typeof CoordinateLazyRoute
   JsonToTsLazyRoute: typeof JsonToTsLazyRoute
   SignatureLazyRoute: typeof SignatureLazyRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/signature': {
+      id: '/signature'
+      path: '/signature'
+      fullPath: '/signature'
+      preLoaderRoute: typeof SignatureLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jsonToTs': {
+      id: '/jsonToTs'
+      path: '/jsonToTs'
+      fullPath: '/jsonToTs'
+      preLoaderRoute: typeof JsonToTsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coordinate': {
+      id: '/coordinate'
+      path: '/coordinate'
+      fullPath: '/coordinate'
+      preLoaderRoute: typeof CoordinateLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculateDistance': {
+      id: '/calculateDistance'
+      path: '/calculateDistance'
+      fullPath: '/calculateDistance'
+      preLoaderRoute: typeof CalculateDistanceLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yamlJsonConverter': {
+      id: '/yamlJsonConverter'
+      path: '/yamlJsonConverter'
+      fullPath: '/yamlJsonConverter'
+      preLoaderRoute: typeof YamlJsonConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/websocketClient': {
+      id: '/websocketClient'
+      path: '/websocketClient'
+      fullPath: '/websocketClient'
+      preLoaderRoute: typeof WebsocketClientRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watermark': {
+      id: '/watermark'
+      path: '/watermark'
+      fullPath: '/watermark'
+      preLoaderRoute: typeof WatermarkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/videoToGif': {
+      id: '/videoToGif'
+      path: '/videoToGif'
+      fullPath: '/videoToGif'
+      preLoaderRoute: typeof VideoToGifRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/timestampConverter': {
+      id: '/timestampConverter'
+      path: '/timestampConverter'
+      fullPath: '/timestampConverter'
+      preLoaderRoute: typeof TimestampConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/textDiff': {
+      id: '/textDiff'
+      path: '/textDiff'
+      fullPath: '/textDiff'
+      preLoaderRoute: typeof TextDiffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scssConverter': {
+      id: '/scssConverter'
+      path: '/scssConverter'
+      fullPath: '/scssConverter'
+      preLoaderRoute: typeof ScssConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/qrGenerator': {
+      id: '/qrGenerator'
+      path: '/qrGenerator'
+      fullPath: '/qrGenerator'
+      preLoaderRoute: typeof QrGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portTable': {
+      id: '/portTable'
+      path: '/portTable'
+      fullPath: '/portTable'
+      preLoaderRoute: typeof PortTableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdfToWord': {
+      id: '/pdfToWord'
+      path: '/pdfToWord'
+      fullPath: '/pdfToWord'
+      preLoaderRoute: typeof PdfToWordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdfMerger': {
+      id: '/pdfMerger'
+      path: '/pdfMerger'
+      fullPath: '/pdfMerger'
+      preLoaderRoute: typeof PdfMergerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/musicPlayer': {
+      id: '/musicPlayer'
+      path: '/musicPlayer'
+      fullPath: '/musicPlayer'
+      preLoaderRoute: typeof MusicPlayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jsonFormatter': {
+      id: '/jsonFormatter'
+      path: '/jsonFormatter'
+      fullPath: '/jsonFormatter'
+      preLoaderRoute: typeof JsonFormatterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jsFormatter': {
+      id: '/jsFormatter'
+      path: '/jsFormatter'
+      fullPath: '/jsFormatter'
+      preLoaderRoute: typeof JsFormatterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/imageToPdf': {
+      id: '/imageToPdf'
+      path: '/imageToPdf'
+      fullPath: '/imageToPdf'
+      preLoaderRoute: typeof ImageToPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/imageMetadata': {
+      id: '/imageMetadata'
+      path: '/imageMetadata'
+      fullPath: '/imageMetadata'
+      preLoaderRoute: typeof ImageMetadataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/imageCompressor': {
+      id: '/imageCompressor'
+      path: '/imageCompressor'
+      fullPath: '/imageCompressor'
+      preLoaderRoute: typeof ImageCompressorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/httpStatus': {
+      id: '/httpStatus'
+      path: '/httpStatus'
+      fullPath: '/httpStatus'
+      preLoaderRoute: typeof HttpStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/httpHeaders': {
+      id: '/httpHeaders'
+      path: '/httpHeaders'
+      fullPath: '/httpHeaders'
+      preLoaderRoute: typeof HttpHeadersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/htmlJsConverter': {
+      id: '/htmlJsConverter'
+      path: '/htmlJsConverter'
+      fullPath: '/htmlJsConverter'
+      preLoaderRoute: typeof HtmlJsConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hexStringConverter': {
+      id: '/hexStringConverter'
+      path: '/hexStringConverter'
+      fullPath: '/hexStringConverter'
+      preLoaderRoute: typeof HexStringConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fileUploader': {
+      id: '/fileUploader'
+      path: '/fileUploader'
+      fullPath: '/fileUploader'
+      preLoaderRoute: typeof FileUploaderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cssFormatter': {
+      id: '/cssFormatter'
+      path: '/cssFormatter'
+      fullPath: '/cssFormatter'
+      preLoaderRoute: typeof CssFormatterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/colorConverter': {
+      id: '/colorConverter'
+      path: '/colorConverter'
+      fullPath: '/colorConverter'
+      preLoaderRoute: typeof ColorConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browserTabs': {
+      id: '/browserTabs'
+      path: '/browserTabs'
+      fullPath: '/browserTabs'
+      preLoaderRoute: typeof BrowserTabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/base64Converter': {
+      id: '/base64Converter'
+      path: '/base64Converter'
+      fullPath: '/base64Converter'
+      preLoaderRoute: typeof Base64ConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audioMd5': {
+      id: '/audioMd5'
+      path: '/audioMd5'
+      fullPath: '/audioMd5'
+      preLoaderRoute: typeof AudioMd5RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/asciiTable': {
+      id: '/asciiTable'
+      path: '/asciiTable'
+      fullPath: '/asciiTable'
+      preLoaderRoute: typeof AsciiTableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/SpeechToText': {
+      id: '/SpeechToText'
+      path: '/SpeechToText'
+      fullPath: '/SpeechToText'
+      preLoaderRoute: typeof SpeechToTextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -825,159 +777,6 @@ const rootRouteChildren: RootRouteChildren = {
   JsonToTsLazyRoute: JsonToTsLazyRoute,
   SignatureLazyRoute: SignatureLazyRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/SpeechToText",
-        "/about",
-        "/asciiTable",
-        "/audioMd5",
-        "/base64Converter",
-        "/browserTabs",
-        "/colorConverter",
-        "/cssFormatter",
-        "/fileUploader",
-        "/hexStringConverter",
-        "/htmlJsConverter",
-        "/httpHeaders",
-        "/httpStatus",
-        "/imageCompressor",
-        "/imageMetadata",
-        "/imageToPdf",
-        "/jsFormatter",
-        "/jsonFormatter",
-        "/musicPlayer",
-        "/pdfMerger",
-        "/pdfToWord",
-        "/portTable",
-        "/qrGenerator",
-        "/scssConverter",
-        "/textDiff",
-        "/timestampConverter",
-        "/videoToGif",
-        "/watermark",
-        "/websocketClient",
-        "/yamlJsonConverter",
-        "/calculateDistance",
-        "/coordinate",
-        "/jsonToTs",
-        "/signature"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/SpeechToText": {
-      "filePath": "SpeechToText.tsx"
-    },
-    "/about": {
-      "filePath": "about.tsx"
-    },
-    "/asciiTable": {
-      "filePath": "asciiTable.tsx"
-    },
-    "/audioMd5": {
-      "filePath": "audioMd5.tsx"
-    },
-    "/base64Converter": {
-      "filePath": "base64Converter.tsx"
-    },
-    "/browserTabs": {
-      "filePath": "browserTabs.tsx"
-    },
-    "/colorConverter": {
-      "filePath": "colorConverter.tsx"
-    },
-    "/cssFormatter": {
-      "filePath": "cssFormatter.tsx"
-    },
-    "/fileUploader": {
-      "filePath": "fileUploader.tsx"
-    },
-    "/hexStringConverter": {
-      "filePath": "hexStringConverter.tsx"
-    },
-    "/htmlJsConverter": {
-      "filePath": "htmlJsConverter.tsx"
-    },
-    "/httpHeaders": {
-      "filePath": "httpHeaders.tsx"
-    },
-    "/httpStatus": {
-      "filePath": "httpStatus.tsx"
-    },
-    "/imageCompressor": {
-      "filePath": "imageCompressor.tsx"
-    },
-    "/imageMetadata": {
-      "filePath": "imageMetadata.tsx"
-    },
-    "/imageToPdf": {
-      "filePath": "imageToPdf.tsx"
-    },
-    "/jsFormatter": {
-      "filePath": "jsFormatter.tsx"
-    },
-    "/jsonFormatter": {
-      "filePath": "jsonFormatter.tsx"
-    },
-    "/musicPlayer": {
-      "filePath": "musicPlayer.tsx"
-    },
-    "/pdfMerger": {
-      "filePath": "pdfMerger.tsx"
-    },
-    "/pdfToWord": {
-      "filePath": "pdfToWord.tsx"
-    },
-    "/portTable": {
-      "filePath": "portTable.tsx"
-    },
-    "/qrGenerator": {
-      "filePath": "qrGenerator.tsx"
-    },
-    "/scssConverter": {
-      "filePath": "scssConverter.tsx"
-    },
-    "/textDiff": {
-      "filePath": "textDiff.tsx"
-    },
-    "/timestampConverter": {
-      "filePath": "timestampConverter.tsx"
-    },
-    "/videoToGif": {
-      "filePath": "videoToGif.tsx"
-    },
-    "/watermark": {
-      "filePath": "watermark.tsx"
-    },
-    "/websocketClient": {
-      "filePath": "websocketClient.tsx"
-    },
-    "/yamlJsonConverter": {
-      "filePath": "yamlJsonConverter.tsx"
-    },
-    "/calculateDistance": {
-      "filePath": "calculateDistance.lazy.tsx"
-    },
-    "/coordinate": {
-      "filePath": "coordinate.lazy.tsx"
-    },
-    "/jsonToTs": {
-      "filePath": "jsonToTs.lazy.tsx"
-    },
-    "/signature": {
-      "filePath": "signature.lazy.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

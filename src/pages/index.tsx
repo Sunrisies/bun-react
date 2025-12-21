@@ -19,7 +19,7 @@ function Index() {
     // 使用hook的方式
     const { canvasRef } = useDynamicGrid({
         gridSize: 25,
-        speed: 1.5,
+        speed: 0.25,
         borderColor: "#64748b",
         directionChangeInterval: 3000,
         animate: true
@@ -275,50 +275,107 @@ function Index() {
     ]
 
     return (
-        <main className="px-6 md:px-10 lg:px-20 py-8 min-h-screen relative">
-            {/* 使用hook渲染的Canvas动态网格背景 */ }
-            <div className="fixed inset-0 overflow-hidden" style={ { opacity: 0.9 } }>
+        <main className="px-6 md:px-10 lg:px-20 py-8 min-h-screen relative overflow-hidden">
+            {/* Enhanced Canvas Background with gradient overlay */ }
+            <div className="fixed inset-0 overflow-hidden">
                 <canvas
                     ref={ canvasRef }
                     className="w-full h-full"
-                    style={ { display: 'block' } }
+                    style={ { display: 'block', opacity: 0.6 } }
                 />
+                {/* Gradient overlay for better readability */ }
+                <div className="fixed inset-0 bg-gradient-to-br from-white/30 via-transparent to-white/20 dark:from-gray-900/40 dark:via-transparent dark:to-gray-900/20 pointer-events-none"></div>
+                {/* Ambient glow effects */ }
+                <div className="fixed top-[-10%] right-[-5%] w-96 h-96 bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-3xl animate-float-slow pointer-events-none"></div>
+                <div className="fixed bottom-[-10%] left-[-5%] w-80 h-80 bg-purple-400/10 dark:bg-purple-500/5 rounded-full blur-3xl animate-float-medium pointer-events-none"></div>
             </div>
 
             <div className="relative z-10">
-                <div className="max-w-7xl mx-auto mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">工具集合</h1>
-                    <p className="text-gray-600 dark:text-gray-400">一站式解决您的日常需求</p>
+                {/* Hero Section */ }
+                <div className="max-w-7xl mx-auto mb-12 text-center animate-on-scroll opacity-0">
+                    <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 dark:from-blue-400/20 dark:to-purple-400/20 rounded-full border border-blue-200/50 dark:border-blue-700/50">
+                        <span className="text-sm font-medium text-blue-600 dark:text-blue-400">🛠️ 全能工具箱</span>
+                    </div>
+                    <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 dark:from-gray-100 dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-4 tracking-tight">
+                        Sunrise 工具库
+                    </h1>
+                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        一站式解决您的日常开发需求，高效、优雅、强大
+                    </p>
+
+                    {/* Quick Stats */ }
+                    <div className="mt-8 flex justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            { categories.reduce((acc, cat) => acc + cat.items.length, 0) }+ 工具
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                            持续更新
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
+                            免费使用
+                        </div>
+                    </div>
                 </div>
 
-                <div className="max-w-7xl mx-auto space-y-10">
+                {/* Categories Grid */ }
+                <div className="max-w-7xl mx-auto space-y-12">
                     { categories.map((category, index) => (
-                        <div key={ category.title } className="space-y-4 animate-on-scroll opacity-0" style={ { animationDelay: `${index * 100}ms` } }>
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="w-1 h-6 bg-blue-500 dark:bg-blue-400 rounded-full"></div>
-                                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">{ category.title }</h2>
-                                <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{ category.items.length } 个工具</span>
+                        <div key={ category.title } className="animate-on-scroll opacity-0" style={ { animationDelay: `${index * 100}ms` } }>
+                            {/* Category Header */ }
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+                                    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{ category.title }</h2>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs font-medium px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-300 rounded-full border border-blue-200/50 dark:border-blue-700/50">
+                                        { category.items.length } 个工具
+                                    </span>
+                                </div>
                             </div>
 
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                            {/* Tools Grid */ }
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
                                 { category.items.map((item) => (
                                     <Card
                                         key={ item.path }
-                                        className="cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md dark:hover:shadow-blue-500/20 transition-all duration-200 rounded-lg overflow-hidden"
+                                        className="group cursor-pointer bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/60 dark:border-gray-700/60 hover:border-blue-300/50 dark:hover:border-blue-500/50 hover:shadow-xl dark:hover:shadow-blue-500/20 transition-all duration-300 rounded-xl overflow-hidden p-0"
                                         onClick={ () => handleEnterTool(item.path) }
                                     >
-                                        <CardHeader className="p-4 pb-3">
-                                            <CardTitle className="text-base font-medium text-gray-800 dark:text-gray-100 mb-1">{ item.title }</CardTitle>
-                                            <CardDescription className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">
-                                                { item.description }
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <div className="h-0.5 bg-gray-100 dark:bg-gray-700"></div>
+                                        <div className="relative overflow-hidden">
+                                            {/* Hover gradient overlay */ }
+                                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 dark:group-hover:from-blue-400/20 dark:group-hover:to-purple-400/20 transition-all duration-300"></div>
+
+                                            <CardHeader className="p-5 pb-4 relative z-10">
+                                                <div className="flex items-start justify-between mb-2">
+                                                    <CardTitle className="text-base font-bold text-gray-800 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                                                        { item.title }
+                                                    </CardTitle>
+                                                    <span className="text-lg opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                                        →
+                                                    </span>
+                                                </div>
+                                                <CardDescription className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 line-clamp-2 leading-relaxed min-h-[2.5em]">
+                                                    { item.description }
+                                                </CardDescription>
+                                            </CardHeader>
+
+                                            {/* Decorative bottom bar */ }
+                                            <div className="h-0.5 bg-gradient-to-r from-transparent via-blue-200/50 to-transparent dark:via-blue-700/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                        </div>
                                     </Card>
                                 )) }
                             </div>
                         </div>
                     )) }
+                </div>
+
+                {/* Footer Note */ }
+                <div className="max-w-7xl mx-auto mt-16 text-center text-sm text-gray-500 dark:text-gray-400 animate-on-scroll opacity-0" style={ { animationDelay: `${categories.length * 100}ms` } }>
+                    <p>✨ 更多实用工具持续开发中...</p>
                 </div>
             </div>
         </main>
