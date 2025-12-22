@@ -170,6 +170,11 @@ function Index() {
                     path: "/websocketClient"
                 },
                 {
+                    title: "MQTT客户端",
+                    description: "支持MQTT消息发布订阅",
+                    path: "/mqttClient"
+                },
+                {
                     title: "http状态码",
                     description: "http状态码",
                     path: "/httpStatus"

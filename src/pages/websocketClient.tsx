@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Plug, PlugZap, Send, Trash2, Copy, Check, Info, MessageCircle } from "lucide-react"
+import { ArrowLeft, Plug, PlugZap, Send, Trash2, Copy, Check, Info, MessageCircle, History, X } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -29,7 +29,16 @@ function RouteComponent() {
   const [messageInput, setMessageInput] = useState("")
   const [heartbeatMessage, setHeartbeatMessage] = useState("ping")
   const [heartbeatInterval, setHeartbeatInterval] = useState(30)
-  const [url, setUrl] = useState("ws://localhost:8080")
+  const [url, setUrl] = useState(() => {
+    // 从localStorage加载上次使用的URL或者默认值
+    const saved = localStorage.getItem("wsLastUrl")
+    return saved || "ws://localhost:8080"
+  })
+  const [urlHistory, setUrlHistory] = useState<string[]>(() => {
+    // 从localStorage加载URL历史
+    const saved = localStorage.getItem("wsUrlHistory")
+    return saved ? JSON.parse(saved) : []
+  })
   const [copiedMessage, setCopiedMessage] = useState<string | null>(null)
   const [presetMessages, setPresetMessages] = useState<string[]>(() => {
     // 从localStorage加载预设消息
@@ -37,6 +46,7 @@ function RouteComponent() {
     return saved ? JSON.parse(saved) : ["ping", "hello", "test message"]
   })
   const [newPreset, setNewPreset] = useState("")
+  const [showUrlHistory, setShowUrlHistory] = useState(false)
 
   const wsRef = useRef<WebSocket | null>(null)
   const heartbeatTimer = useRef<NodeJS.Timeout | null>(null)
@@ -67,6 +77,51 @@ function RouteComponent() {
     ])
   }
 
+  // 保存URL到历史记录
+  const saveToHistory = (urlToSave: string) => {
+    if (!urlToSave.trim()) return
+
+    // 移除重复的URL
+    const filtered = urlHistory.filter((item) => item !== urlToSave)
+
+    // 添加到开头
+    const newHistory = [urlToSave, ...filtered]
+
+    // 保持最多5条记录
+    const limited = newHistory.slice(0, 5)
+
+    setUrlHistory(limited)
+    localStorage.setItem("wsUrlHistory", JSON.stringify(limited))
+    localStorage.setItem("wsLastUrl", urlToSave)
+  }
+
+  // 从历史记录中选择URL
+  const selectFromHistory = (urlToSelect: string) => {
+    if (isConnected) {
+      toast.error("请先断开当前连接")
+      return
+    }
+    setUrl(urlToSelect)
+    setShowUrlHistory(false)
+    toast.success("已填充URL")
+  }
+
+  // 删除历史记录
+  const removeFromHistory = (urlToRemove: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newHistory = urlHistory.filter((item) => item !== urlToRemove)
+    setUrlHistory(newHistory)
+    localStorage.setItem("wsUrlHistory", JSON.stringify(newHistory))
+    toast.success("已删除历史记录")
+  }
+
+  // 清空历史记录
+  const clearHistory = () => {
+    setUrlHistory([])
+    localStorage.removeItem("wsUrlHistory")
+    toast.success("历史记录已清空")
+  }
+
   // WebSocket连接管理
   const handleConnect = () => {
     if (isConnected) {
@@ -81,6 +136,9 @@ function RouteComponent() {
         toast.error("请输入WebSocket地址")
         return
       }
+
+      // 保存到历史记录
+      saveToHistory(url)
 
       // 关闭现有连接
       if (wsRef.current) {
@@ -135,7 +193,7 @@ function RouteComponent() {
             const decoded = decoder.decode(buffer)
             handleData(decoded)
           } catch {
-            handleData(`[二进制数据: 字节]`)
+            handleData(`[二进制数据]`)
           }
         } else {
           try {
@@ -314,6 +372,53 @@ function RouteComponent() {
                       </Button>
                     </div>
                   </div>
+
+                  {/* URL历史记录管理 */ }
+                  { urlHistory.length > 0 && (
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <Label className="flex items-center gap-2 cursor-pointer" onClick={ () => setShowUrlHistory(!showUrlHistory) }>
+                          <History className="h-4 w-4" />
+                          历史记录 ({ urlHistory.length }/5)
+                          <span className="text-xs text-gray-400">
+                            { showUrlHistory ? "▼" : "▶" }
+                          </span>
+                        </Label>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={ clearHistory }
+                          className="h-6 px-2 text-xs"
+                        >
+                          清空
+                        </Button>
+                      </div>
+
+                      { showUrlHistory && (
+                        <div className="border rounded-md overflow-hidden">
+                          { urlHistory.map((item, index) => (
+                            <div
+                              key={ index }
+                              className="flex items-center justify-between p-2 hover:bg-gray-100 dark:hover:bg-gray-800 border-b last:border-b-0 cursor-pointer"
+                              onClick={ () => selectFromHistory(item) }
+                            >
+                              <div className="flex-1 overflow-hidden">
+                                <div className="font-mono text-xs truncate">{ item }</div>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={ (e) => removeFromHistory(item, e) }
+                                className="h-6 w-6 p-0 ml-2"
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          )) }
+                        </div>
+                      ) }
+                    </div>
+                  ) }
                 </div>
 
                 {/* 预设消息区 */ }

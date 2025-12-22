@@ -25,6 +25,7 @@ import { Route as PortTableImport } from './pages/portTable'
 import { Route as PdfToWordImport } from './pages/pdfToWord'
 import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
+import { Route as MqttClientImport } from './pages/mqttClient'
 import { Route as JsonFormatterImport } from './pages/jsonFormatter'
 import { Route as JsFormatterImport } from './pages/jsFormatter'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
@@ -149,6 +150,12 @@ const PdfMergerRoute = PdfMergerImport.update({
 const MusicPlayerRoute = MusicPlayerImport.update({
   id: '/musicPlayer',
   path: '/musicPlayer',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MqttClientRoute = MqttClientImport.update({
+  id: '/mqttClient',
+  path: '/mqttClient',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -403,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JsonFormatterImport
       parentRoute: typeof rootRoute
     }
+    '/mqttClient': {
+      id: '/mqttClient'
+      path: '/mqttClient'
+      fullPath: '/mqttClient'
+      preLoaderRoute: typeof MqttClientImport
+      parentRoute: typeof rootRoute
+    }
     '/musicPlayer': {
       id: '/musicPlayer'
       path: '/musicPlayer'
@@ -540,6 +554,7 @@ export interface FileRoutesByFullPath {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
@@ -578,6 +593,7 @@ export interface FileRoutesByTo {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
@@ -617,6 +633,7 @@ export interface FileRoutesById {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfToWord': typeof PdfToWordRoute
@@ -657,6 +674,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
@@ -694,6 +712,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
@@ -731,6 +750,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
     | '/pdfToWord'
@@ -770,6 +790,7 @@ export interface RootRouteChildren {
   ImageToPdfRoute: typeof ImageToPdfRoute
   JsFormatterRoute: typeof JsFormatterRoute
   JsonFormatterRoute: typeof JsonFormatterRoute
+  MqttClientRoute: typeof MqttClientRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
   PdfToWordRoute: typeof PdfToWordRoute
@@ -808,6 +829,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageToPdfRoute: ImageToPdfRoute,
   JsFormatterRoute: JsFormatterRoute,
   JsonFormatterRoute: JsonFormatterRoute,
+  MqttClientRoute: MqttClientRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
   PdfToWordRoute: PdfToWordRoute,
@@ -855,6 +877,7 @@ export const routeTree = rootRoute
         "/imageToPdf",
         "/jsFormatter",
         "/jsonFormatter",
+        "/mqttClient",
         "/musicPlayer",
         "/pdfMerger",
         "/pdfToWord",
@@ -929,6 +952,9 @@ export const routeTree = rootRoute
     },
     "/jsonFormatter": {
       "filePath": "jsonFormatter.tsx"
+    },
+    "/mqttClient": {
+      "filePath": "mqttClient.tsx"
     },
     "/musicPlayer": {
       "filePath": "musicPlayer.tsx"
