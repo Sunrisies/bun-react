@@ -1,21 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Plug, PlugZap, Send, Trash2 } from "lucide-react"
+import { ArrowLeft, Plug, PlugZap, Send, Trash2, Copy, Check, Info, MessageCircle } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 
 export const Route = createFileRoute("/websocketClient")({
   component: RouteComponent,
 })
 
 interface Message {
+  id: string
   content: string
   time: string
-  type: "send" | "receive"
+  type: "send" | "receive" | "system"
+  size?: number
 }
 
 function RouteComponent() {
@@ -23,34 +27,89 @@ function RouteComponent() {
   const [isConnected, setIsConnected] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [messageInput, setMessageInput] = useState("")
-  const [heartbeatMessage, setHeartbeatMessage] = useState("__HEARTBEAT__")
-  const [heartbeatInterval, setHeartbeatInterval] = useState(1)
-  const [url, setUrl] = useState("ws://127.0.0.1:18080")
+  const [heartbeatMessage, setHeartbeatMessage] = useState("ping")
+  const [heartbeatInterval, setHeartbeatInterval] = useState(30)
+  const [url, setUrl] = useState("ws://localhost:8080")
+  const [copiedMessage, setCopiedMessage] = useState<string | null>(null)
+  const [presetMessages, setPresetMessages] = useState<string[]>(() => {
+    // 从localStorage加载预设消息
+    const saved = localStorage.getItem("wsPresetMessages")
+    return saved ? JSON.parse(saved) : ["ping", "hello", "test message"]
+  })
+  const [newPreset, setNewPreset] = useState("")
+
   const wsRef = useRef<WebSocket | null>(null)
   const heartbeatTimer = useRef<NodeJS.Timeout | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // 生成唯一ID
+  const generateId = () => Math.random().toString(36).substring(2, 15)
+
+  // 滚动到消息底部
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  // 添加系统消息
+  const addSystemMessage = (content: string) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: generateId(),
+        content,
+        time: new Date().toLocaleTimeString(),
+        type: "system",
+      },
+    ])
+  }
 
   // WebSocket连接管理
   const handleConnect = () => {
-    if (isConnected) return
+    if (isConnected) {
+      // 断开连接
+      wsRef.current?.close()
+      addSystemMessage("主动断开连接")
+      return
+    }
 
     try {
+      if (!url.trim()) {
+        toast.error("请输入WebSocket地址")
+        return
+      }
+
+      // 关闭现有连接
+      if (wsRef.current) {
+        wsRef.current.close()
+        wsRef.current = null
+      }
+
+      toast.loading("正在连接...", { id: "connecting" })
+      addSystemMessage(`尝试连接到: ${url}`)
+
       wsRef.current = new WebSocket(url)
 
       wsRef.current.onopen = () => {
         setIsConnected(true)
         startHeartbeat()
-        toast.success("连接成功")
+        toast.success("连接成功", { id: "connecting" })
+        addSystemMessage("✓ 连接成功")
       }
 
       wsRef.current.onmessage = (e) => {
-        console.log("收到消息:", e)
         const handleData = (data: string) => {
           setMessages((prev) => [
             ...prev,
             {
+              id: generateId(),
               content: data,
               time: new Date().toLocaleTimeString(),
               type: "receive",
+              size: data.length,
             },
           ])
         }
@@ -63,36 +122,65 @@ function RouteComponent() {
           reader.onload = () => {
             handleData(reader.result as string)
           }
-          reader.onerror = (error) => {
-            console.error("Blob读取错误:", error)
+          reader.onerror = () => {
             handleData("[Blob数据读取失败]")
           }
           reader.readAsText(e.data)
+        } else if (e.data instanceof Uint8Array || e.data instanceof ArrayBuffer) {
+          try {
+            const decoder = new TextDecoder()
+            const buffer = e.data instanceof Uint8Array
+              ? e.data.buffer.slice(e.data.byteOffset, e.data.byteOffset + e.data.byteLength)
+              : e.data
+            const decoded = decoder.decode(buffer)
+            handleData(decoded)
+          } catch {
+            handleData(`[二进制数据: 字节]`)
+          }
         } else {
-          handleData(JSON.stringify(e.data))
+          try {
+            handleData(JSON.stringify(e.data))
+          } catch {
+            handleData(String(e.data))
+          }
         }
       }
 
-      wsRef.current.onerror = (e) => {
+      wsRef.current.onerror = () => {
         toast.error("连接发生错误")
-        console.error("WebSocket error:", e)
+        addSystemMessage("✗ 连接错误")
       }
 
-      wsRef.current.onclose = () => {
+      wsRef.current.onclose = (e) => {
         setIsConnected(false)
         stopHeartbeat()
+        const reason = e.reason || (e.code === 1000 ? "正常关闭" : "异常关闭")
+        addSystemMessage(`连接关闭: ${reason}`)
+
+        if (e.code !== 1000) {
+          toast.error(`连接关闭: ${reason}`)
+        }
       }
-    } catch (error) {
+    } catch {
       toast.error("连接失败")
-      console.error("连接错误:", error)
+      addSystemMessage("✗ 连接失败")
+      setIsConnected(false)
+      stopHeartbeat()
     }
   }
 
   // 心跳机制
   const startHeartbeat = () => {
-    if (heartbeatInterval > 0 && heartbeatMessage) {
+    if (heartbeatInterval > 0 && heartbeatMessage && wsRef.current) {
       heartbeatTimer.current = setInterval(() => {
-        wsRef.current?.send(heartbeatMessage)
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          try {
+            wsRef.current.send(heartbeatMessage)
+            addSystemMessage(`心跳: ${heartbeatMessage}`)
+          } catch {
+            addSystemMessage("心跳发送失败")
+          }
+        }
       }, heartbeatInterval * 1000)
     }
   }
@@ -106,26 +194,42 @@ function RouteComponent() {
 
   // 发送消息
   const sendMessage = () => {
-    if (!isConnected || !messageInput) return
+    if (!isConnected || !messageInput.trim()) return
 
     try {
       wsRef.current?.send(messageInput)
       setMessages((prev) => [
         ...prev,
         {
+          id: generateId(),
           content: messageInput,
           time: new Date().toLocaleTimeString(),
           type: "send",
+          size: messageInput.length,
         },
       ])
       setMessageInput("")
     } catch (error) {
       toast.error("消息发送失败")
-      console.error("发送错误:", error)
+      addSystemMessage("✗ 消息发送失败")
     }
   }
 
-  // 清理
+  // 复制消息内容
+  const copyMessage = (content: string) => {
+    navigator.clipboard.writeText(content)
+    setCopiedMessage(content)
+    toast.success("已复制")
+    setTimeout(() => setCopiedMessage(null), 2000)
+  }
+
+  // 清空消息
+  const clearMessages = () => {
+    setMessages([])
+    addSystemMessage("消息已清空")
+  }
+
+  // 清理资源
   useEffect(() => {
     return () => {
       wsRef.current?.close()
@@ -133,131 +237,286 @@ function RouteComponent() {
     }
   }, [])
 
+  // 获取连接状态显示
+  const getStatusDisplay = () => {
+    switch (true) {
+      case !isConnected:
+        return { color: "bg-red-500", text: "未连接", badge: "default" as const }
+      case isConnected:
+        return { color: "bg-green-500 animate-pulse", text: "已连接", badge: "success" as const }
+      default:
+        return { color: "bg-gray-500", text: "未知", badge: "secondary" as const }
+    }
+  }
+
+  const status = getStatusDisplay()
+
   return (
     <div className="h-[calc(100vh-4.2rem)] flex justify-center p-4 md:p-6 overflow-hidden">
-      <Card className="w-full max-w-4xl dark:bg-gray-800 dark:border-gray-700">
-        <CardHeader>
+      <Card className="w-full max-w-9xl dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
-            <CardTitle>WebSocket调试工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
+            <div className="flex items-center gap-3">
+              <CardTitle className="flex items-center gap-2">
+                <Plug className="h-5 w-5" />
+                WebSocket调试工具
+              </CardTitle>
+              <Badge variant={ status.badge as any } className="flex items-center gap-1">
+                <div className={ `w-2 h-2 rounded-full ${status.color}` }></div>
+                { status.text }
+              </Badge>
+            </div>
+            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" size="sm">
               <ArrowLeft className="h-4 w-4 mr-2" />
               返回首页
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {/* 连接控制 */ }
-          <div className="flex gap-4">
-            <Input
-              value={ url }
-              onChange={ (e) => setUrl(e.target.value) }
-              placeholder="WebSocket地址"
-              className="flex-1"
-            />
-            <Button
-              onClick={
-                isConnected ? () => wsRef.current?.close() : handleConnect
-              }
-              variant={ isConnected ? "destructive" : "default" }
-            >
-              { isConnected ? (
-                <PlugZap className="h-4 w-4 mr-2" />
-              ) : (
-                <Plug className="h-4 w-4 mr-2" />
-              ) }
-              { isConnected ? "断开连接" : "建立连接" }
-            </Button>
-          </div>
 
-          {/* 配置和发送区 */ }
-          <div className="flex gap-4">
-            <div className="flex gap-2">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">心跳间隔 (秒)</label>
-                <Input
-                  className="w-20"
-                  type="number"
-                  value={ heartbeatInterval }
-                  onChange={ (e) => setHeartbeatInterval(Number(e.target.value)) }
-                  min="0"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">心跳消息</label>
-                <Input
-                  value={ heartbeatMessage }
-                  onChange={ (e) => setHeartbeatMessage(e.target.value) }
-                  placeholder="心跳消息内容"
-                />
-              </div>
-            </div>
-
-            <div className="md:col-span-2 space-y-2 flex-1">
-              <label className="text-sm font-medium">发送消息</label>
-              <div className="flex gap-2">
-                <Textarea
-                  value={ messageInput }
-                  onChange={ (e) => setMessageInput(e.target.value) }
-                  placeholder="输入要发送的消息"
-                  rows={ 3 }
-                />
-                <Button onClick={ sendMessage } className="h-full">
-                  <Send className="h-4 w-4 mr-2" /> 发送
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* 消息展示区 */ }
-          <div className=" grid grid-cols-1 md:grid-cols-2 gap-4 h-96">
-            {/* 发送消息记录 */ }
-            <div className="border rounded p-2 bg-gray-50 h-full overflow-y-auto">
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="font-medium">发送记录</h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={ () => setMessages([]) }
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-              { messages
-                .filter((m) => m.type === "send")
-                .reverse()
-                .map((msg, i) => (
-                  <div key={ i } className="p-2 mb-2 bg-white rounded shadow-sm">
-                    <div className="text-xs text-gray-500">{ msg.time }</div>
-                    <pre className="whitespace-pre-wrap break-words">
-                      { msg.content }
-                    </pre>
+        <CardContent className="p-0">
+          <div className="flex h-[calc(100vh-12rem)]">
+            {/* 左侧控制面板 */ }
+            <div className="w-1/2 p-6 border-r dark:border-gray-700 overflow-y-auto">
+              <div className="space-y-6">
+                {/* 连接配置区 */ }
+                <div className="space-y-3">
+                  <div className="flex gap-2">
+                    <div className="flex-1 space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Info className="h-4 w-4" />
+                        WebSocket地址
+                      </Label>
+                      <Input
+                        value={ url }
+                        onChange={ (e) => setUrl(e.target.value) }
+                        placeholder="ws://localhost:8080 或 wss://example.com"
+                        disabled={ isConnected }
+                        className="font-mono"
+                      />
+                    </div>
+                    <div className="flex items-end">
+                      <Button
+                        onClick={ handleConnect }
+                        variant={ isConnected ? "destructive" : "default" }
+                        className="h-10 px-6"
+                      >
+                        { isConnected ? (
+                          <>
+                            <PlugZap className="h-4 w-4 mr-2" />
+                            断开
+                          </>
+                        ) : (
+                          <>
+                            <Plug className="h-4 w-4 mr-2" />
+                            连接
+                          </>
+                        ) }
+                      </Button>
+                    </div>
                   </div>
-                )) }
+                </div>
+
+                {/* 预设消息区 */ }
+                <div className="space-y-2">
+                  <Label>预设消息 (点击快速发送)</Label>
+                  <div className="flex flex-wrap gap-2">
+                    { presetMessages.map((msg, index) => (
+                      <Button
+                        key={ index }
+                        variant="outline"
+                        size="sm"
+                        onClick={ () => {
+                          if (isConnected) {
+                            setMessageInput(msg)
+                          }
+                        } }
+                        disabled={ !isConnected }
+                        className="font-mono text-xs"
+                      >
+                        { msg }
+                      </Button>
+                    )) }
+                    { presetMessages.length === 0 && (
+                      <span className="text-sm text-gray-400">暂无预设消息</span>
+                    ) }
+                  </div>
+
+                  {/* 添加新的预设消息 */ }
+                  <div className="flex gap-2">
+                    <Input
+                      value={ newPreset }
+                      onChange={ (e) => setNewPreset(e.target.value) }
+                      placeholder="输入新预设消息"
+                      className="flex-1"
+                    />
+                    <Button
+                      onClick={ () => {
+                        if (newPreset.trim()) {
+                          const newPresets = [...presetMessages, newPreset.trim()]
+                          setPresetMessages(newPresets)
+                          localStorage.setItem("wsPresetMessages", JSON.stringify(newPresets))
+                          setNewPreset("")
+                          toast.success("预设消息已添加")
+                        }
+                      } }
+                      disabled={ !newPreset.trim() }
+                      variant="outline"
+                    >
+                      添加
+                    </Button>
+                    <Button
+                      onClick={ () => {
+                        if (presetMessages.length > 0) {
+                          const newPresets: string[] = []
+                          setPresetMessages(newPresets)
+                          localStorage.setItem("wsPresetMessages", JSON.stringify(newPresets))
+                          toast.success("预设消息已清空")
+                        }
+                      } }
+                      disabled={ presetMessages.length === 0 }
+                      variant="destructive"
+                    >
+                      清空
+                    </Button>
+                  </div>
+                </div>
+
+                {/* 消息发送区 */ }
+                <div className="space-y-2">
+                  <Label>发送消息</Label>
+                  <div className="flex gap-2">
+                    <Textarea
+                      value={ messageInput }
+                      onChange={ (e) => setMessageInput(e.target.value) }
+                      placeholder={ isConnected ? "输入要发送的消息，按 Enter 发送" : "请先建立连接" }
+                      disabled={ !isConnected }
+                      rows={ 8 }
+                      className="font-mono resize-none"
+                      onKeyDown={ (e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault()
+                          sendMessage()
+                        }
+                      } }
+                    />
+                    <Button
+                      onClick={ sendMessage }
+                      disabled={ !isConnected || !messageInput.trim() }
+                      className="h-auto px-4"
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                {/* 心跳配置 */ }
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>心跳消息</Label>
+                    <Input
+                      value={ heartbeatMessage }
+                      onChange={ (e) => setHeartbeatMessage(e.target.value) }
+                      placeholder="心跳内容"
+                      disabled={ isConnected }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>心跳间隔 (秒)</Label>
+                    <Input
+                      type="number"
+                      value={ heartbeatInterval }
+                      onChange={ (e) => setHeartbeatInterval(Number(e.target.value)) }
+                      min="1"
+                      disabled={ isConnected }
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* 接收消息记录 */ }
-            <div className="border rounded p-2 bg-blue-50 h-full overflow-y-auto">
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="font-medium">接收记录</h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={ () => setMessages([]) }
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-              { messages
-                .filter((m) => m.type === "receive")
-                .reverse()
-                .map((msg, i) => (
-                  <div key={ i } className="p-2 mb-2 bg-white rounded shadow-sm">
-                    <div className="text-xs text-gray-500">{ msg.time }</div>
-                    <pre className="whitespace-pre-wrap break-words">
-                      { msg.content }
-                    </pre>
+            {/* 右侧消息记录区 */ }
+            <div className="w-1/2 p-6 overflow-y-auto">
+              <div className="space-y-4 h-full">
+                <div className="flex justify-between items-center">
+                  <Label className="flex items-center gap-2">
+                    <MessageCircle className="h-4 w-4" />
+                    消息记录 ({ messages.length })
+                  </Label>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={ clearMessages }
+                      disabled={ messages.length === 0 }
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      清空
+                    </Button>
                   </div>
-                )) }
+                </div>
+
+                <div className="border rounded-lg overflow-hidden flex-1">
+                  <div className="h-[calc(100vh-18rem)] overflow-y-auto bg-gray-50 dark:bg-gray-900 p-2 space-y-1">
+                    { messages.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center h-full text-gray-400 space-y-2">
+                        <div className="text-4xl">📭</div>
+                        <div className="text-sm">暂无消息记录</div>
+                        <div className="text-xs">连接后消息将显示在这里</div>
+                      </div>
+                    ) : (
+                      messages.map((msg) => (
+                        <div
+                          key={ msg.id }
+                          className={ `p-2 rounded border text-sm ${msg.type === "send"
+                            ? "bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800"
+                            : msg.type === "receive"
+                              ? "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800"
+                              : "bg-gray-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 text-gray-600 dark:text-gray-400"
+                            }` }
+                        >
+                          <div className="flex justify-between items-start mb-1">
+                            <div className="flex items-center gap-2">
+                              <Badge
+                                variant="outline"
+                                className={ `text-xs ${msg.type === "send"
+                                  ? "text-blue-700 border-blue-300"
+                                  : msg.type === "receive"
+                                    ? "text-green-700 border-green-300"
+                                    : "text-gray-600 border-gray-300"
+                                  }` }
+                              >
+                                { msg.type === "send" ? "发送" : msg.type === "receive" ? "接收" : "系统" }
+                              </Badge>
+                              <span className="text-xs text-gray-500">{ msg.time }</span>
+                              { msg.size && (
+                                <span className="text-xs text-gray-400">({ msg.size }字节)</span>
+                              ) }
+                            </div>
+                            { msg.type !== "system" && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0"
+                                onClick={ () => copyMessage(msg.content) }
+                              >
+                                { copiedMessage === msg.content ? (
+                                  <Check className="h-3 w-3 text-green-600" />
+                                ) : (
+                                  <Copy className="h-3 w-3" />
+                                ) }
+                              </Button>
+                            ) }
+                          </div>
+                          <pre className="whitespace-pre-wrap break-words font-mono text-xs">
+                            { msg.content }
+                          </pre>
+                        </div>
+                      ))
+                    ) }
+                    <div ref={ messagesEndRef } />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>
