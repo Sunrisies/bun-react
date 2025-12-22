@@ -333,7 +333,7 @@ function MqttClientComponent() {
             case !isConnected:
                 return { color: "bg-red-500", text: "未连接", badge: "default" as const }
             case isConnected:
-                return { color: "bg-green-500 animate-pulse", text: "已连接", badge: "success" as const }
+                return { color: "bg-green-500 animate-pulse", text: "已连接", badge: "outline" as const }
             default:
                 return { color: "bg-gray-500", text: "未知", badge: "secondary" as const }
         }
@@ -351,7 +351,7 @@ function MqttClientComponent() {
                                 <Plug className="h-5 w-5" />
                                 MQTT客户端工具
                             </CardTitle>
-                            <Badge variant={ status.badge as any } className="flex items-center gap-1">
+                            <Badge variant={ status.badge } className="flex items-center gap-1">
                                 <div className={ `w-2 h-2 rounded-full ${status.color}` }></div>
                                 { status.text }
                             </Badge>

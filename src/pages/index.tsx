@@ -195,6 +195,11 @@ function Index() {
             title: "坐标/地理工具",
             items: [
                 {
+                    title: "地图坐标工具",
+                    description: "支持输入坐标、点击地图获取坐标、批量导入",
+                    path: "/leafletMap"
+                },
+                {
                     title: "经纬度之间距离计算",
                     description: "计算两个经纬度之间的距离",
                     path: "/calculateDistance"

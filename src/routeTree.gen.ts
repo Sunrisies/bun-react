@@ -26,6 +26,7 @@ import { Route as PdfToWordImport } from './pages/pdfToWord'
 import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as MqttClientImport } from './pages/mqttClient'
+import { Route as LeafletMapImport } from './pages/leafletMap'
 import { Route as JsonFormatterImport } from './pages/jsonFormatter'
 import { Route as JsFormatterImport } from './pages/jsFormatter'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
@@ -156,6 +157,12 @@ const MusicPlayerRoute = MusicPlayerImport.update({
 const MqttClientRoute = MqttClientImport.update({
   id: '/mqttClient',
   path: '/mqttClient',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LeafletMapRoute = LeafletMapImport.update({
+  id: '/leafletMap',
+  path: '/leafletMap',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -410,6 +417,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JsonFormatterImport
       parentRoute: typeof rootRoute
     }
+    '/leafletMap': {
+      id: '/leafletMap'
+      path: '/leafletMap'
+      fullPath: '/leafletMap'
+      preLoaderRoute: typeof LeafletMapImport
+      parentRoute: typeof rootRoute
+    }
     '/mqttClient': {
       id: '/mqttClient'
       path: '/mqttClient'
@@ -554,6 +568,7 @@ export interface FileRoutesByFullPath {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/leafletMap': typeof LeafletMapRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -593,6 +608,7 @@ export interface FileRoutesByTo {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/leafletMap': typeof LeafletMapRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -633,6 +649,7 @@ export interface FileRoutesById {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/leafletMap': typeof LeafletMapRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -674,6 +691,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/leafletMap'
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -712,6 +730,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/leafletMap'
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -750,6 +769,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/leafletMap'
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -790,6 +810,7 @@ export interface RootRouteChildren {
   ImageToPdfRoute: typeof ImageToPdfRoute
   JsFormatterRoute: typeof JsFormatterRoute
   JsonFormatterRoute: typeof JsonFormatterRoute
+  LeafletMapRoute: typeof LeafletMapRoute
   MqttClientRoute: typeof MqttClientRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
@@ -829,6 +850,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageToPdfRoute: ImageToPdfRoute,
   JsFormatterRoute: JsFormatterRoute,
   JsonFormatterRoute: JsonFormatterRoute,
+  LeafletMapRoute: LeafletMapRoute,
   MqttClientRoute: MqttClientRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
@@ -877,6 +899,7 @@ export const routeTree = rootRoute
         "/imageToPdf",
         "/jsFormatter",
         "/jsonFormatter",
+        "/leafletMap",
         "/mqttClient",
         "/musicPlayer",
         "/pdfMerger",
@@ -952,6 +975,9 @@ export const routeTree = rootRoute
     },
     "/jsonFormatter": {
       "filePath": "jsonFormatter.tsx"
+    },
+    "/leafletMap": {
+      "filePath": "leafletMap.tsx"
     },
     "/mqttClient": {
       "filePath": "mqttClient.tsx"
