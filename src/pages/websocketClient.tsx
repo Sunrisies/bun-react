@@ -267,7 +267,7 @@ function RouteComponent() {
         },
       ])
       setMessageInput("")
-    } catch (error) {
+    } catch (error: any) {
       toast.error("消息发送失败")
       addSystemMessage("✗ 消息发送失败")
     }
