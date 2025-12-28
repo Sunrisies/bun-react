@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { downloadLocalFile } from "sunrise-utils"
 import { copyToClipboard } from "@/lib/utils"
+import { marked } from "marked"
 
 export const Route = createFileRoute("/markdownToWechat")({
     component: MarkdownToWechat,
@@ -17,65 +18,104 @@ function MarkdownToWechat() {
     const [input, setInput] = useState("")
     const [output, setOutput] = useState("")
 
-    // Markdown转微信公众号格式的核心转换函数
-    const convertMarkdownToWechat = (markdown: string): string => {
+    // Markdown转微信公众号格式的核心转换函数 - 使用marked库
+    const convertMarkdownToWechat = async (markdown: string): Promise<string> => {
         if (!markdown.trim()) return ""
 
-        let result = markdown
+        // 使用marked解析Markdown为HTML
+        const html = await marked.parse(markdown, {
+            gfm: true, // GitHub Flavored Markdown
+            breaks: true // 保留换行
+        })
 
-        // 1. 处理代码块 - 必须先处理，避免被其他规则影响
-        result = result.replace(/```([\s\S]*?)```/g, (match, code) => {
+        // 将HTML转换为微信公众号格式
+        let result = html as string
+
+        // 1. 处理代码块 - 转换为引用格式
+        result = result.replace(/<pre><code class="language-[^"]*">([\s\S]*?)<\/code><\/pre>/g, (match, code) => {
+            const lines = code.trim().split('\n')
+            return lines.map((line: string) => `> ${line}`).join('\n')
+        })
+
+        // 处理没有语言类的代码块
+        result = result.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g, (match, code) => {
             const lines = code.trim().split('\n')
             return lines.map((line: string) => `> ${line}`).join('\n')
         })
 
         // 2. 处理行内代码
-        result = result.replace(/`([^`]+)`/g, "「$1」")
+        result = result.replace(/<code>([^<]*)<\/code>/g, "「$1」")
 
         // 3. 处理加粗
-        result = result.replace(/\*\*(.*?)\*\*/g, "**$1**")
+        result = result.replace(/<strong>([^<]*)<\/strong>/g, "**$1**")
+        result = result.replace(/<b>([^<]*)<\/b>/g, "**$1**")
 
         // 4. 处理斜体
-        result = result.replace(/\*(.*?)\*/g, "*$1*")
+        result = result.replace(/<em>([^<]*)<\/em>/g, "*$1*")
 
         // 5. 处理链接 - 转换为微信公众号支持的格式
-        result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "【$1】($2)")
+        result = result.replace(/<a href="([^"]*)"[^>]*>([^<]*)<\/a>/g, "【$2】($1)")
 
         // 6. 处理标题 - 转换为加粗文本
-        result = result.replace(/^### (.*$)/gim, "**$1**")
-        result = result.replace(/^## (.*$)/gim, "**$1**")
-        result = result.replace(/^# (.*$)/gim, "**$1**")
+        result = result.replace(/<h1>([^<]*)<\/h1>/g, "**$1**")
+        result = result.replace(/<h2>([^<]*)<\/h2>/g, "**$1**")
+        result = result.replace(/<h3>([^<]*)<\/h3>/g, "**$1**")
+        result = result.replace(/<h4>([^<]*)<\/h4>/g, "**$1**")
+        result = result.replace(/<h5>([^<]*)<\/h5>/g, "**$1**")
+        result = result.replace(/<h6>([^<]*)<\/h6>/g, "**$1**")
 
         // 7. 处理无序列表
-        result = result.replace(/^[*\-]\s+(.*)$/gim, "• $1")
+        result = result.replace(/<li>([^<]*)<\/li>/g, "• $1")
+        result = result.replace(/<\/ul>\s*<ul>/g, "\n") // 合并连续的ul
+        result = result.replace(/<ul>([\s\S]*?)<\/ul>/g, "$1")
 
         // 8. 处理有序列表
-        result = result.replace(/^\d+\.\s+(.*)$/gim, "$1")
+        result = result.replace(/<ol>([\s\S]*?)<\/ol>/g, (match, content) => {
+            // 将li转换为数字列表
+            let index = 1
+            return content.replace(/<li>([^<]*)<\/li>/g, (m: string, item: string) => {
+                return `${index++}. ${item}`
+            })
+        })
 
         // 9. 处理引用块
-        result = result.replace(/^>\s+(.*)$/gim, "「$1」")
+        result = result.replace(/<blockquote>([\s\S]*?)<\/blockquote>/g, (match, content) => {
+            return content.trim().split('\n').map((line: string) => `「${line.trim()}」`).join('\n')
+        })
 
-        // 10. 处理分割线
-        result = result.replace(/^---$/gim, "——————————")
+        // 10. 处理段落 - 添加换行
+        result = result.replace(/<p>([^<]*)<\/p>/g, "$1\n\n")
 
-        // 11. 处理换行 - 微信公众号需要两个空格加换行
+        // 11. 处理分割线
+        result = result.replace(/<hr[^>]*>/g, "——————————")
+
+        // 12. 清理多余的HTML标签（如果有遗漏）
+        result = result.replace(/<[^>]+>/g, "")
+
+        // 13. 处理换行 - 微信公众号需要两个空格加换行
         result = result.replace(/\n/g, "  \n")
 
-        // 12. 清理多余的空格
+        // 14. 清理多余的空格和换行
         result = result.replace(/\s+$/gm, "")
+        result = result.replace(/(  \n){3,}/g, "  \n  \n") // 限制连续换行
 
         return result
     }
 
-    const handleConvert = () => {
+    const handleConvert = async () => {
         if (!input.trim()) {
             toast.error("请输入Markdown内容")
             return
         }
 
-        const converted = convertMarkdownToWechat(input)
-        setOutput(converted)
-        toast.success("转换完成")
+        try {
+            const converted = await convertMarkdownToWechat(input)
+            setOutput(converted)
+            toast.success("转换完成")
+        } catch (error) {
+            console.error("转换失败", error)
+            toast.error("转换失败")
+        }
     }
 
     const handleInputChange = (value: string) => {
