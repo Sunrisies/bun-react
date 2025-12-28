@@ -253,6 +253,11 @@ function Index() {
                     title: "文本对比工具",
                     description: "对比两段文本的差异，支持高亮显示",
                     path: "/textDiff"
+                },
+                {
+                    title: "Markdown转微信公众号",
+                    description: "Markdown格式转换为微信公众号格式",
+                    path: "/markdownToWechat"
                 }
             ]
         },
