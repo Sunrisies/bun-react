@@ -22,6 +22,7 @@ export default defineConfig({
   ],
   server: {
     open: true,
+    port: 12002,
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
