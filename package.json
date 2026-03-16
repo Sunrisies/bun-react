@@ -48,6 +48,7 @@
     "leaflet": "^1.9.4",
     "leaflet.chinatmsproviders": "^3.0.6",
     "lucide-react": "^0.477.0",
+    "marked": "^17.0.1",
     "mqtt": "^5.14.1",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.2.133",

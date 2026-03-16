@@ -26,6 +26,7 @@ import { Route as PdfToWordImport } from './pages/pdfToWord'
 import { Route as PdfMergerImport } from './pages/pdfMerger'
 import { Route as MusicPlayerImport } from './pages/musicPlayer'
 import { Route as MqttClientImport } from './pages/mqttClient'
+import { Route as MarkdownToWechatImport } from './pages/markdownToWechat'
 import { Route as LeafletMapImport } from './pages/leafletMap'
 import { Route as JsonFormatterImport } from './pages/jsonFormatter'
 import { Route as JsFormatterImport } from './pages/jsFormatter'
@@ -46,6 +47,7 @@ import { Route as AudioMd5Import } from './pages/audioMd5'
 import { Route as AsciiTableImport } from './pages/asciiTable'
 import { Route as AboutImport } from './pages/about'
 import { Route as SpeechToTextImport } from './pages/SpeechToText'
+import { Route as IndexImport } from './pages/index'
 
 // Create Virtual Routes
 
@@ -157,6 +159,12 @@ const MusicPlayerRoute = MusicPlayerImport.update({
 const MqttClientRoute = MqttClientImport.update({
   id: '/mqttClient',
   path: '/mqttClient',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MarkdownToWechatRoute = MarkdownToWechatImport.update({
+  id: '/markdownToWechat',
+  path: '/markdownToWechat',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -280,10 +288,23 @@ const SpeechToTextRoute = SpeechToTextImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/SpeechToText': {
       id: '/SpeechToText'
       path: '/SpeechToText'
@@ -424,6 +445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LeafletMapImport
       parentRoute: typeof rootRoute
     }
+    '/markdownToWechat': {
+      id: '/markdownToWechat'
+      path: '/markdownToWechat'
+      fullPath: '/markdownToWechat'
+      preLoaderRoute: typeof MarkdownToWechatImport
+      parentRoute: typeof rootRoute
+    }
     '/mqttClient': {
       id: '/mqttClient'
       path: '/mqttClient'
@@ -549,6 +577,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/asciiTable': typeof AsciiTableRoute
@@ -569,6 +598,7 @@ export interface FileRoutesByFullPath {
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
   '/leafletMap': typeof LeafletMapRoute
+  '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -589,6 +619,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/asciiTable': typeof AsciiTableRoute
@@ -609,6 +640,7 @@ export interface FileRoutesByTo {
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
   '/leafletMap': typeof LeafletMapRoute
+  '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -630,6 +662,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/asciiTable': typeof AsciiTableRoute
@@ -650,6 +683,7 @@ export interface FileRoutesById {
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
   '/leafletMap': typeof LeafletMapRoute
+  '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
@@ -672,6 +706,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/SpeechToText'
     | '/about'
     | '/asciiTable'
@@ -692,6 +727,7 @@ export interface FileRouteTypes {
     | '/jsFormatter'
     | '/jsonFormatter'
     | '/leafletMap'
+    | '/markdownToWechat'
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -711,6 +747,7 @@ export interface FileRouteTypes {
     | '/signature'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/SpeechToText'
     | '/about'
     | '/asciiTable'
@@ -731,6 +768,7 @@ export interface FileRouteTypes {
     | '/jsFormatter'
     | '/jsonFormatter'
     | '/leafletMap'
+    | '/markdownToWechat'
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -750,6 +788,7 @@ export interface FileRouteTypes {
     | '/signature'
   id:
     | '__root__'
+    | '/'
     | '/SpeechToText'
     | '/about'
     | '/asciiTable'
@@ -770,6 +809,7 @@ export interface FileRouteTypes {
     | '/jsFormatter'
     | '/jsonFormatter'
     | '/leafletMap'
+    | '/markdownToWechat'
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
@@ -791,6 +831,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   SpeechToTextRoute: typeof SpeechToTextRoute
   AboutRoute: typeof AboutRoute
   AsciiTableRoute: typeof AsciiTableRoute
@@ -811,6 +852,7 @@ export interface RootRouteChildren {
   JsFormatterRoute: typeof JsFormatterRoute
   JsonFormatterRoute: typeof JsonFormatterRoute
   LeafletMapRoute: typeof LeafletMapRoute
+  MarkdownToWechatRoute: typeof MarkdownToWechatRoute
   MqttClientRoute: typeof MqttClientRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
@@ -831,6 +873,7 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   SpeechToTextRoute: SpeechToTextRoute,
   AboutRoute: AboutRoute,
   AsciiTableRoute: AsciiTableRoute,
@@ -851,6 +894,7 @@ const rootRouteChildren: RootRouteChildren = {
   JsFormatterRoute: JsFormatterRoute,
   JsonFormatterRoute: JsonFormatterRoute,
   LeafletMapRoute: LeafletMapRoute,
+  MarkdownToWechatRoute: MarkdownToWechatRoute,
   MqttClientRoute: MqttClientRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
@@ -880,6 +924,7 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/SpeechToText",
         "/about",
         "/asciiTable",
@@ -900,6 +945,7 @@ export const routeTree = rootRoute
         "/jsFormatter",
         "/jsonFormatter",
         "/leafletMap",
+        "/markdownToWechat",
         "/mqttClient",
         "/musicPlayer",
         "/pdfMerger",
@@ -918,6 +964,9 @@ export const routeTree = rootRoute
         "/jsonToTs",
         "/signature"
       ]
+    },
+    "/": {
+      "filePath": "index.tsx"
     },
     "/SpeechToText": {
       "filePath": "SpeechToText.tsx"
@@ -978,6 +1027,9 @@ export const routeTree = rootRoute
     },
     "/leafletMap": {
       "filePath": "leafletMap.tsx"
+    },
+    "/markdownToWechat": {
+      "filePath": "markdownToWechat.tsx"
     },
     "/mqttClient": {
       "filePath": "mqttClient.tsx"
