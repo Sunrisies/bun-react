@@ -125,6 +125,11 @@ function Index() {
                     path: "/watermark"
                 },
                 {
+                    title: "图库",
+                    description: "图片浏览与管理工具，支持缩放、旋转等操作",
+                    path: "/imageGallery"
+                },
+                {
                     title: "音频MD5计算",
                     description: "计算音频文件的MD5哈希值",
                     path: "/audioMd5"

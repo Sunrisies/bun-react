@@ -31,6 +31,7 @@ import { Route as JsonFormatterImport } from './pages/jsonFormatter'
 import { Route as JsFormatterImport } from './pages/jsFormatter'
 import { Route as ImageToPdfImport } from './pages/imageToPdf'
 import { Route as ImageMetadataImport } from './pages/imageMetadata'
+import { Route as ImageGalleryImport } from './pages/imageGallery'
 import { Route as ImageCompressorImport } from './pages/imageCompressor'
 import { Route as HttpStatusImport } from './pages/httpStatus'
 import { Route as HttpHeadersImport } from './pages/httpHeaders'
@@ -45,7 +46,6 @@ import { Route as AudioMd5Import } from './pages/audioMd5'
 import { Route as AsciiTableImport } from './pages/asciiTable'
 import { Route as AboutImport } from './pages/about'
 import { Route as SpeechToTextImport } from './pages/SpeechToText'
-import { Route as IndexImport } from './pages/index'
 
 // Create Virtual Routes
 
@@ -190,6 +190,12 @@ const ImageMetadataRoute = ImageMetadataImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ImageGalleryRoute = ImageGalleryImport.update({
+  id: '/imageGallery',
+  path: '/imageGallery',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ImageCompressorRoute = ImageCompressorImport.update({
   id: '/imageCompressor',
   path: '/imageCompressor',
@@ -274,23 +280,10 @@ const SpeechToTextRoute = SpeechToTextImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/SpeechToText': {
       id: '/SpeechToText'
       path: '/SpeechToText'
@@ -387,6 +380,13 @@ declare module '@tanstack/react-router' {
       path: '/imageCompressor'
       fullPath: '/imageCompressor'
       preLoaderRoute: typeof ImageCompressorImport
+      parentRoute: typeof rootRoute
+    }
+    '/imageGallery': {
+      id: '/imageGallery'
+      path: '/imageGallery'
+      fullPath: '/imageGallery'
+      preLoaderRoute: typeof ImageGalleryImport
       parentRoute: typeof rootRoute
     }
     '/imageMetadata': {
@@ -549,7 +549,6 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/asciiTable': typeof AsciiTableRoute
@@ -564,6 +563,7 @@ export interface FileRoutesByFullPath {
   '/httpHeaders': typeof HttpHeadersRoute
   '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
+  '/imageGallery': typeof ImageGalleryRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
@@ -589,7 +589,6 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/asciiTable': typeof AsciiTableRoute
@@ -604,6 +603,7 @@ export interface FileRoutesByTo {
   '/httpHeaders': typeof HttpHeadersRoute
   '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
+  '/imageGallery': typeof ImageGalleryRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
@@ -630,7 +630,6 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
   '/SpeechToText': typeof SpeechToTextRoute
   '/about': typeof AboutRoute
   '/asciiTable': typeof AsciiTableRoute
@@ -645,6 +644,7 @@ export interface FileRoutesById {
   '/httpHeaders': typeof HttpHeadersRoute
   '/httpStatus': typeof HttpStatusRoute
   '/imageCompressor': typeof ImageCompressorRoute
+  '/imageGallery': typeof ImageGalleryRoute
   '/imageMetadata': typeof ImageMetadataRoute
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
@@ -672,7 +672,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/SpeechToText'
     | '/about'
     | '/asciiTable'
@@ -687,6 +686,7 @@ export interface FileRouteTypes {
     | '/httpHeaders'
     | '/httpStatus'
     | '/imageCompressor'
+    | '/imageGallery'
     | '/imageMetadata'
     | '/imageToPdf'
     | '/jsFormatter'
@@ -711,7 +711,6 @@ export interface FileRouteTypes {
     | '/signature'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/SpeechToText'
     | '/about'
     | '/asciiTable'
@@ -726,6 +725,7 @@ export interface FileRouteTypes {
     | '/httpHeaders'
     | '/httpStatus'
     | '/imageCompressor'
+    | '/imageGallery'
     | '/imageMetadata'
     | '/imageToPdf'
     | '/jsFormatter'
@@ -750,7 +750,6 @@ export interface FileRouteTypes {
     | '/signature'
   id:
     | '__root__'
-    | '/'
     | '/SpeechToText'
     | '/about'
     | '/asciiTable'
@@ -765,6 +764,7 @@ export interface FileRouteTypes {
     | '/httpHeaders'
     | '/httpStatus'
     | '/imageCompressor'
+    | '/imageGallery'
     | '/imageMetadata'
     | '/imageToPdf'
     | '/jsFormatter'
@@ -791,7 +791,6 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   SpeechToTextRoute: typeof SpeechToTextRoute
   AboutRoute: typeof AboutRoute
   AsciiTableRoute: typeof AsciiTableRoute
@@ -806,6 +805,7 @@ export interface RootRouteChildren {
   HttpHeadersRoute: typeof HttpHeadersRoute
   HttpStatusRoute: typeof HttpStatusRoute
   ImageCompressorRoute: typeof ImageCompressorRoute
+  ImageGalleryRoute: typeof ImageGalleryRoute
   ImageMetadataRoute: typeof ImageMetadataRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
   JsFormatterRoute: typeof JsFormatterRoute
@@ -831,7 +831,6 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   SpeechToTextRoute: SpeechToTextRoute,
   AboutRoute: AboutRoute,
   AsciiTableRoute: AsciiTableRoute,
@@ -846,6 +845,7 @@ const rootRouteChildren: RootRouteChildren = {
   HttpHeadersRoute: HttpHeadersRoute,
   HttpStatusRoute: HttpStatusRoute,
   ImageCompressorRoute: ImageCompressorRoute,
+  ImageGalleryRoute: ImageGalleryRoute,
   ImageMetadataRoute: ImageMetadataRoute,
   ImageToPdfRoute: ImageToPdfRoute,
   JsFormatterRoute: JsFormatterRoute,
@@ -880,7 +880,6 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/SpeechToText",
         "/about",
         "/asciiTable",
@@ -895,6 +894,7 @@ export const routeTree = rootRoute
         "/httpHeaders",
         "/httpStatus",
         "/imageCompressor",
+        "/imageGallery",
         "/imageMetadata",
         "/imageToPdf",
         "/jsFormatter",
@@ -918,9 +918,6 @@ export const routeTree = rootRoute
         "/jsonToTs",
         "/signature"
       ]
-    },
-    "/": {
-      "filePath": "index.tsx"
     },
     "/SpeechToText": {
       "filePath": "SpeechToText.tsx"
@@ -963,6 +960,9 @@ export const routeTree = rootRoute
     },
     "/imageCompressor": {
       "filePath": "imageCompressor.tsx"
+    },
+    "/imageGallery": {
+      "filePath": "imageGallery.tsx"
     },
     "/imageMetadata": {
       "filePath": "imageMetadata.tsx"

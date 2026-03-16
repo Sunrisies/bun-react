@@ -105,7 +105,7 @@ document.getElementById('container').innerHTML = \`${cleanHtml}\`;`
   }
 
   return (
-    <div className="flex h-[calc(100vh-64px)] ">
+    <div className="flex h-[calc(100vh-64px)]">
       <Card className="w-full max-w-[90%] m-auto flex flex-col h-[90%] dark:bg-gray-800 dark:border-gray-700">
         <CardHeader className="border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
