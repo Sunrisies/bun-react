@@ -74,6 +74,7 @@ function formatTime(isoString: string): string {
 function ImageGallery() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
   const [saveToLocal, setSaveToLocal] = useState(true)
+  const [isInitialized, setIsInitialized] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
@@ -93,10 +94,21 @@ function ImageGallery() {
       setSaveToLocal(settings.saveToLocal ?? true)
     }
 
+    // 始终尝试从本地存储加载文件
     const savedFiles = localStorage.getItem(STORAGE_KEY)
+    console.log("Loaded settings from local storage:", savedFiles)
+
     if (savedFiles) {
-      setUploadedFiles(JSON.parse(savedFiles))
+      try {
+        setUploadedFiles(JSON.parse(savedFiles))
+      } catch (error) {
+        console.error("加载本地文件失败:", error)
+        localStorage.removeItem(STORAGE_KEY)
+      }
     }
+
+    // 标记初始化完成
+    setIsInitialized(true)
   }, [])
 
   // 保存设置到本地存储
@@ -104,12 +116,20 @@ function ImageGallery() {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify({ saveToLocal }))
   }, [saveToLocal])
 
-  // 当开启保存时，更新本地存储
+  // 当开启保存时，更新本地存储；当关闭保存时，清除本地存储
   useEffect(() => {
+    // 只有在初始化完成后才执行此逻辑
+    if (!isInitialized) return
+
+    console.log("saveToLocal changed:", saveToLocal)
     if (saveToLocal) {
+      console.log("Saving uploaded files to local storage:", uploadedFiles)
       localStorage.setItem(STORAGE_KEY, JSON.stringify(uploadedFiles))
+    } else {
+      console.log("Clearing local storage because saveToLocal is false")
+      localStorage.removeItem(STORAGE_KEY)
     }
-  }, [uploadedFiles, saveToLocal])
+  }, [uploadedFiles, saveToLocal, isInitialized])
 
   // 主题切换
   useEffect(() => {
@@ -143,21 +163,38 @@ function ImageGallery() {
     }
   }
 
-  // 模拟上传（实际项目中替换为真实 API）
+  // 上传文件到服务器
   const uploadFile = async (file: File): Promise<UploadedFile> => {
-    // 模拟上传延迟
-    await new Promise((resolve) => setTimeout(resolve, 800 + Math.random() * 400))
+    const formData = new FormData()
+    formData.append("payload", file)
 
-    // 生成模拟 URL（实际项目中使用真实上传返回的 URL）
-    const timestamp = Date.now()
-    const randomStr = Math.random().toString(36).substring(2, 8)
-    const mockUrl = `https://img.example.com/images/${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, "0")}/${String(new Date().getDate()).padStart(2, "0")}/${file.name.replace(/\s/g, "_")}_${timestamp}${randomStr}${file.name.substring(file.name.lastIndexOf("."))}`
+    try {
+      const response = await fetch("https://api.sunrise1024.top/api/v1/images/upload", {
+        method: 'POST',
+        body: formData,
+      })
 
-    return {
-      id: `${timestamp}-${randomStr}`,
-      filename: file.name,
-      url: mockUrl,
-      uploadTime: new Date().toISOString(),
+      if (!response.ok) {
+        throw new Error(`上传失败: ${response.status} ${response.statusText}`)
+      }
+
+      const result = await response.json()
+
+      if (result.code !== 200) {
+        throw new Error(result.message || "上传失败")
+      }
+
+      const { id, url, filename, created_at } = result.data
+
+      return {
+        id: String(id),
+        filename: filename || file.name,
+        url: url,
+        uploadTime: created_at || new Date().toISOString(),
+      }
+    } catch (error) {
+      console.error("上传错误:", error)
+      throw error
     }
   }
 
@@ -262,13 +299,13 @@ function ImageGallery() {
   // 清空所有记录
   const handleClearAll = () => {
     setUploadedFiles([])
-    localStorage.removeItem(STORAGE_KEY)
+    console.log("Clearing all records, saveToLocal:", saveToLocal)
     showToast("已清空所有记录")
   }
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
+      <div className="h-[calc(100vh-4.04rem)] bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
         {/* Toast 通知 */ }
         <div
           className={ cn(
@@ -291,21 +328,6 @@ function ImageGallery() {
                 <h1 className="text-lg font-semibold text-slate-900 dark:text-white">
                   图床上传
                 </h1>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={ () => setTheme(theme === "light" ? "dark" : "light") }
-                  className="text-slate-600 dark:text-slate-400"
-                >
-                  { theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" /> }
-                </Button>
-                <Button variant="ghost" size="sm" className="gap-2 text-slate-600 dark:text-slate-400">
-                  <Info className="h-4 w-4" />
-                  <span className="hidden sm:inline">关于</span>
-                </Button>
               </div>
             </div>
           </div>
