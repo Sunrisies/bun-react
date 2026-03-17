@@ -90,6 +90,11 @@ function Index() {
                     path: "/pdfToWord"
                 },
                 {
+                    title: "PDF拆分",
+                    description: "PDF拆分",
+                    path: "/pdfSplitter"
+                },
+                {
                     title: "图片转PDF",
                     description: "合并多张图片为PDF文件",
                     path: "/imageToPdf"

@@ -21,6 +21,8 @@ import { Route as ScssConverterRouteImport } from './pages/scssConverter'
 import { Route as QrGeneratorRouteImport } from './pages/qrGenerator'
 import { Route as PortTableRouteImport } from './pages/portTable'
 import { Route as PdfToWordRouteImport } from './pages/pdfToWord'
+import { Route as PdfSplitter_newRouteImport } from './pages/pdfSplitter_new'
+import { Route as PdfSplitterRouteImport } from './pages/pdfSplitter'
 import { Route as PdfMergerRouteImport } from './pages/pdfMerger'
 import { Route as MusicPlayerRouteImport } from './pages/musicPlayer'
 import { Route as MqttClientRouteImport } from './pages/mqttClient'
@@ -122,6 +124,16 @@ const PortTableRoute = PortTableRouteImport.update({
 const PdfToWordRoute = PdfToWordRouteImport.update({
   id: '/pdfToWord',
   path: '/pdfToWord',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfSplitter_newRoute = PdfSplitter_newRouteImport.update({
+  id: '/pdfSplitter_new',
+  path: '/pdfSplitter_new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfSplitterRoute = PdfSplitterRouteImport.update({
+  id: '/pdfSplitter',
+  path: '/pdfSplitter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PdfMergerRoute = PdfMergerRouteImport.update({
@@ -276,6 +288,8 @@ export interface FileRoutesByFullPath {
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
+  '/pdfSplitter': typeof PdfSplitterRoute
+  '/pdfSplitter_new': typeof PdfSplitter_newRoute
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
@@ -317,6 +331,8 @@ export interface FileRoutesByTo {
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
+  '/pdfSplitter': typeof PdfSplitterRoute
+  '/pdfSplitter_new': typeof PdfSplitter_newRoute
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
@@ -359,6 +375,8 @@ export interface FileRoutesById {
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
   '/pdfMerger': typeof PdfMergerRoute
+  '/pdfSplitter': typeof PdfSplitterRoute
+  '/pdfSplitter_new': typeof PdfSplitter_newRoute
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
@@ -402,6 +420,8 @@ export interface FileRouteTypes {
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
+    | '/pdfSplitter'
+    | '/pdfSplitter_new'
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
@@ -443,6 +463,8 @@ export interface FileRouteTypes {
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
+    | '/pdfSplitter'
+    | '/pdfSplitter_new'
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
@@ -484,6 +506,8 @@ export interface FileRouteTypes {
     | '/mqttClient'
     | '/musicPlayer'
     | '/pdfMerger'
+    | '/pdfSplitter'
+    | '/pdfSplitter_new'
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
@@ -526,6 +550,8 @@ export interface RootRouteChildren {
   MqttClientRoute: typeof MqttClientRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
   PdfMergerRoute: typeof PdfMergerRoute
+  PdfSplitterRoute: typeof PdfSplitterRoute
+  PdfSplitter_newRoute: typeof PdfSplitter_newRoute
   PdfToWordRoute: typeof PdfToWordRoute
   PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
@@ -640,6 +666,20 @@ declare module '@tanstack/react-router' {
       path: '/pdfToWord'
       fullPath: '/pdfToWord'
       preLoaderRoute: typeof PdfToWordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdfSplitter_new': {
+      id: '/pdfSplitter_new'
+      path: '/pdfSplitter_new'
+      fullPath: '/pdfSplitter_new'
+      preLoaderRoute: typeof PdfSplitter_newRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdfSplitter': {
+      id: '/pdfSplitter'
+      path: '/pdfSplitter'
+      fullPath: '/pdfSplitter'
+      preLoaderRoute: typeof PdfSplitterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pdfMerger': {
@@ -846,6 +886,8 @@ const rootRouteChildren: RootRouteChildren = {
   MqttClientRoute: MqttClientRoute,
   MusicPlayerRoute: MusicPlayerRoute,
   PdfMergerRoute: PdfMergerRoute,
+  PdfSplitterRoute: PdfSplitterRoute,
+  PdfSplitter_newRoute: PdfSplitter_newRoute,
   PdfToWordRoute: PdfToWordRoute,
   PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
