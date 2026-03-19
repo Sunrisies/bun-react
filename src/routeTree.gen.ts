@@ -39,6 +39,7 @@ import { Route as HttpHeadersRouteImport } from './pages/httpHeaders'
 import { Route as HtmlJsConverterRouteImport } from './pages/htmlJsConverter'
 import { Route as HexStringConverterRouteImport } from './pages/hexStringConverter'
 import { Route as FileUploaderRouteImport } from './pages/fileUploader'
+import { Route as CsvJsonConverterRouteImport } from './pages/csvJsonConverter'
 import { Route as CssFormatterRouteImport } from './pages/cssFormatter'
 import { Route as ColorConverterRouteImport } from './pages/colorConverter'
 import { Route as BrowserTabsRouteImport } from './pages/browserTabs'
@@ -216,6 +217,11 @@ const FileUploaderRoute = FileUploaderRouteImport.update({
   path: '/fileUploader',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CsvJsonConverterRoute = CsvJsonConverterRouteImport.update({
+  id: '/csvJsonConverter',
+  path: '/csvJsonConverter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CssFormatterRoute = CssFormatterRouteImport.update({
   id: '/cssFormatter',
   path: '/cssFormatter',
@@ -272,6 +278,7 @@ export interface FileRoutesByFullPath {
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
+  '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/htmlJsConverter': typeof HtmlJsConverterRoute
@@ -315,6 +322,7 @@ export interface FileRoutesByTo {
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
+  '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/htmlJsConverter': typeof HtmlJsConverterRoute
@@ -359,6 +367,7 @@ export interface FileRoutesById {
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
+  '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/fileUploader': typeof FileUploaderRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/htmlJsConverter': typeof HtmlJsConverterRoute
@@ -404,6 +413,7 @@ export interface FileRouteTypes {
     | '/browserTabs'
     | '/colorConverter'
     | '/cssFormatter'
+    | '/csvJsonConverter'
     | '/fileUploader'
     | '/hexStringConverter'
     | '/htmlJsConverter'
@@ -447,6 +457,7 @@ export interface FileRouteTypes {
     | '/browserTabs'
     | '/colorConverter'
     | '/cssFormatter'
+    | '/csvJsonConverter'
     | '/fileUploader'
     | '/hexStringConverter'
     | '/htmlJsConverter'
@@ -490,6 +501,7 @@ export interface FileRouteTypes {
     | '/browserTabs'
     | '/colorConverter'
     | '/cssFormatter'
+    | '/csvJsonConverter'
     | '/fileUploader'
     | '/hexStringConverter'
     | '/htmlJsConverter'
@@ -534,6 +546,7 @@ export interface RootRouteChildren {
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
   CssFormatterRoute: typeof CssFormatterRoute
+  CsvJsonConverterRoute: typeof CsvJsonConverterRoute
   FileUploaderRoute: typeof FileUploaderRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
   HtmlJsConverterRoute: typeof HtmlJsConverterRoute
@@ -794,6 +807,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FileUploaderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/csvJsonConverter': {
+      id: '/csvJsonConverter'
+      path: '/csvJsonConverter'
+      fullPath: '/csvJsonConverter'
+      preLoaderRoute: typeof CsvJsonConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cssFormatter': {
       id: '/cssFormatter'
       path: '/cssFormatter'
@@ -870,6 +890,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
   CssFormatterRoute: CssFormatterRoute,
+  CsvJsonConverterRoute: CsvJsonConverterRoute,
   FileUploaderRoute: FileUploaderRoute,
   HexStringConverterRoute: HexStringConverterRoute,
   HtmlJsConverterRoute: HtmlJsConverterRoute,
