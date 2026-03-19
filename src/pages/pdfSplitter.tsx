@@ -3,7 +3,7 @@ import { CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import JSZip from 'jszip'
-import { ArrowLeft, CheckCircle2, FileText, FileUp, Loader2, Play, RotateCcw, Trash2 } from "lucide-react"
+import { ArrowLeft, FileText, FileUp, Loader2, Play, RotateCcw, Trash2 } from "lucide-react"
 import { PDFDocument } from 'pdf-lib'
 import * as pdfjsLib from 'pdfjs-dist'
 import { useEffect, useRef, useState } from "react"
@@ -11,10 +11,10 @@ import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
 
 // 设置 PDF.js worker
-// pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-//   'pdfjs-dist/build/pdf.worker.min.mjs',
-//   import.meta.url
-// ).toString()
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url
+).toString()
 
 export const Route = createFileRoute("/pdfSplitter")({
   component: PdfSplitterComponent,
@@ -37,15 +37,8 @@ function PdfSplitterComponent() {
   const [pageRanges, setPageRanges] = useState<PageRange[]>([{ start: 1, end: 1 }])
   const [isProcessing, setIsProcessing] = useState(false)
   const [previewPages, setPreviewPages] = useState<PreviewPage[]>([])
-  const [showPreview, setShowPreview] = useState(false)
-  const [splitType, setSplitType] = useState('range')
   const [fixed, setFixed] = useState(1)
-  const [rangeMode, setRangeMode] = useState('custom')
-  const [ranges, setRanges] = useState([{ start: 1, end: 7 }])
-  const [mergeAll, setMergeAll] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
   const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const workerRef = useRef<Worker | null>(null)
   useEffect(() => {
     workerRef.current = new Worker(
@@ -121,22 +114,54 @@ function PdfSplitterComponent() {
           const ctx = canvas.getContext('2d')
           console.time("生成PDF预览")
           if (ctx) {
-            for (let i = 0; i < pageCount; i++) {
-              const page = await pdfJsDoc.getPage(i + 1)
-              const viewport = page.getViewport({ scale: 0.5 })
-              canvas.height = viewport.height
-              canvas.width = viewport.width
-              console.log(`页面 ${i + 1} 开始渲染，尺寸: ${canvas.width}x${canvas.height}`, page)
-              await page.render({
-                canvasContext: ctx,
-                viewport: viewport
-              }).promise
-              console.log(`页面 ${i + 1} 渲染完成`)
-              pages.push({
-                pageNumber: i + 1,
-                thumbnail: canvas.toDataURL()
-              })
+            const generatePreviews = async () => {
+              const pages: PreviewPage[] = []
+              const BATCH_SIZE = 10 // 每批并发渲染 5 页，可根据设备性能调整
+
+              for (let start = 1; start <= pageCount; start += BATCH_SIZE) {
+                const end = Math.min(start + BATCH_SIZE - 1, pageCount)
+                const batchTasks = []
+
+                for (let pageNum = start; pageNum <= end; pageNum++) {
+                  batchTasks.push(
+                    (async () => {
+                      // 每个任务创建独立的 canvas
+                      const canvas = document.createElement('canvas')
+                      const ctx = canvas.getContext('2d')!
+
+                      const page = await pdfJsDoc.getPage(pageNum)
+                      const viewport = page.getViewport({ scale: 0.5 })
+                      canvas.width = viewport.width
+                      canvas.height = viewport.height
+
+                      console.log(`页面 ${pageNum} 开始渲染`)
+                      await page.render({ canvasContext: ctx, viewport }).promise
+                      console.log(`页面 ${pageNum} 渲染完成`)
+
+                      // 转换为 Blob 并生成 URL
+                      const blob = await new Promise<Blob>((resolve) =>
+                        canvas.toBlob((b) => resolve(b!), 'image/jpeg', 0.7)
+                      )
+                      const url = URL.createObjectURL(blob)
+
+                      return { pageNumber: pageNum, thumbnail: url }
+                    })()
+                  )
+                }
+
+                // 等待本批所有页面完成
+                const batchResults = await Promise.all(batchTasks)
+                pages.push(...batchResults)
+
+                // 可选：每批完成后更新 UI，让用户看到逐步加载的效果
+                setPreviewPages([...pages])
+              }
+
+              // 全部完成后可进行整体提示（如 toast）
+              toast.success(`成功加载 ${pageCount} 页`)
             }
+            generatePreviews()
+
           }
           console.timeEnd("生成PDF预览")
 
@@ -242,26 +267,12 @@ function PdfSplitterComponent() {
     setPageRanges([{ start: 1, end: 1 }])
     setPreviewPages([])
     setPdfDoc(null)
-    setShowPreview(false)
   }
 
 
   const resetForm = () => {
-    setRanges([{ start: 1, end: 7 }])
-    setMergeAll(false)
-    setSplitType('range')
-    setRangeMode('custom')
-    setIsComplete(false)
   }
 
-  // const handleSplit = () => {
-  //   setIsProcessing(true)
-  //   setTimeout(() => {
-  //     setIsProcessing(false)
-  //     setIsComplete(true)
-  //     setTimeout(() => setIsComplete(false), 2000)
-  //   }, 1500)
-  // }
 
 
   return (
@@ -343,7 +354,7 @@ function PdfSplitterComponent() {
                 {/* 页面范围设置 */ }
                 <div className="bg-gradient-to-br from-slate-100 to-slate-200 p-4 md:p-8 font-sans">
                   <div className="max-w-4xl mx-auto">
-                    { splitType === 'range' && (
+                    { (
                       <div className="animate-fade-in">
                         <div className="mb-6">
                           <label className="block text-sm font-medium text-slate-700 mb-3">范围模式：固定</label>
@@ -378,21 +389,14 @@ function PdfSplitterComponent() {
                       </button>
                       <button
                         onClick={ handleSplit }
-                        disabled={ isProcessing || isComplete }
-                        className={ `flex-1 py-3 rounded-lg font-medium flex items-center justify-center gap-2 text-white transition-all duration-300 ${isComplete
-                          ? 'bg-emerald-500 hover:bg-emerald-500'
-                          : 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5'
-                          } disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none` }
+                        disabled={ isProcessing }
+                        className={ `flex-1 py-3 rounded-lg font-medium flex items-center justify-center gap-2 text-white transition-all duration-300 
+                           disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none` }
                       >
                         { isProcessing ? (
                           <>
                             <Loader2 className="w-5 h-5 animate-spin" />
                             处理中...
-                          </>
-                        ) : isComplete ? (
-                          <>
-                            <CheckCircle2 className="w-5 h-5" />
-                            完成！
                           </>
                         ) : (
                           <>
