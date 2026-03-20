@@ -42,6 +42,7 @@ import { Route as HttpHeadersRouteImport } from './pages/httpHeaders'
 import { Route as HtmlJsConverterRouteImport } from './pages/htmlJsConverter'
 import { Route as HexStringConverterRouteImport } from './pages/hexStringConverter'
 import { Route as HashCalculatorRouteImport } from './pages/hashCalculator'
+import { Route as GradientGeneratorRouteImport } from './pages/gradientGenerator'
 import { Route as FileUploaderRouteImport } from './pages/fileUploader'
 import { Route as CsvJsonConverterRouteImport } from './pages/csvJsonConverter'
 import { Route as CssFormatterRouteImport } from './pages/cssFormatter'
@@ -236,6 +237,11 @@ const HashCalculatorRoute = HashCalculatorRouteImport.update({
   path: '/hashCalculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GradientGeneratorRoute = GradientGeneratorRouteImport.update({
+  id: '/gradientGenerator',
+  path: '/gradientGenerator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FileUploaderRoute = FileUploaderRouteImport.update({
   id: '/fileUploader',
   path: '/fileUploader',
@@ -304,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/fileUploader': typeof FileUploaderRoute
+  '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/htmlJsConverter': typeof HtmlJsConverterRoute
@@ -352,6 +359,7 @@ export interface FileRoutesByTo {
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/fileUploader': typeof FileUploaderRoute
+  '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/htmlJsConverter': typeof HtmlJsConverterRoute
@@ -401,6 +409,7 @@ export interface FileRoutesById {
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/fileUploader': typeof FileUploaderRoute
+  '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
   '/hexStringConverter': typeof HexStringConverterRoute
   '/htmlJsConverter': typeof HtmlJsConverterRoute
@@ -451,6 +460,7 @@ export interface FileRouteTypes {
     | '/cssFormatter'
     | '/csvJsonConverter'
     | '/fileUploader'
+    | '/gradientGenerator'
     | '/hashCalculator'
     | '/hexStringConverter'
     | '/htmlJsConverter'
@@ -499,6 +509,7 @@ export interface FileRouteTypes {
     | '/cssFormatter'
     | '/csvJsonConverter'
     | '/fileUploader'
+    | '/gradientGenerator'
     | '/hashCalculator'
     | '/hexStringConverter'
     | '/htmlJsConverter'
@@ -547,6 +558,7 @@ export interface FileRouteTypes {
     | '/cssFormatter'
     | '/csvJsonConverter'
     | '/fileUploader'
+    | '/gradientGenerator'
     | '/hashCalculator'
     | '/hexStringConverter'
     | '/htmlJsConverter'
@@ -596,6 +608,7 @@ export interface RootRouteChildren {
   CssFormatterRoute: typeof CssFormatterRoute
   CsvJsonConverterRoute: typeof CsvJsonConverterRoute
   FileUploaderRoute: typeof FileUploaderRoute
+  GradientGeneratorRoute: typeof GradientGeneratorRoute
   HashCalculatorRoute: typeof HashCalculatorRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
   HtmlJsConverterRoute: typeof HtmlJsConverterRoute
@@ -880,6 +893,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HashCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gradientGenerator': {
+      id: '/gradientGenerator'
+      path: '/gradientGenerator'
+      fullPath: '/gradientGenerator'
+      preLoaderRoute: typeof GradientGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fileUploader': {
       id: '/fileUploader'
       path: '/fileUploader'
@@ -972,6 +992,7 @@ const rootRouteChildren: RootRouteChildren = {
   CssFormatterRoute: CssFormatterRoute,
   CsvJsonConverterRoute: CsvJsonConverterRoute,
   FileUploaderRoute: FileUploaderRoute,
+  GradientGeneratorRoute: GradientGeneratorRoute,
   HashCalculatorRoute: HashCalculatorRoute,
   HexStringConverterRoute: HexStringConverterRoute,
   HtmlJsConverterRoute: HtmlJsConverterRoute,

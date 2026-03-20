@@ -241,6 +241,11 @@ function Index() {
 					path: "/cssFormatter",
 				},
 				{
+					title: "CSS渐变生成器",
+					description: "可视化生成线性、径向、锥形渐变",
+					path: "/gradientGenerator",
+				},
+				{
 					title: "SCSS转CSS",
 					description: "SCSS代码转换为CSS代码",
 					path: "/scssConverter",
