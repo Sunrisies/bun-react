@@ -271,6 +271,11 @@ function Index() {
 					path: "/textDiff",
 				},
 				{
+					title: "Hash计算器",
+					description: "计算文本或文件的MD5/SHA1/SHA256/SHA512等Hash值",
+					path: "/hashCalculator",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",
