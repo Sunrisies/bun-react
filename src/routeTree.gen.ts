@@ -28,6 +28,7 @@ import { Route as MusicPlayerRouteImport } from './pages/musicPlayer'
 import { Route as MqttClientRouteImport } from './pages/mqttClient'
 import { Route as MarkdownToWechatRouteImport } from './pages/markdownToWechat'
 import { Route as LeafletMapRouteImport } from './pages/leafletMap'
+import { Route as JwtDecoderRouteImport } from './pages/jwtDecoder'
 import { Route as JsonFormatterRouteImport } from './pages/jsonFormatter'
 import { Route as JsFormatterRouteImport } from './pages/jsFormatter'
 import { Route as ImageToPdfRouteImport } from './pages/imageToPdf'
@@ -161,6 +162,11 @@ const MarkdownToWechatRoute = MarkdownToWechatRouteImport.update({
 const LeafletMapRoute = LeafletMapRouteImport.update({
   id: '/leafletMap',
   path: '/leafletMap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JwtDecoderRoute = JwtDecoderRouteImport.update({
+  id: '/jwtDecoder',
+  path: '/jwtDecoder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JsonFormatterRoute = JsonFormatterRouteImport.update({
@@ -297,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/jwtDecoder': typeof JwtDecoderRoute
   '/leafletMap': typeof LeafletMapRoute
   '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
@@ -342,6 +349,7 @@ export interface FileRoutesByTo {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/jwtDecoder': typeof JwtDecoderRoute
   '/leafletMap': typeof LeafletMapRoute
   '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
@@ -388,6 +396,7 @@ export interface FileRoutesById {
   '/imageToPdf': typeof ImageToPdfRoute
   '/jsFormatter': typeof JsFormatterRoute
   '/jsonFormatter': typeof JsonFormatterRoute
+  '/jwtDecoder': typeof JwtDecoderRoute
   '/leafletMap': typeof LeafletMapRoute
   '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
@@ -435,6 +444,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/jwtDecoder'
     | '/leafletMap'
     | '/markdownToWechat'
     | '/mqttClient'
@@ -480,6 +490,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/jwtDecoder'
     | '/leafletMap'
     | '/markdownToWechat'
     | '/mqttClient'
@@ -525,6 +536,7 @@ export interface FileRouteTypes {
     | '/imageToPdf'
     | '/jsFormatter'
     | '/jsonFormatter'
+    | '/jwtDecoder'
     | '/leafletMap'
     | '/markdownToWechat'
     | '/mqttClient'
@@ -571,6 +583,7 @@ export interface RootRouteChildren {
   ImageToPdfRoute: typeof ImageToPdfRoute
   JsFormatterRoute: typeof JsFormatterRoute
   JsonFormatterRoute: typeof JsonFormatterRoute
+  JwtDecoderRoute: typeof JwtDecoderRoute
   LeafletMapRoute: typeof LeafletMapRoute
   MarkdownToWechatRoute: typeof MarkdownToWechatRoute
   MqttClientRoute: typeof MqttClientRoute
@@ -741,6 +754,13 @@ declare module '@tanstack/react-router' {
       path: '/leafletMap'
       fullPath: '/leafletMap'
       preLoaderRoute: typeof LeafletMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jwtDecoder': {
+      id: '/jwtDecoder'
+      path: '/jwtDecoder'
+      fullPath: '/jwtDecoder'
+      preLoaderRoute: typeof JwtDecoderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jsonFormatter': {
@@ -923,6 +943,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageToPdfRoute: ImageToPdfRoute,
   JsFormatterRoute: JsFormatterRoute,
   JsonFormatterRoute: JsonFormatterRoute,
+  JwtDecoderRoute: JwtDecoderRoute,
   LeafletMapRoute: LeafletMapRoute,
   MarkdownToWechatRoute: MarkdownToWechatRoute,
   MqttClientRoute: MqttClientRoute,

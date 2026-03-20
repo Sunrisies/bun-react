@@ -276,6 +276,11 @@ function Index() {
 					path: "/hashCalculator",
 				},
 				{
+					title: "JWT解码器",
+					description: "解码和解析JWT Token，查看Header、Payload和签名",
+					path: "/jwtDecoder",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",
