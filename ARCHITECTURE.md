@@ -551,6 +551,7 @@ dist/
 | 密码生成器 | 生成强随机密码 | 高 | 待实现 |
 | ✅ Hash 计算器 | MD5/SHA1/SHA256/SHA512 | 高 | 已完成 |
 | ✅ JWT 解码器 | 解析 JWT Token | 高 | 已完成 |
+| ✅ JWT 生成器 | 创建 JWT Token | 中 | 已完成 |
 | JWT 解码器 | 解析 JWT Token | 高 |
 | JWT 生成器 | 创建 JWT Token | 中 |
 | 对称加密/解密 | AES/DES/3DES 加密 | 中 |
@@ -651,6 +652,7 @@ Phase 1 (核心功能补充)
 ├── ✅ CSV/JSON 转换 (已完成)
 ├── ✅ Hash 计算器 (已完成)
 ├── ✅ JWT 解码器 (已完成)
+├── ✅ JWT 生成器 (已完成)
 ├── 密码生成器
 ├── UUID 生成器
 ├── 进制转换器

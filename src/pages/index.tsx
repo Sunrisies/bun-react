@@ -281,6 +281,11 @@ function Index() {
 					path: "/jwtDecoder",
 				},
 				{
+					title: "JWT生成器",
+					description: "创建和签名JWT Token，支持HMAC算法",
+					path: "/jwtGenerator",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",
