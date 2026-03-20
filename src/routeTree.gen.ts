@@ -17,6 +17,7 @@ import { Route as WatermarkRouteImport } from './pages/watermark'
 import { Route as VideoToGifRouteImport } from './pages/videoToGif'
 import { Route as TimestampConverterRouteImport } from './pages/timestampConverter'
 import { Route as TextDiffRouteImport } from './pages/textDiff'
+import { Route as SymmetricCryptoRouteImport } from './pages/symmetricCrypto'
 import { Route as ScssConverterRouteImport } from './pages/scssConverter'
 import { Route as QrGeneratorRouteImport } from './pages/qrGenerator'
 import { Route as PortTableRouteImport } from './pages/portTable'
@@ -108,6 +109,11 @@ const TimestampConverterRoute = TimestampConverterRouteImport.update({
 const TextDiffRoute = TextDiffRouteImport.update({
   id: '/textDiff',
   path: '/textDiff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SymmetricCryptoRoute = SymmetricCryptoRouteImport.update({
+  id: '/symmetricCrypto',
+  path: '/symmetricCrypto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScssConverterRoute = ScssConverterRouteImport.update({
@@ -322,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -369,6 +376,7 @@ export interface FileRoutesByTo {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -417,6 +425,7 @@ export interface FileRoutesById {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/videoToGif': typeof VideoToGifRoute
@@ -466,6 +475,7 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
     | '/videoToGif'
@@ -513,6 +523,7 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
     | '/videoToGif'
@@ -560,6 +571,7 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
     | '/videoToGif'
@@ -608,6 +620,7 @@ export interface RootRouteChildren {
   PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   ScssConverterRoute: typeof ScssConverterRoute
+  SymmetricCryptoRoute: typeof SymmetricCryptoRoute
   TextDiffRoute: typeof TextDiffRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
@@ -690,6 +703,13 @@ declare module '@tanstack/react-router' {
       path: '/textDiff'
       fullPath: '/textDiff'
       preLoaderRoute: typeof TextDiffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/symmetricCrypto': {
+      id: '/symmetricCrypto'
+      path: '/symmetricCrypto'
+      fullPath: '/symmetricCrypto'
+      preLoaderRoute: typeof SymmetricCryptoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/scssConverter': {
@@ -976,6 +996,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   ScssConverterRoute: ScssConverterRoute,
+  SymmetricCryptoRoute: SymmetricCryptoRoute,
   TextDiffRoute: TextDiffRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   VideoToGifRoute: VideoToGifRoute,

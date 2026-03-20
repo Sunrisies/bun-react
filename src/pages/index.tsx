@@ -286,6 +286,11 @@ function Index() {
 					path: "/jwtGenerator",
 				},
 				{
+					title: "对称加密/解密",
+					description: "支持AES-CBC/GCM/CTR加密和解密",
+					path: "/symmetricCrypto",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",
