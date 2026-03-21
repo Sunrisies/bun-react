@@ -296,6 +296,11 @@ function Index() {
 					path: "/symmetricCrypto",
 				},
 				{
+					title: "密码生成器",
+					description: "生成安全的随机密码，支持自定义长度和字符类型",
+					path: "/passwordGenerator",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",

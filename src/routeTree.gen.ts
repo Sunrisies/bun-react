@@ -25,6 +25,7 @@ import { Route as PdfToWordRouteImport } from './pages/pdfToWord'
 import { Route as PdfSplitter_newRouteImport } from './pages/pdfSplitter_new'
 import { Route as PdfSplitterRouteImport } from './pages/pdfSplitter'
 import { Route as PdfMergerRouteImport } from './pages/pdfMerger'
+import { Route as PasswordGeneratorRouteImport } from './pages/passwordGenerator'
 import { Route as MusicPlayerRouteImport } from './pages/musicPlayer'
 import { Route as MqttClientRouteImport } from './pages/mqttClient'
 import { Route as MarkdownToWechatRouteImport } from './pages/markdownToWechat'
@@ -150,6 +151,11 @@ const PdfSplitterRoute = PdfSplitterRouteImport.update({
 const PdfMergerRoute = PdfMergerRouteImport.update({
   id: '/pdfMerger',
   path: '/pdfMerger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PasswordGeneratorRoute = PasswordGeneratorRouteImport.update({
+  id: '/passwordGenerator',
+  path: '/passwordGenerator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MusicPlayerRoute = MusicPlayerRouteImport.update({
@@ -328,6 +334,7 @@ export interface FileRoutesByFullPath {
   '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
+  '/passwordGenerator': typeof PasswordGeneratorRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfSplitter': typeof PdfSplitterRoute
   '/pdfSplitter_new': typeof PdfSplitter_newRoute
@@ -377,6 +384,7 @@ export interface FileRoutesByTo {
   '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
+  '/passwordGenerator': typeof PasswordGeneratorRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfSplitter': typeof PdfSplitterRoute
   '/pdfSplitter_new': typeof PdfSplitter_newRoute
@@ -427,6 +435,7 @@ export interface FileRoutesById {
   '/markdownToWechat': typeof MarkdownToWechatRoute
   '/mqttClient': typeof MqttClientRoute
   '/musicPlayer': typeof MusicPlayerRoute
+  '/passwordGenerator': typeof PasswordGeneratorRoute
   '/pdfMerger': typeof PdfMergerRoute
   '/pdfSplitter': typeof PdfSplitterRoute
   '/pdfSplitter_new': typeof PdfSplitter_newRoute
@@ -478,6 +487,7 @@ export interface FileRouteTypes {
     | '/markdownToWechat'
     | '/mqttClient'
     | '/musicPlayer'
+    | '/passwordGenerator'
     | '/pdfMerger'
     | '/pdfSplitter'
     | '/pdfSplitter_new'
@@ -527,6 +537,7 @@ export interface FileRouteTypes {
     | '/markdownToWechat'
     | '/mqttClient'
     | '/musicPlayer'
+    | '/passwordGenerator'
     | '/pdfMerger'
     | '/pdfSplitter'
     | '/pdfSplitter_new'
@@ -576,6 +587,7 @@ export interface FileRouteTypes {
     | '/markdownToWechat'
     | '/mqttClient'
     | '/musicPlayer'
+    | '/passwordGenerator'
     | '/pdfMerger'
     | '/pdfSplitter'
     | '/pdfSplitter_new'
@@ -626,6 +638,7 @@ export interface RootRouteChildren {
   MarkdownToWechatRoute: typeof MarkdownToWechatRoute
   MqttClientRoute: typeof MqttClientRoute
   MusicPlayerRoute: typeof MusicPlayerRoute
+  PasswordGeneratorRoute: typeof PasswordGeneratorRoute
   PdfMergerRoute: typeof PdfMergerRoute
   PdfSplitterRoute: typeof PdfSplitterRoute
   PdfSplitter_newRoute: typeof PdfSplitter_newRoute
@@ -772,6 +785,13 @@ declare module '@tanstack/react-router' {
       path: '/pdfMerger'
       fullPath: '/pdfMerger'
       preLoaderRoute: typeof PdfMergerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/passwordGenerator': {
+      id: '/passwordGenerator'
+      path: '/passwordGenerator'
+      fullPath: '/passwordGenerator'
+      preLoaderRoute: typeof PasswordGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/musicPlayer': {
@@ -1010,6 +1030,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarkdownToWechatRoute: MarkdownToWechatRoute,
   MqttClientRoute: MqttClientRoute,
   MusicPlayerRoute: MusicPlayerRoute,
+  PasswordGeneratorRoute: PasswordGeneratorRoute,
   PdfMergerRoute: PdfMergerRoute,
   PdfSplitterRoute: PdfSplitterRoute,
   PdfSplitter_newRoute: PdfSplitter_newRoute,
