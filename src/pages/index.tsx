@@ -301,6 +301,11 @@ function Index() {
 					path: "/passwordGenerator",
 				},
 				{
+					title: "进制转换器",
+					description: "二进制、八进制、十进制、十六进制互转",
+					path: "/baseConverter",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",

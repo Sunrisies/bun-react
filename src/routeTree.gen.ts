@@ -49,6 +49,7 @@ import { Route as CsvJsonConverterRouteImport } from './pages/csvJsonConverter'
 import { Route as CssFormatterRouteImport } from './pages/cssFormatter'
 import { Route as ColorConverterRouteImport } from './pages/colorConverter'
 import { Route as BrowserTabsRouteImport } from './pages/browserTabs'
+import { Route as BaseConverterRouteImport } from './pages/baseConverter'
 import { Route as Base64ConverterRouteImport } from './pages/base64Converter'
 import { Route as AudioMd5RouteImport } from './pages/audioMd5'
 import { Route as AsciiTableRouteImport } from './pages/asciiTable'
@@ -273,6 +274,11 @@ const BrowserTabsRoute = BrowserTabsRouteImport.update({
   path: '/browserTabs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BaseConverterRoute = BaseConverterRouteImport.update({
+  id: '/baseConverter',
+  path: '/baseConverter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Base64ConverterRoute = Base64ConverterRouteImport.update({
   id: '/base64Converter',
   path: '/base64Converter',
@@ -311,6 +317,7 @@ export interface FileRoutesByFullPath {
   '/asciiTable': typeof AsciiTableRoute
   '/audioMd5': typeof AudioMd5Route
   '/base64Converter': typeof Base64ConverterRoute
+  '/baseConverter': typeof BaseConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
@@ -361,6 +368,7 @@ export interface FileRoutesByTo {
   '/asciiTable': typeof AsciiTableRoute
   '/audioMd5': typeof AudioMd5Route
   '/base64Converter': typeof Base64ConverterRoute
+  '/baseConverter': typeof BaseConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
@@ -412,6 +420,7 @@ export interface FileRoutesById {
   '/asciiTable': typeof AsciiTableRoute
   '/audioMd5': typeof AudioMd5Route
   '/base64Converter': typeof Base64ConverterRoute
+  '/baseConverter': typeof BaseConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
@@ -464,6 +473,7 @@ export interface FileRouteTypes {
     | '/asciiTable'
     | '/audioMd5'
     | '/base64Converter'
+    | '/baseConverter'
     | '/browserTabs'
     | '/colorConverter'
     | '/cssFormatter'
@@ -514,6 +524,7 @@ export interface FileRouteTypes {
     | '/asciiTable'
     | '/audioMd5'
     | '/base64Converter'
+    | '/baseConverter'
     | '/browserTabs'
     | '/colorConverter'
     | '/cssFormatter'
@@ -564,6 +575,7 @@ export interface FileRouteTypes {
     | '/asciiTable'
     | '/audioMd5'
     | '/base64Converter'
+    | '/baseConverter'
     | '/browserTabs'
     | '/colorConverter'
     | '/cssFormatter'
@@ -615,6 +627,7 @@ export interface RootRouteChildren {
   AsciiTableRoute: typeof AsciiTableRoute
   AudioMd5Route: typeof AudioMd5Route
   Base64ConverterRoute: typeof Base64ConverterRoute
+  BaseConverterRoute: typeof BaseConverterRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
   ColorConverterRoute: typeof ColorConverterRoute
   CssFormatterRoute: typeof CssFormatterRoute
@@ -955,6 +968,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowserTabsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/baseConverter': {
+      id: '/baseConverter'
+      path: '/baseConverter'
+      fullPath: '/baseConverter'
+      preLoaderRoute: typeof BaseConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/base64Converter': {
       id: '/base64Converter'
       path: '/base64Converter'
@@ -1007,6 +1027,7 @@ const rootRouteChildren: RootRouteChildren = {
   AsciiTableRoute: AsciiTableRoute,
   AudioMd5Route: AudioMd5Route,
   Base64ConverterRoute: Base64ConverterRoute,
+  BaseConverterRoute: BaseConverterRoute,
   BrowserTabsRoute: BrowserTabsRoute,
   ColorConverterRoute: ColorConverterRoute,
   CssFormatterRoute: CssFormatterRoute,
