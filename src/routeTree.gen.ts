@@ -46,6 +46,7 @@ import { Route as HexStringConverterRouteImport } from './pages/hexStringConvert
 import { Route as HashCalculatorRouteImport } from './pages/hashCalculator'
 import { Route as GradientGeneratorRouteImport } from './pages/gradientGenerator'
 import { Route as FileUploaderRouteImport } from './pages/fileUploader'
+import { Route as DateCalculatorRouteImport } from './pages/dateCalculator'
 import { Route as CsvJsonConverterRouteImport } from './pages/csvJsonConverter'
 import { Route as CssFormatterRouteImport } from './pages/cssFormatter'
 import { Route as ColorConverterRouteImport } from './pages/colorConverter'
@@ -260,6 +261,11 @@ const FileUploaderRoute = FileUploaderRouteImport.update({
   path: '/fileUploader',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DateCalculatorRoute = DateCalculatorRouteImport.update({
+  id: '/dateCalculator',
+  path: '/dateCalculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CsvJsonConverterRoute = CsvJsonConverterRouteImport.update({
   id: '/csvJsonConverter',
   path: '/csvJsonConverter',
@@ -328,6 +334,7 @@ export interface FileRoutesByFullPath {
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
+  '/dateCalculator': typeof DateCalculatorRoute
   '/fileUploader': typeof FileUploaderRoute
   '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
@@ -380,6 +387,7 @@ export interface FileRoutesByTo {
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
+  '/dateCalculator': typeof DateCalculatorRoute
   '/fileUploader': typeof FileUploaderRoute
   '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
@@ -433,6 +441,7 @@ export interface FileRoutesById {
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
+  '/dateCalculator': typeof DateCalculatorRoute
   '/fileUploader': typeof FileUploaderRoute
   '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
@@ -487,6 +496,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/cssFormatter'
     | '/csvJsonConverter'
+    | '/dateCalculator'
     | '/fileUploader'
     | '/gradientGenerator'
     | '/hashCalculator'
@@ -539,6 +549,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/cssFormatter'
     | '/csvJsonConverter'
+    | '/dateCalculator'
     | '/fileUploader'
     | '/gradientGenerator'
     | '/hashCalculator'
@@ -591,6 +602,7 @@ export interface FileRouteTypes {
     | '/colorConverter'
     | '/cssFormatter'
     | '/csvJsonConverter'
+    | '/dateCalculator'
     | '/fileUploader'
     | '/gradientGenerator'
     | '/hashCalculator'
@@ -644,6 +656,7 @@ export interface RootRouteChildren {
   ColorConverterRoute: typeof ColorConverterRoute
   CssFormatterRoute: typeof CssFormatterRoute
   CsvJsonConverterRoute: typeof CsvJsonConverterRoute
+  DateCalculatorRoute: typeof DateCalculatorRoute
   FileUploaderRoute: typeof FileUploaderRoute
   GradientGeneratorRoute: typeof GradientGeneratorRoute
   HashCalculatorRoute: typeof HashCalculatorRoute
@@ -960,6 +973,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FileUploaderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dateCalculator': {
+      id: '/dateCalculator'
+      path: '/dateCalculator'
+      fullPath: '/dateCalculator'
+      preLoaderRoute: typeof DateCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/csvJsonConverter': {
       id: '/csvJsonConverter'
       path: '/csvJsonConverter'
@@ -1052,6 +1072,7 @@ const rootRouteChildren: RootRouteChildren = {
   ColorConverterRoute: ColorConverterRoute,
   CssFormatterRoute: CssFormatterRoute,
   CsvJsonConverterRoute: CsvJsonConverterRoute,
+  DateCalculatorRoute: DateCalculatorRoute,
   FileUploaderRoute: FileUploaderRoute,
   GradientGeneratorRoute: GradientGeneratorRoute,
   HashCalculatorRoute: HashCalculatorRoute,

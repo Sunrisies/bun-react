@@ -311,6 +311,11 @@ function Index() {
 					path: "/unitConverter",
 				},
 				{
+					title: "日期计算器",
+					description: "计算两个日期的差值，或日期加减计算",
+					path: "/dateCalculator",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",
