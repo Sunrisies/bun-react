@@ -15,6 +15,7 @@ import { Route as YamlJsonConverterRouteImport } from './pages/yamlJsonConverter
 import { Route as WebsocketClientRouteImport } from './pages/websocketClient'
 import { Route as WatermarkRouteImport } from './pages/watermark'
 import { Route as VideoToGifRouteImport } from './pages/videoToGif'
+import { Route as UnitConverterRouteImport } from './pages/unitConverter'
 import { Route as TimestampConverterRouteImport } from './pages/timestampConverter'
 import { Route as TextDiffRouteImport } from './pages/textDiff'
 import { Route as SymmetricCryptoRouteImport } from './pages/symmetricCrypto'
@@ -102,6 +103,11 @@ const WatermarkRoute = WatermarkRouteImport.update({
 const VideoToGifRoute = VideoToGifRouteImport.update({
   id: '/videoToGif',
   path: '/videoToGif',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnitConverterRoute = UnitConverterRouteImport.update({
+  id: '/unitConverter',
+  path: '/unitConverter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TimestampConverterRoute = TimestampConverterRouteImport.update({
@@ -352,6 +358,7 @@ export interface FileRoutesByFullPath {
   '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
+  '/unitConverter': typeof UnitConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
@@ -403,6 +410,7 @@ export interface FileRoutesByTo {
   '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
+  '/unitConverter': typeof UnitConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
@@ -455,6 +463,7 @@ export interface FileRoutesById {
   '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
+  '/unitConverter': typeof UnitConverterRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
@@ -508,6 +517,7 @@ export interface FileRouteTypes {
     | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
+    | '/unitConverter'
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
@@ -559,6 +569,7 @@ export interface FileRouteTypes {
     | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
+    | '/unitConverter'
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
@@ -610,6 +621,7 @@ export interface FileRouteTypes {
     | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
+    | '/unitConverter'
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
@@ -662,6 +674,7 @@ export interface RootRouteChildren {
   SymmetricCryptoRoute: typeof SymmetricCryptoRoute
   TextDiffRoute: typeof TextDiffRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
+  UnitConverterRoute: typeof UnitConverterRoute
   VideoToGifRoute: typeof VideoToGifRoute
   WatermarkRoute: typeof WatermarkRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
@@ -728,6 +741,13 @@ declare module '@tanstack/react-router' {
       path: '/videoToGif'
       fullPath: '/videoToGif'
       preLoaderRoute: typeof VideoToGifRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/unitConverter': {
+      id: '/unitConverter'
+      path: '/unitConverter'
+      fullPath: '/unitConverter'
+      preLoaderRoute: typeof UnitConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/timestampConverter': {
@@ -1062,6 +1082,7 @@ const rootRouteChildren: RootRouteChildren = {
   SymmetricCryptoRoute: SymmetricCryptoRoute,
   TextDiffRoute: TextDiffRoute,
   TimestampConverterRoute: TimestampConverterRoute,
+  UnitConverterRoute: UnitConverterRoute,
   VideoToGifRoute: VideoToGifRoute,
   WatermarkRoute: WatermarkRoute,
   WebsocketClientRoute: WebsocketClientRoute,

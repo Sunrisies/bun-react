@@ -306,6 +306,11 @@ function Index() {
 					path: "/baseConverter",
 				},
 				{
+					title: "单位转换器",
+					description: "长度、重量、温度、面积、体积、速度等单位转换",
+					path: "/unitConverter",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",
