@@ -12,6 +12,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as YamlJsonConverterRouteImport } from './pages/yamlJsonConverter'
+import { Route as WordCounterRouteImport } from './pages/wordCounter'
 import { Route as WebsocketClientRouteImport } from './pages/websocketClient'
 import { Route as WatermarkRouteImport } from './pages/watermark'
 import { Route as VideoToGifRouteImport } from './pages/videoToGif'
@@ -89,6 +90,11 @@ const CalculateDistanceLazyRoute = CalculateDistanceLazyRouteImport.update({
 const YamlJsonConverterRoute = YamlJsonConverterRouteImport.update({
   id: '/yamlJsonConverter',
   path: '/yamlJsonConverter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WordCounterRoute = WordCounterRouteImport.update({
+  id: '/wordCounter',
+  path: '/wordCounter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WebsocketClientRoute = WebsocketClientRouteImport.update({
@@ -369,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/wordCounter': typeof WordCounterRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -422,6 +429,7 @@ export interface FileRoutesByTo {
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/wordCounter': typeof WordCounterRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -476,6 +484,7 @@ export interface FileRoutesById {
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/wordCounter': typeof WordCounterRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
   '/coordinate': typeof CoordinateLazyRoute
@@ -531,6 +540,7 @@ export interface FileRouteTypes {
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
+    | '/wordCounter'
     | '/yamlJsonConverter'
     | '/calculateDistance'
     | '/coordinate'
@@ -584,6 +594,7 @@ export interface FileRouteTypes {
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
+    | '/wordCounter'
     | '/yamlJsonConverter'
     | '/calculateDistance'
     | '/coordinate'
@@ -637,6 +648,7 @@ export interface FileRouteTypes {
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
+    | '/wordCounter'
     | '/yamlJsonConverter'
     | '/calculateDistance'
     | '/coordinate'
@@ -691,6 +703,7 @@ export interface RootRouteChildren {
   VideoToGifRoute: typeof VideoToGifRoute
   WatermarkRoute: typeof WatermarkRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
+  WordCounterRoute: typeof WordCounterRoute
   YamlJsonConverterRoute: typeof YamlJsonConverterRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
   CoordinateLazyRoute: typeof CoordinateLazyRoute
@@ -733,6 +746,13 @@ declare module '@tanstack/react-router' {
       path: '/yamlJsonConverter'
       fullPath: '/yamlJsonConverter'
       preLoaderRoute: typeof YamlJsonConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wordCounter': {
+      id: '/wordCounter'
+      path: '/wordCounter'
+      fullPath: '/wordCounter'
+      preLoaderRoute: typeof WordCounterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/websocketClient': {
@@ -1107,6 +1127,7 @@ const rootRouteChildren: RootRouteChildren = {
   VideoToGifRoute: VideoToGifRoute,
   WatermarkRoute: WatermarkRoute,
   WebsocketClientRoute: WebsocketClientRoute,
+  WordCounterRoute: WordCounterRoute,
   YamlJsonConverterRoute: YamlJsonConverterRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,
   CoordinateLazyRoute: CoordinateLazyRoute,

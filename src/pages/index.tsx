@@ -276,6 +276,11 @@ function Index() {
 					path: "/textDiff",
 				},
 				{
+					title: "字数统计",
+					description: "统计文本的字数、字符数、行数等",
+					path: "/wordCounter",
+				},
+				{
 					title: "Hash计算器",
 					description: "计算文本或文件的MD5/SHA1/SHA256/SHA512等Hash值",
 					path: "/hashCalculator",
