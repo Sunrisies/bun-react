@@ -540,7 +540,7 @@ dist/
 | UUID/GUID 生成器   | 生成唯一标识符                                    | 高     | 待实现 |
 | Lorem Ipsum 生成器 | 生成占位文本                                      | 中     | 待实现 |
 | ✅ 字数/字符统计   | 统计文本字数和字符数                              | 中     | 已完成 |
-| 大小写转换         | UPPER/lower/Camel/camelCase/snake_case/kebab-case | 高     |
+| ✅ 大小写转换      | UPPER/lower/Camel/snake/kebab等                   | 高     | 已完成 |
 | 正则表达式测试器   | 在线测试正则表达式                                | 高     |
 | 字符串编码器       | URL/HTML/Base64 编码解码                          | 中     |
 

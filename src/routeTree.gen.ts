@@ -51,6 +51,7 @@ import { Route as DateCalculatorRouteImport } from './pages/dateCalculator'
 import { Route as CsvJsonConverterRouteImport } from './pages/csvJsonConverter'
 import { Route as CssFormatterRouteImport } from './pages/cssFormatter'
 import { Route as ColorConverterRouteImport } from './pages/colorConverter'
+import { Route as CaseConverterRouteImport } from './pages/caseConverter'
 import { Route as BrowserTabsRouteImport } from './pages/browserTabs'
 import { Route as BaseConverterRouteImport } from './pages/baseConverter'
 import { Route as Base64ConverterRouteImport } from './pages/base64Converter'
@@ -287,6 +288,11 @@ const ColorConverterRoute = ColorConverterRouteImport.update({
   path: '/colorConverter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CaseConverterRoute = CaseConverterRouteImport.update({
+  id: '/caseConverter',
+  path: '/caseConverter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrowserTabsRoute = BrowserTabsRouteImport.update({
   id: '/browserTabs',
   path: '/browserTabs',
@@ -337,6 +343,7 @@ export interface FileRoutesByFullPath {
   '/base64Converter': typeof Base64ConverterRoute
   '/baseConverter': typeof BaseConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
+  '/caseConverter': typeof CaseConverterRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
@@ -391,6 +398,7 @@ export interface FileRoutesByTo {
   '/base64Converter': typeof Base64ConverterRoute
   '/baseConverter': typeof BaseConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
+  '/caseConverter': typeof CaseConverterRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
@@ -446,6 +454,7 @@ export interface FileRoutesById {
   '/base64Converter': typeof Base64ConverterRoute
   '/baseConverter': typeof BaseConverterRoute
   '/browserTabs': typeof BrowserTabsRoute
+  '/caseConverter': typeof CaseConverterRoute
   '/colorConverter': typeof ColorConverterRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
@@ -502,6 +511,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/baseConverter'
     | '/browserTabs'
+    | '/caseConverter'
     | '/colorConverter'
     | '/cssFormatter'
     | '/csvJsonConverter'
@@ -556,6 +566,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/baseConverter'
     | '/browserTabs'
+    | '/caseConverter'
     | '/colorConverter'
     | '/cssFormatter'
     | '/csvJsonConverter'
@@ -610,6 +621,7 @@ export interface FileRouteTypes {
     | '/base64Converter'
     | '/baseConverter'
     | '/browserTabs'
+    | '/caseConverter'
     | '/colorConverter'
     | '/cssFormatter'
     | '/csvJsonConverter'
@@ -665,6 +677,7 @@ export interface RootRouteChildren {
   Base64ConverterRoute: typeof Base64ConverterRoute
   BaseConverterRoute: typeof BaseConverterRoute
   BrowserTabsRoute: typeof BrowserTabsRoute
+  CaseConverterRoute: typeof CaseConverterRoute
   ColorConverterRoute: typeof ColorConverterRoute
   CssFormatterRoute: typeof CssFormatterRoute
   CsvJsonConverterRoute: typeof CsvJsonConverterRoute
@@ -1021,6 +1034,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ColorConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/caseConverter': {
+      id: '/caseConverter'
+      path: '/caseConverter'
+      fullPath: '/caseConverter'
+      preLoaderRoute: typeof CaseConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/browserTabs': {
       id: '/browserTabs'
       path: '/browserTabs'
@@ -1089,6 +1109,7 @@ const rootRouteChildren: RootRouteChildren = {
   Base64ConverterRoute: Base64ConverterRoute,
   BaseConverterRoute: BaseConverterRoute,
   BrowserTabsRoute: BrowserTabsRoute,
+  CaseConverterRoute: CaseConverterRoute,
   ColorConverterRoute: ColorConverterRoute,
   CssFormatterRoute: CssFormatterRoute,
   CsvJsonConverterRoute: CsvJsonConverterRoute,

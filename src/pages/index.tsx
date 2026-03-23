@@ -281,6 +281,11 @@ function Index() {
 					path: "/wordCounter",
 				},
 				{
+					title: "大小写转换",
+					description: "UPPER/lower/Camel/Pascal/snake/kebab等多种格式",
+					path: "/caseConverter",
+				},
+				{
 					title: "Hash计算器",
 					description: "计算文本或文件的MD5/SHA1/SHA256/SHA512等Hash值",
 					path: "/hashCalculator",
