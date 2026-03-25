@@ -1,19 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { copyToClipboard } from "@/lib/utils";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Copy, Info, RotateCcw } from "lucide-react";
-import { useMemo, useState } from "react";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
+import { copyToClipboard } from "@/lib/utils"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { ArrowLeft, Copy, Info, RotateCcw } from "lucide-react"
+import { useMemo, useState } from "react"
+import { toast } from "sonner"
 
 export const Route = createFileRoute("/wordCounter")({
 	component: WordCounter,
-});
+})
 
 function WordCounter() {
-	const navigate = useNavigate();
-	const [text, setText] = useState("");
+	const navigate = useNavigate()
+	const [text, setText] = useState("")
 
 	const stats = useMemo(() => {
 		if (!text) {
@@ -27,42 +27,42 @@ function WordCounter() {
 				paragraphs: 0,
 				sentences: 0,
 				punctuation: 0,
-			};
+			}
 		}
 
-		const characters = text.length;
-		const charactersNoSpaces = text.replace(/\s/g, "").length;
+		const characters = text.length
+		const charactersNoSpaces = text.replace(/\s/g, "").length
 
 		// 中文字符
-		const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
+		const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length
 
 		// 英文单词
-		const englishText = text.replace(/[\u4e00-\u9fa5]/g, " ");
+		const englishText = text.replace(/[\u4e00-\u9fa5]/g, " ")
 		const englishWords = englishText
 			.split(/\s+/)
-			.filter((w) => /[a-zA-Z]/.test(w)).length;
+			.filter((w) => /[a-zA-Z]/.test(w)).length
 
 		// 数字
-		const numbers = (text.match(/\d/g) || []).length;
+		const numbers = (text.match(/\d/g) || []).length
 
 		// 行数
-		const lines = text.split(/\n/).length;
+		const lines = text.split(/\n/).length
 
 		// 段落数（非空行）
 		const paragraphs =
 			text.split(/\n\s*\n/).filter((p) => p.trim()).length ||
-			(text.trim() ? 1 : 0);
+			(text.trim() ? 1 : 0)
 
 		// 句子数（中英文句号、问号、感叹号）
 		const sentences =
-			(text.match(/[。！？.!?]/g) || []).length || (text.trim() ? 1 : 0);
+			(text.match(/[。！？.!?]/g) || []).length || (text.trim() ? 1 : 0)
 
 		// 标点符号
 		const punctuation = (
 			text.match(
 				/[，。！？、；：""''（）《》【】\s,\.!?;:"'()\[\]{}<>@#$%^&*+=\-\/\\|~`]/g,
 			) || []
-		).length;
+		).length
 
 		return {
 			characters,
@@ -74,25 +74,25 @@ function WordCounter() {
 			paragraphs,
 			sentences,
 			punctuation,
-		};
-	}, [text]);
+		}
+	}, [text])
 
 	const handleCopy = (content: string) => {
-		copyToClipboard(content);
-		toast.success("已复制");
-	};
+		copyToClipboard(content)
+		toast.success("已复制")
+	}
 
 	const handleClear = () => {
-		setText("");
-	};
+		setText("")
+	}
 
 	const loadSample = () => {
 		setText(`这是一段示例文本，用于测试字数统计功能。
 This is a sample text for testing word counter.
 
 包含中文、English、数字123，以及各种标点符号！
-支持多行统计，可以准确计算字符数、单词数、行数等。`);
-	};
+支持多行统计，可以准确计算字符数、单词数、行数等。`)
+	}
 
 	const statItems = [
 		{ label: "总字符数", value: stats.characters, desc: "包含空格和换行" },
@@ -108,7 +108,7 @@ This is a sample text for testing word counter.
 		{ label: "行数", value: stats.lines, desc: "总行数" },
 		{ label: "段落数", value: stats.paragraphs, desc: "非空段落" },
 		{ label: "句子数", value: stats.sentences, desc: "以句号分隔" },
-	];
+	]
 
 	return (
 		<div className="h-[calc(100vh-4.2rem)] p-4">
@@ -130,11 +130,11 @@ This is a sample text for testing word counter.
 							</div>
 						</CardTitle>
 						<div className="flex gap-2">
-							<Button onClick={loadSample} variant="outline" size="sm">
+							<Button onClick={ loadSample } variant="outline" size="sm">
 								示例
 							</Button>
 							<Button
-								onClick={() => navigate({ to: "/" })}
+								onClick={ () => navigate({ to: "/" }) }
 								variant="ghost"
 								size="sm"
 							>
@@ -146,7 +146,7 @@ This is a sample text for testing word counter.
 				</CardHeader>
 				<CardContent className="flex-1 min-h-0 p-4 overflow-hidden">
 					<div className="h-full grid grid-cols-[1fr_260px] gap-4">
-						{/* 左侧：文本输入 */}
+						{/* 左侧：文本输入 */ }
 						<div className="flex flex-col gap-3 min-h-0">
 							<div className="flex items-center justify-between flex-shrink-0">
 								<span className="text-sm font-medium text-gray-700">
@@ -154,21 +154,21 @@ This is a sample text for testing word counter.
 								</span>
 								<div className="flex gap-2">
 									<Button
-										onClick={handleClear}
+										onClick={ handleClear }
 										variant="ghost"
 										size="sm"
 										className="h-7 text-xs"
-										disabled={!text}
+										disabled={ !text }
 									>
 										<RotateCcw className="h-3 w-3 mr-1" />
 										清空
 									</Button>
 									<Button
-										onClick={() => handleCopy(text)}
+										onClick={ () => handleCopy(text) }
 										variant="ghost"
 										size="sm"
 										className="h-7 text-xs"
-										disabled={!text}
+										disabled={ !text }
 									>
 										<Copy className="h-3 w-3 mr-1" />
 										复制
@@ -176,61 +176,61 @@ This is a sample text for testing word counter.
 								</div>
 							</div>
 							<Textarea
-								value={text}
-								onChange={(e) => setText(e.target.value)}
+								value={ text }
+								onChange={ (e) => setText(e.target.value) }
 								placeholder="在此输入或粘贴文本..."
 								className="flex-1 min-h-0 resize-none font-mono text-sm"
 							/>
 						</div>
 
-						{/* 右侧：统计结果 */}
+						{/* 右侧：统计结果 */ }
 						<div className="flex flex-col gap-3 min-h-0">
-							{/* 主要统计 */}
+							{/* 主要统计 */ }
 							<div className="grid grid-cols-2 gap-2 flex-shrink-0">
 								<div className="p-3 bg-blue-50 rounded-lg border border-blue-200 text-center">
 									<div className="text-2xl font-bold text-blue-700">
-										{stats.characters}
+										{ stats.characters }
 									</div>
 									<div className="text-xs text-blue-600">总字符</div>
 								</div>
 								<div className="p-3 bg-green-50 rounded-lg border border-green-200 text-center">
 									<div className="text-2xl font-bold text-green-700">
-										{stats.chineseChars + stats.englishWords}
+										{ stats.chineseChars + stats.englishWords }
 									</div>
 									<div className="text-xs text-green-600">总字/词</div>
 								</div>
 							</div>
 
-							{/* 详细统计 */}
+							{/* 详细统计 */ }
 							<div className="flex-1 min-h-0 overflow-y-auto space-y-1.5 pr-1">
-								{statItems.map((item) => (
+								{ statItems.map((item) => (
 									<div
-										key={item.label}
+										key={ item.label }
 										className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer group"
-										onClick={() => handleCopy(String(item.value))}
+										onClick={ () => handleCopy(String(item.value)) }
 										title="点击复制"
 									>
 										<div className="min-w-0 flex-1">
 											<div className="text-sm font-medium text-gray-700 truncate">
-												{item.label}
+												{ item.label }
 											</div>
 											<div className="text-[10px] text-gray-400 truncate">
-												{item.desc}
+												{ item.desc }
 											</div>
 										</div>
 										<div className="flex items-center gap-1 flex-shrink-0 ml-2">
 											<span className="text-lg font-bold text-gray-800">
-												{item.value}
+												{ item.value }
 											</span>
 											<Copy className="h-3 w-3 text-gray-300 opacity-0 group-hover:opacity-100" />
 										</div>
 									</div>
-								))}
+								)) }
 							</div>
 
-							{/* 复制全部统计 */}
+							{/* 复制全部统计 */ }
 							<Button
-								onClick={() =>
+								onClick={ () =>
 									handleCopy(
 										`总字符: ${stats.characters}\n不含空格: ${stats.charactersNoSpaces}\n中文字符: ${stats.chineseChars}\n英文单词: ${stats.englishWords}\n数字: ${stats.numbers}\n行数: ${stats.lines}\n段落数: ${stats.paragraphs}`,
 									)
@@ -238,7 +238,7 @@ This is a sample text for testing word counter.
 								variant="outline"
 								size="sm"
 								className="w-full flex-shrink-0"
-								disabled={!text}
+								disabled={ !text }
 							>
 								<Copy className="h-3 w-3 mr-1" />
 								复制全部统计
@@ -248,5 +248,5 @@ This is a sample text for testing word counter.
 				</CardContent>
 			</Card>
 		</div>
-	);
+	)
 }

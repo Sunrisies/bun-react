@@ -16,10 +16,12 @@ import { Route as WordCounterRouteImport } from './pages/wordCounter'
 import { Route as WebsocketClientRouteImport } from './pages/websocketClient'
 import { Route as WatermarkRouteImport } from './pages/watermark'
 import { Route as VideoToGifRouteImport } from './pages/videoToGif'
+import { Route as UuidGeneratorRouteImport } from './pages/uuidGenerator'
 import { Route as UnitConverterRouteImport } from './pages/unitConverter'
 import { Route as TimestampConverterRouteImport } from './pages/timestampConverter'
 import { Route as TextDiffRouteImport } from './pages/textDiff'
 import { Route as SymmetricCryptoRouteImport } from './pages/symmetricCrypto'
+import { Route as StringEncoderRouteImport } from './pages/stringEncoder'
 import { Route as ScssConverterRouteImport } from './pages/scssConverter'
 import { Route as QrGeneratorRouteImport } from './pages/qrGenerator'
 import { Route as PortTableRouteImport } from './pages/portTable'
@@ -113,6 +115,11 @@ const VideoToGifRoute = VideoToGifRouteImport.update({
   path: '/videoToGif',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UuidGeneratorRoute = UuidGeneratorRouteImport.update({
+  id: '/uuidGenerator',
+  path: '/uuidGenerator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnitConverterRoute = UnitConverterRouteImport.update({
   id: '/unitConverter',
   path: '/unitConverter',
@@ -131,6 +138,11 @@ const TextDiffRoute = TextDiffRouteImport.update({
 const SymmetricCryptoRoute = SymmetricCryptoRouteImport.update({
   id: '/symmetricCrypto',
   path: '/symmetricCrypto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StringEncoderRoute = StringEncoderRouteImport.update({
+  id: '/stringEncoder',
+  path: '/stringEncoder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScssConverterRoute = ScssConverterRouteImport.update({
@@ -375,10 +387,12 @@ export interface FileRoutesByFullPath {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/stringEncoder': typeof StringEncoderRoute
   '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/unitConverter': typeof UnitConverterRoute
+  '/uuidGenerator': typeof UuidGeneratorRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
@@ -430,10 +444,12 @@ export interface FileRoutesByTo {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/stringEncoder': typeof StringEncoderRoute
   '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/unitConverter': typeof UnitConverterRoute
+  '/uuidGenerator': typeof UuidGeneratorRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
@@ -486,10 +502,12 @@ export interface FileRoutesById {
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
+  '/stringEncoder': typeof StringEncoderRoute
   '/symmetricCrypto': typeof SymmetricCryptoRoute
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/unitConverter': typeof UnitConverterRoute
+  '/uuidGenerator': typeof UuidGeneratorRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
@@ -543,10 +561,12 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/stringEncoder'
     | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
     | '/unitConverter'
+    | '/uuidGenerator'
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
@@ -598,10 +618,12 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/stringEncoder'
     | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
     | '/unitConverter'
+    | '/uuidGenerator'
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
@@ -653,10 +675,12 @@ export interface FileRouteTypes {
     | '/portTable'
     | '/qrGenerator'
     | '/scssConverter'
+    | '/stringEncoder'
     | '/symmetricCrypto'
     | '/textDiff'
     | '/timestampConverter'
     | '/unitConverter'
+    | '/uuidGenerator'
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
@@ -709,10 +733,12 @@ export interface RootRouteChildren {
   PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   ScssConverterRoute: typeof ScssConverterRoute
+  StringEncoderRoute: typeof StringEncoderRoute
   SymmetricCryptoRoute: typeof SymmetricCryptoRoute
   TextDiffRoute: typeof TextDiffRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   UnitConverterRoute: typeof UnitConverterRoute
+  UuidGeneratorRoute: typeof UuidGeneratorRoute
   VideoToGifRoute: typeof VideoToGifRoute
   WatermarkRoute: typeof WatermarkRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
@@ -789,6 +815,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideoToGifRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/uuidGenerator': {
+      id: '/uuidGenerator'
+      path: '/uuidGenerator'
+      fullPath: '/uuidGenerator'
+      preLoaderRoute: typeof UuidGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/unitConverter': {
       id: '/unitConverter'
       path: '/unitConverter'
@@ -815,6 +848,13 @@ declare module '@tanstack/react-router' {
       path: '/symmetricCrypto'
       fullPath: '/symmetricCrypto'
       preLoaderRoute: typeof SymmetricCryptoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stringEncoder': {
+      id: '/stringEncoder'
+      path: '/stringEncoder'
+      fullPath: '/stringEncoder'
+      preLoaderRoute: typeof StringEncoderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/scssConverter': {
@@ -1141,10 +1181,12 @@ const rootRouteChildren: RootRouteChildren = {
   PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   ScssConverterRoute: ScssConverterRoute,
+  StringEncoderRoute: StringEncoderRoute,
   SymmetricCryptoRoute: SymmetricCryptoRoute,
   TextDiffRoute: TextDiffRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   UnitConverterRoute: UnitConverterRoute,
+  UuidGeneratorRoute: UuidGeneratorRoute,
   VideoToGifRoute: VideoToGifRoute,
   WatermarkRoute: WatermarkRoute,
   WebsocketClientRoute: WebsocketClientRoute,

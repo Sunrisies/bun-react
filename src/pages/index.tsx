@@ -286,6 +286,16 @@ function Index() {
 					path: "/caseConverter",
 				},
 				{
+					title: "字符串编码器",
+					description: "URL/HTML/Base64/Unicode编码解码",
+					path: "/stringEncoder",
+				},
+				{
+					title: "UUID生成器",
+					description: "生成UUID v4/v7，支持多种格式",
+					path: "/uuidGenerator",
+				},
+				{
 					title: "Hash计算器",
 					description: "计算文本或文件的MD5/SHA1/SHA256/SHA512等Hash值",
 					path: "/hashCalculator",
