@@ -205,6 +205,11 @@ function Index() {
 					description: "端口工具",
 					path: "/portTable",
 				},
+				{
+					title: "URL解析器",
+					description: "解析URL的各个组成部分",
+					path: "/urlParser",
+				},
 			],
 		},
 		{

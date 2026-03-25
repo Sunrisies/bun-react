@@ -17,6 +17,7 @@ import { Route as WebsocketClientRouteImport } from './pages/websocketClient'
 import { Route as WatermarkRouteImport } from './pages/watermark'
 import { Route as VideoToGifRouteImport } from './pages/videoToGif'
 import { Route as UuidGeneratorRouteImport } from './pages/uuidGenerator'
+import { Route as UrlParserRouteImport } from './pages/urlParser'
 import { Route as UnitConverterRouteImport } from './pages/unitConverter'
 import { Route as TimestampConverterRouteImport } from './pages/timestampConverter'
 import { Route as TextDiffRouteImport } from './pages/textDiff'
@@ -119,6 +120,11 @@ const VideoToGifRoute = VideoToGifRouteImport.update({
 const UuidGeneratorRoute = UuidGeneratorRouteImport.update({
   id: '/uuidGenerator',
   path: '/uuidGenerator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UrlParserRoute = UrlParserRouteImport.update({
+  id: '/urlParser',
+  path: '/urlParser',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UnitConverterRoute = UnitConverterRouteImport.update({
@@ -399,6 +405,7 @@ export interface FileRoutesByFullPath {
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/unitConverter': typeof UnitConverterRoute
+  '/urlParser': typeof UrlParserRoute
   '/uuidGenerator': typeof UuidGeneratorRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -457,6 +464,7 @@ export interface FileRoutesByTo {
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/unitConverter': typeof UnitConverterRoute
+  '/urlParser': typeof UrlParserRoute
   '/uuidGenerator': typeof UuidGeneratorRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -516,6 +524,7 @@ export interface FileRoutesById {
   '/textDiff': typeof TextDiffRoute
   '/timestampConverter': typeof TimestampConverterRoute
   '/unitConverter': typeof UnitConverterRoute
+  '/urlParser': typeof UrlParserRoute
   '/uuidGenerator': typeof UuidGeneratorRoute
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
@@ -576,6 +585,7 @@ export interface FileRouteTypes {
     | '/textDiff'
     | '/timestampConverter'
     | '/unitConverter'
+    | '/urlParser'
     | '/uuidGenerator'
     | '/videoToGif'
     | '/watermark'
@@ -634,6 +644,7 @@ export interface FileRouteTypes {
     | '/textDiff'
     | '/timestampConverter'
     | '/unitConverter'
+    | '/urlParser'
     | '/uuidGenerator'
     | '/videoToGif'
     | '/watermark'
@@ -692,6 +703,7 @@ export interface FileRouteTypes {
     | '/textDiff'
     | '/timestampConverter'
     | '/unitConverter'
+    | '/urlParser'
     | '/uuidGenerator'
     | '/videoToGif'
     | '/watermark'
@@ -751,6 +763,7 @@ export interface RootRouteChildren {
   TextDiffRoute: typeof TextDiffRoute
   TimestampConverterRoute: typeof TimestampConverterRoute
   UnitConverterRoute: typeof UnitConverterRoute
+  UrlParserRoute: typeof UrlParserRoute
   UuidGeneratorRoute: typeof UuidGeneratorRoute
   VideoToGifRoute: typeof VideoToGifRoute
   WatermarkRoute: typeof WatermarkRoute
@@ -833,6 +846,13 @@ declare module '@tanstack/react-router' {
       path: '/uuidGenerator'
       fullPath: '/uuidGenerator'
       preLoaderRoute: typeof UuidGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/urlParser': {
+      id: '/urlParser'
+      path: '/urlParser'
+      fullPath: '/urlParser'
+      preLoaderRoute: typeof UrlParserRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/unitConverter': {
@@ -1207,6 +1227,7 @@ const rootRouteChildren: RootRouteChildren = {
   TextDiffRoute: TextDiffRoute,
   TimestampConverterRoute: TimestampConverterRoute,
   UnitConverterRoute: UnitConverterRoute,
+  UrlParserRoute: UrlParserRoute,
   UuidGeneratorRoute: UuidGeneratorRoute,
   VideoToGifRoute: VideoToGifRoute,
   WatermarkRoute: WatermarkRoute,
