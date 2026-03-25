@@ -321,6 +321,11 @@ function Index() {
 					path: "/passwordGenerator",
 				},
 				{
+					title: "RSA密钥对生成",
+					description: "生成RSA公私钥对，支持PEM和JWK格式",
+					path: "/rsaKeyGenerator",
+				},
+				{
 					title: "进制转换器",
 					description: "二进制、八进制、十进制、十六进制互转",
 					path: "/baseConverter",

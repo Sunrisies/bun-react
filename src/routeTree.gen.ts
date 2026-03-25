@@ -23,6 +23,7 @@ import { Route as TextDiffRouteImport } from './pages/textDiff'
 import { Route as SymmetricCryptoRouteImport } from './pages/symmetricCrypto'
 import { Route as StringEncoderRouteImport } from './pages/stringEncoder'
 import { Route as ScssConverterRouteImport } from './pages/scssConverter'
+import { Route as RsaKeyGeneratorRouteImport } from './pages/rsaKeyGenerator'
 import { Route as QrGeneratorRouteImport } from './pages/qrGenerator'
 import { Route as PortTableRouteImport } from './pages/portTable'
 import { Route as PdfToWordRouteImport } from './pages/pdfToWord'
@@ -148,6 +149,11 @@ const StringEncoderRoute = StringEncoderRouteImport.update({
 const ScssConverterRoute = ScssConverterRouteImport.update({
   id: '/scssConverter',
   path: '/scssConverter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RsaKeyGeneratorRoute = RsaKeyGeneratorRouteImport.update({
+  id: '/rsaKeyGenerator',
+  path: '/rsaKeyGenerator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QrGeneratorRoute = QrGeneratorRouteImport.update({
@@ -386,6 +392,7 @@ export interface FileRoutesByFullPath {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/rsaKeyGenerator': typeof RsaKeyGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
   '/stringEncoder': typeof StringEncoderRoute
   '/symmetricCrypto': typeof SymmetricCryptoRoute
@@ -443,6 +450,7 @@ export interface FileRoutesByTo {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/rsaKeyGenerator': typeof RsaKeyGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
   '/stringEncoder': typeof StringEncoderRoute
   '/symmetricCrypto': typeof SymmetricCryptoRoute
@@ -501,6 +509,7 @@ export interface FileRoutesById {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/rsaKeyGenerator': typeof RsaKeyGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
   '/stringEncoder': typeof StringEncoderRoute
   '/symmetricCrypto': typeof SymmetricCryptoRoute
@@ -560,6 +569,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/rsaKeyGenerator'
     | '/scssConverter'
     | '/stringEncoder'
     | '/symmetricCrypto'
@@ -617,6 +627,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/rsaKeyGenerator'
     | '/scssConverter'
     | '/stringEncoder'
     | '/symmetricCrypto'
@@ -674,6 +685,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/rsaKeyGenerator'
     | '/scssConverter'
     | '/stringEncoder'
     | '/symmetricCrypto'
@@ -732,6 +744,7 @@ export interface RootRouteChildren {
   PdfToWordRoute: typeof PdfToWordRoute
   PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
+  RsaKeyGeneratorRoute: typeof RsaKeyGeneratorRoute
   ScssConverterRoute: typeof ScssConverterRoute
   StringEncoderRoute: typeof StringEncoderRoute
   SymmetricCryptoRoute: typeof SymmetricCryptoRoute
@@ -862,6 +875,13 @@ declare module '@tanstack/react-router' {
       path: '/scssConverter'
       fullPath: '/scssConverter'
       preLoaderRoute: typeof ScssConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rsaKeyGenerator': {
+      id: '/rsaKeyGenerator'
+      path: '/rsaKeyGenerator'
+      fullPath: '/rsaKeyGenerator'
+      preLoaderRoute: typeof RsaKeyGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/qrGenerator': {
@@ -1180,6 +1200,7 @@ const rootRouteChildren: RootRouteChildren = {
   PdfToWordRoute: PdfToWordRoute,
   PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
+  RsaKeyGeneratorRoute: RsaKeyGeneratorRoute,
   ScssConverterRoute: ScssConverterRoute,
   StringEncoderRoute: StringEncoderRoute,
   SymmetricCryptoRoute: SymmetricCryptoRoute,
