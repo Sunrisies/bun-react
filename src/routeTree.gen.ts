@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as YamlJsonConverterRouteImport } from './pages/yamlJsonConverter'
 import { Route as WordCounterRouteImport } from './pages/wordCounter'
+import { Route as WheelSpinnerRouteImport } from './pages/wheelSpinner'
 import { Route as WebsocketClientRouteImport } from './pages/websocketClient'
 import { Route as WatermarkRouteImport } from './pages/watermark'
 import { Route as VideoToGifRouteImport } from './pages/videoToGif'
@@ -101,6 +102,11 @@ const YamlJsonConverterRoute = YamlJsonConverterRouteImport.update({
 const WordCounterRoute = WordCounterRouteImport.update({
   id: '/wordCounter',
   path: '/wordCounter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WheelSpinnerRoute = WheelSpinnerRouteImport.update({
+  id: '/wheelSpinner',
+  path: '/wheelSpinner',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WebsocketClientRoute = WebsocketClientRouteImport.update({
@@ -417,6 +423,7 @@ export interface FileRoutesByFullPath {
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/wheelSpinner': typeof WheelSpinnerRoute
   '/wordCounter': typeof WordCounterRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
@@ -477,6 +484,7 @@ export interface FileRoutesByTo {
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/wheelSpinner': typeof WheelSpinnerRoute
   '/wordCounter': typeof WordCounterRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
@@ -538,6 +546,7 @@ export interface FileRoutesById {
   '/videoToGif': typeof VideoToGifRoute
   '/watermark': typeof WatermarkRoute
   '/websocketClient': typeof WebsocketClientRoute
+  '/wheelSpinner': typeof WheelSpinnerRoute
   '/wordCounter': typeof WordCounterRoute
   '/yamlJsonConverter': typeof YamlJsonConverterRoute
   '/calculateDistance': typeof CalculateDistanceLazyRoute
@@ -600,6 +609,7 @@ export interface FileRouteTypes {
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
+    | '/wheelSpinner'
     | '/wordCounter'
     | '/yamlJsonConverter'
     | '/calculateDistance'
@@ -660,6 +670,7 @@ export interface FileRouteTypes {
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
+    | '/wheelSpinner'
     | '/wordCounter'
     | '/yamlJsonConverter'
     | '/calculateDistance'
@@ -720,6 +731,7 @@ export interface FileRouteTypes {
     | '/videoToGif'
     | '/watermark'
     | '/websocketClient'
+    | '/wheelSpinner'
     | '/wordCounter'
     | '/yamlJsonConverter'
     | '/calculateDistance'
@@ -781,6 +793,7 @@ export interface RootRouteChildren {
   VideoToGifRoute: typeof VideoToGifRoute
   WatermarkRoute: typeof WatermarkRoute
   WebsocketClientRoute: typeof WebsocketClientRoute
+  WheelSpinnerRoute: typeof WheelSpinnerRoute
   WordCounterRoute: typeof WordCounterRoute
   YamlJsonConverterRoute: typeof YamlJsonConverterRoute
   CalculateDistanceLazyRoute: typeof CalculateDistanceLazyRoute
@@ -831,6 +844,13 @@ declare module '@tanstack/react-router' {
       path: '/wordCounter'
       fullPath: '/wordCounter'
       preLoaderRoute: typeof WordCounterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wheelSpinner': {
+      id: '/wheelSpinner'
+      path: '/wheelSpinner'
+      fullPath: '/wheelSpinner'
+      preLoaderRoute: typeof WheelSpinnerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/websocketClient': {
@@ -1253,6 +1273,7 @@ const rootRouteChildren: RootRouteChildren = {
   VideoToGifRoute: VideoToGifRoute,
   WatermarkRoute: WatermarkRoute,
   WebsocketClientRoute: WebsocketClientRoute,
+  WheelSpinnerRoute: WheelSpinnerRoute,
   WordCounterRoute: WordCounterRoute,
   YamlJsonConverterRoute: YamlJsonConverterRoute,
   CalculateDistanceLazyRoute: CalculateDistanceLazyRoute,

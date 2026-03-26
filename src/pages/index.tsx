@@ -362,6 +362,11 @@ function Index() {
 			title: "其他工具",
 			items: [
 				{
+					title: "转盘抽奖",
+					description: "自定义奖项的转盘抽奖工具",
+					path: "/wheelSpinner",
+				},
+				{
 					title: "signature",
 					description: "签名生成器",
 					path: "/signature",
