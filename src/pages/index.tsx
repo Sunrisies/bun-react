@@ -376,6 +376,11 @@ function Index() {
 					description: "支持导入浏览器标签数据",
 					path: "/browserTabs",
 				},
+				{
+					title: "五子棋",
+					description: "经典五子棋小游戏，双人对战",
+					path: "/gomoku",
+				},
 			],
 		},
 	];

@@ -52,6 +52,7 @@ import { Route as HtmlJsConverterRouteImport } from './pages/htmlJsConverter'
 import { Route as HexStringConverterRouteImport } from './pages/hexStringConverter'
 import { Route as HashCalculatorRouteImport } from './pages/hashCalculator'
 import { Route as GradientGeneratorRouteImport } from './pages/gradientGenerator'
+import { Route as GomokuRouteImport } from './pages/gomoku'
 import { Route as FileUploaderRouteImport } from './pages/fileUploader'
 import { Route as DateCalculatorRouteImport } from './pages/dateCalculator'
 import { Route as CsvJsonConverterRouteImport } from './pages/csvJsonConverter'
@@ -299,6 +300,11 @@ const GradientGeneratorRoute = GradientGeneratorRouteImport.update({
   path: '/gradientGenerator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GomokuRoute = GomokuRouteImport.update({
+  id: '/gomoku',
+  path: '/gomoku',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FileUploaderRoute = FileUploaderRouteImport.update({
   id: '/fileUploader',
   path: '/fileUploader',
@@ -385,6 +391,7 @@ export interface FileRoutesByFullPath {
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/dateCalculator': typeof DateCalculatorRoute
   '/fileUploader': typeof FileUploaderRoute
+  '/gomoku': typeof GomokuRoute
   '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
   '/hexStringConverter': typeof HexStringConverterRoute
@@ -446,6 +453,7 @@ export interface FileRoutesByTo {
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/dateCalculator': typeof DateCalculatorRoute
   '/fileUploader': typeof FileUploaderRoute
+  '/gomoku': typeof GomokuRoute
   '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
   '/hexStringConverter': typeof HexStringConverterRoute
@@ -508,6 +516,7 @@ export interface FileRoutesById {
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/dateCalculator': typeof DateCalculatorRoute
   '/fileUploader': typeof FileUploaderRoute
+  '/gomoku': typeof GomokuRoute
   '/gradientGenerator': typeof GradientGeneratorRoute
   '/hashCalculator': typeof HashCalculatorRoute
   '/hexStringConverter': typeof HexStringConverterRoute
@@ -571,6 +580,7 @@ export interface FileRouteTypes {
     | '/csvJsonConverter'
     | '/dateCalculator'
     | '/fileUploader'
+    | '/gomoku'
     | '/gradientGenerator'
     | '/hashCalculator'
     | '/hexStringConverter'
@@ -632,6 +642,7 @@ export interface FileRouteTypes {
     | '/csvJsonConverter'
     | '/dateCalculator'
     | '/fileUploader'
+    | '/gomoku'
     | '/gradientGenerator'
     | '/hashCalculator'
     | '/hexStringConverter'
@@ -693,6 +704,7 @@ export interface FileRouteTypes {
     | '/csvJsonConverter'
     | '/dateCalculator'
     | '/fileUploader'
+    | '/gomoku'
     | '/gradientGenerator'
     | '/hashCalculator'
     | '/hexStringConverter'
@@ -755,6 +767,7 @@ export interface RootRouteChildren {
   CsvJsonConverterRoute: typeof CsvJsonConverterRoute
   DateCalculatorRoute: typeof DateCalculatorRoute
   FileUploaderRoute: typeof FileUploaderRoute
+  GomokuRoute: typeof GomokuRoute
   GradientGeneratorRoute: typeof GradientGeneratorRoute
   HashCalculatorRoute: typeof HashCalculatorRoute
   HexStringConverterRoute: typeof HexStringConverterRoute
@@ -1119,6 +1132,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GradientGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gomoku': {
+      id: '/gomoku'
+      path: '/gomoku'
+      fullPath: '/gomoku'
+      preLoaderRoute: typeof GomokuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fileUploader': {
       id: '/fileUploader'
       path: '/fileUploader'
@@ -1235,6 +1255,7 @@ const rootRouteChildren: RootRouteChildren = {
   CsvJsonConverterRoute: CsvJsonConverterRoute,
   DateCalculatorRoute: DateCalculatorRoute,
   FileUploaderRoute: FileUploaderRoute,
+  GomokuRoute: GomokuRoute,
   GradientGeneratorRoute: GradientGeneratorRoute,
   HashCalculatorRoute: HashCalculatorRoute,
   HexStringConverterRoute: HexStringConverterRoute,
