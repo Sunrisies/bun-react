@@ -25,6 +25,7 @@ import { Route as SymmetricCryptoRouteImport } from './pages/symmetricCrypto'
 import { Route as StringEncoderRouteImport } from './pages/stringEncoder'
 import { Route as ScssConverterRouteImport } from './pages/scssConverter'
 import { Route as RsaKeyGeneratorRouteImport } from './pages/rsaKeyGenerator'
+import { Route as RandomGeneratorRouteImport } from './pages/randomGenerator'
 import { Route as QrGeneratorRouteImport } from './pages/qrGenerator'
 import { Route as PortTableRouteImport } from './pages/portTable'
 import { Route as PdfToWordRouteImport } from './pages/pdfToWord'
@@ -160,6 +161,11 @@ const ScssConverterRoute = ScssConverterRouteImport.update({
 const RsaKeyGeneratorRoute = RsaKeyGeneratorRouteImport.update({
   id: '/rsaKeyGenerator',
   path: '/rsaKeyGenerator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RandomGeneratorRoute = RandomGeneratorRouteImport.update({
+  id: '/randomGenerator',
+  path: '/randomGenerator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QrGeneratorRoute = QrGeneratorRouteImport.update({
@@ -398,6 +404,7 @@ export interface FileRoutesByFullPath {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/randomGenerator': typeof RandomGeneratorRoute
   '/rsaKeyGenerator': typeof RsaKeyGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
   '/stringEncoder': typeof StringEncoderRoute
@@ -457,6 +464,7 @@ export interface FileRoutesByTo {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/randomGenerator': typeof RandomGeneratorRoute
   '/rsaKeyGenerator': typeof RsaKeyGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
   '/stringEncoder': typeof StringEncoderRoute
@@ -517,6 +525,7 @@ export interface FileRoutesById {
   '/pdfToWord': typeof PdfToWordRoute
   '/portTable': typeof PortTableRoute
   '/qrGenerator': typeof QrGeneratorRoute
+  '/randomGenerator': typeof RandomGeneratorRoute
   '/rsaKeyGenerator': typeof RsaKeyGeneratorRoute
   '/scssConverter': typeof ScssConverterRoute
   '/stringEncoder': typeof StringEncoderRoute
@@ -578,6 +587,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/randomGenerator'
     | '/rsaKeyGenerator'
     | '/scssConverter'
     | '/stringEncoder'
@@ -637,6 +647,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/randomGenerator'
     | '/rsaKeyGenerator'
     | '/scssConverter'
     | '/stringEncoder'
@@ -696,6 +707,7 @@ export interface FileRouteTypes {
     | '/pdfToWord'
     | '/portTable'
     | '/qrGenerator'
+    | '/randomGenerator'
     | '/rsaKeyGenerator'
     | '/scssConverter'
     | '/stringEncoder'
@@ -756,6 +768,7 @@ export interface RootRouteChildren {
   PdfToWordRoute: typeof PdfToWordRoute
   PortTableRoute: typeof PortTableRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
+  RandomGeneratorRoute: typeof RandomGeneratorRoute
   RsaKeyGeneratorRoute: typeof RsaKeyGeneratorRoute
   ScssConverterRoute: typeof ScssConverterRoute
   StringEncoderRoute: typeof StringEncoderRoute
@@ -902,6 +915,13 @@ declare module '@tanstack/react-router' {
       path: '/rsaKeyGenerator'
       fullPath: '/rsaKeyGenerator'
       preLoaderRoute: typeof RsaKeyGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/randomGenerator': {
+      id: '/randomGenerator'
+      path: '/randomGenerator'
+      fullPath: '/randomGenerator'
+      preLoaderRoute: typeof RandomGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/qrGenerator': {
@@ -1220,6 +1240,7 @@ const rootRouteChildren: RootRouteChildren = {
   PdfToWordRoute: PdfToWordRoute,
   PortTableRoute: PortTableRoute,
   QrGeneratorRoute: QrGeneratorRoute,
+  RandomGeneratorRoute: RandomGeneratorRoute,
   RsaKeyGeneratorRoute: RsaKeyGeneratorRoute,
   ScssConverterRoute: ScssConverterRoute,
   StringEncoderRoute: StringEncoderRoute,

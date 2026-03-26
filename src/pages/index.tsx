@@ -331,6 +331,11 @@ function Index() {
 					path: "/rsaKeyGenerator",
 				},
 				{
+					title: "随机数生成器",
+					description: "生成指定范围随机数，支持不重复模式",
+					path: "/randomGenerator",
+				},
+				{
 					title: "进制转换器",
 					description: "二进制、八进制、十进制、十六进制互转",
 					path: "/baseConverter",

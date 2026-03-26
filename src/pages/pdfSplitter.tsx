@@ -20,11 +20,6 @@ export const Route = createFileRoute("/pdfSplitter")({
   component: PdfSplitterComponent,
 })
 
-interface PageRange {
-  start: number
-  end: number
-}
-
 interface PreviewPage {
   pageNumber: number
   thumbnail: string
@@ -34,7 +29,6 @@ function PdfSplitterComponent() {
   const navigate = useNavigate()
   const [pdfFile, setPdfFile] = useState<File | null>(null)
   const [totalPages, setTotalPages] = useState(0)
-  const [pageRanges, setPageRanges] = useState<PageRange[]>([{ start: 1, end: 1 }])
   const [isProcessing, setIsProcessing] = useState(false)
   const [previewPages, setPreviewPages] = useState<PreviewPage[]>([])
   const [fixed, setFixed] = useState(1)
@@ -101,7 +95,6 @@ function PdfSplitterComponent() {
           const pdf = await PDFDocument.load(fileBuffer, { ignoreEncryption: true })
           const pageCount = pdf.getPageCount()
           setTotalPages(pageCount)
-          setPageRanges([{ start: 1, end: pageCount }])
 
           // 加载 PDF.js 文档用于预览
           const loadingTask = pdfjsLib.getDocument({ data: fileBuffer })
@@ -264,7 +257,6 @@ function PdfSplitterComponent() {
   const clearFile = () => {
     setPdfFile(null)
     setTotalPages(0)
-    setPageRanges([{ start: 1, end: 1 }])
     setPreviewPages([])
     setPdfDoc(null)
   }
