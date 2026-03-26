@@ -9,6 +9,7 @@ import { useDropzone } from "react-dropzone"
 import { Slider } from "@/components/ui/slider"
 import { FFmpeg } from "@ffmpeg/ffmpeg"
 import { fetchFile, toBlobURL } from "@ffmpeg/util"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/videoToGif")({
   component: VideoToGifConverter,
@@ -154,16 +155,8 @@ function VideoToGifConverter() {
             <CardTitle className="text-3xl font-bold text-gray-800 dark:text-gray-100">
               视频转GIF工具
             </CardTitle>
-            <Button
-              onClick={ () => navigate({ to: "/" }) }
-              variant="ghost"
-              className="gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl"
-            >
-              <ArrowLeft className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-              <span className="text-lg text-blue-600 dark:text-blue-400 font-medium">
-                返回首页
-              </span>
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
 

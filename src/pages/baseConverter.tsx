@@ -1,10 +1,10 @@
+import { ToolPage } from "@/components/tool-page";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { copyToClipboard } from "@/lib/utils";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Copy, Info } from "lucide-react";
+import { useClear, useCopy } from "@/hooks";
+import { createFileRoute } from "@tanstack/react-router";
+import { Copy } from "lucide-react";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
@@ -15,15 +15,15 @@ export const Route = createFileRoute("/baseConverter")({
 type Base = 2 | 8 | 10 | 16;
 
 function BaseConverter() {
-	const navigate = useNavigate();
-	const [values, setValues] = useState<Record<Base, string>>({
-		2: "",
-		8: "",
-		10: "",
-		16: "",
-	});
+	const { copy } = useCopy();
+	const defaultValues: Record<Base, string> = { 2: "", 8: "", 10: "", 16: "" };
+	const [values, setValues] = useState<Record<Base, string>>(defaultValues);
 	const [activeBase, setActiveBase] = useState<Base>(10);
 	const [error, setError] = useState<string | null>(null);
+	const { clear } = useClear(() => {
+		setValues(defaultValues);
+		setError(null);
+	});
 
 	const isValidForBase = useCallback((value: string, base: Base): boolean => {
 		if (!value) return true;
@@ -39,24 +39,20 @@ function BaseConverter() {
 	const convert = useCallback(
 		(value: string, fromBase: Base) => {
 			if (!value.trim()) {
-				setValues({ 2: "", 8: "", 10: "", 16: "" });
+				setValues(defaultValues);
 				setError(null);
 				return;
 			}
-
 			if (!isValidForBase(value, fromBase)) {
 				setError(`输入格式对 ${fromBase} 进制无效`);
 				return;
 			}
-
 			try {
 				const decimal = parseInt(value, fromBase);
-
 				if (isNaN(decimal)) {
 					setError("转换失败");
 					return;
 				}
-
 				setValues({
 					2: decimal.toString(2),
 					8: decimal.toString(8),
@@ -72,7 +68,6 @@ function BaseConverter() {
 	);
 
 	const handleChange = (value: string, base: Base) => {
-		// 过滤非法字符
 		const patterns: Record<Base, RegExp> = {
 			2: /[^01]/g,
 			8: /[^0-7]/g,
@@ -80,21 +75,9 @@ function BaseConverter() {
 			16: /[^0-9a-fA-F]/g,
 		};
 		const filtered = value.replace(patterns[base], "").toUpperCase();
-
 		setValues((prev) => ({ ...prev, [base]: filtered }));
 		setActiveBase(base);
 		convert(filtered, base);
-	};
-
-	const handleCopy = (value: string, base: Base) => {
-		if (!value) return;
-		copyToClipboard(value);
-		toast.success(`已复制 ${base} 进制值`);
-	};
-
-	const clear = () => {
-		setValues({ 2: "", 8: "", 10: "", 16: "" });
-		setError(null);
 	};
 
 	const loadSample = () => {
@@ -122,107 +105,80 @@ function BaseConverter() {
 	];
 
 	return (
-		<div className="h-[calc(100vh-4.2rem)] p-4">
-			<Card className="w-full h-full max-w-3xl mx-auto shadow-lg flex flex-col">
-				<CardHeader className="flex-shrink-0 pb-2 border-b">
-					<div className="flex justify-between items-center">
-						<CardTitle className="text-xl font-bold text-gray-800 flex items-center gap-3">
-							进制转换器
-							<div className="relative inline-block group">
-								<div className="flex items-center justify-center w-7 h-7 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
-									<Info className="h-4 w-4" />
-								</div>
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-72 p-3 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-									<div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-3 h-3 bg-white border-l border-t border-gray-200"></div>
-									<div className="p-3 bg-blue-50 rounded-lg text-xs text-blue-600">
-										支持二进制、八进制、十进制、十六进制之间的实时互转。
-									</div>
-								</div>
+		<ToolPage
+			title="进制转换器"
+			description="支持二进制、八进制、十进制、十六进制之间的实时互转。"
+			maxWidth="max-w-3xl"
+			actions={
+				<>
+					<Button onClick={loadSample} variant="outline" size="sm">
+						示例
+					</Button>
+					<Button onClick={clear} variant="outline" size="sm">
+						清空
+					</Button>
+				</>
+			}
+		>
+			<div className="h-full flex flex-col justify-center gap-5">
+				{baseInfo.map(({ base, name, prefix, chars }) => (
+					<div
+						key={base}
+						className={`p-4 rounded-lg border-2 transition-colors ${activeBase === base ? "border-blue-400 bg-blue-50" : "border-gray-200 bg-white"}`}
+					>
+						<div className="flex items-center justify-between mb-2">
+							<div className="flex items-center gap-2">
+								<span
+									className={`text-xs font-bold px-2 py-0.5 rounded ${activeBase === base ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"}`}
+								>
+									{base}
+								</span>
+								<Label className="font-medium">{name}</Label>
+								{prefix && (
+									<span className="text-xs text-gray-400 font-mono">
+										({prefix})
+									</span>
+								)}
 							</div>
-						</CardTitle>
-						<div className="flex gap-2">
-							<Button onClick={loadSample} variant="outline" size="sm">
-								示例
-							</Button>
-							<Button onClick={clear} variant="outline" size="sm">
-								清空
-							</Button>
 							<Button
-								onClick={() => navigate({ to: "/" })}
-								variant="ghost"
 								size="sm"
+								variant="ghost"
+								className="h-7 px-2"
+								onClick={() =>
+									copy(
+										prefix ? prefix + values[base] : values[base],
+										`${base} 进制值`,
+									)
+								}
+								disabled={!values[base]}
 							>
-								<ArrowLeft className="h-4 w-4 mr-1" />
-								返回
+								<Copy className="h-3 w-3 mr-1" />
+								<span className="text-xs">复制</span>
 							</Button>
 						</div>
+						<Input
+							value={values[base]}
+							onChange={(e) => handleChange(e.target.value, base)}
+							placeholder={`输入${name} (${chars})`}
+							className={`font-mono text-lg h-12 ${activeBase === base ? "" : "bg-gray-50"}`}
+						/>
 					</div>
-				</CardHeader>
-				<CardContent className="flex-1 min-h-0 p-6 flex flex-col justify-center gap-5">
-					{/* 进制输入框 */}
-					{baseInfo.map(({ base, name, prefix, chars }) => (
-						<div
-							key={base}
-							className={`p-4 rounded-lg border-2 transition-colors ${activeBase === base ? "border-blue-400 bg-blue-50" : "border-gray-200 bg-white"}`}
-						>
-							<div className="flex items-center justify-between mb-2">
-								<div className="flex items-center gap-2">
-									<span
-										className={`text-xs font-bold px-2 py-0.5 rounded ${activeBase === base ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"}`}
-									>
-										{base}
-									</span>
-									<Label className="font-medium">{name}</Label>
-									{prefix && (
-										<span className="text-xs text-gray-400 font-mono">
-											({prefix})
-										</span>
-									)}
-								</div>
-								<Button
-									size="sm"
-									variant="ghost"
-									className="h-7 px-2"
-									onClick={() =>
-										handleCopy(
-											prefix ? prefix + values[base] : values[base],
-											base,
-										)
-									}
-									disabled={!values[base]}
-								>
-									<Copy className="h-3 w-3 mr-1" />
-									<span className="text-xs">复制</span>
-								</Button>
-							</div>
-							<Input
-								value={values[base]}
-								onChange={(e) => handleChange(e.target.value, base)}
-								placeholder={`输入${name} (${chars})`}
-								className={`font-mono text-lg h-12 ${activeBase === base ? "" : "bg-gray-50"}`}
-							/>
+				))}
+				{error && (
+					<div className="p-3 bg-red-50 rounded-lg border border-red-200">
+						<p className="text-sm text-red-600">{error}</p>
+					</div>
+				)}
+				<div className="grid grid-cols-4 gap-2 text-center">
+					{baseInfo.map(({ base, name, desc }) => (
+						<div key={base} className="p-2 bg-gray-50 rounded-lg">
+							<div className="text-lg font-bold text-gray-700">{base}</div>
+							<div className="text-xs text-gray-500">{name}</div>
+							<div className="text-[10px] text-gray-400">{desc}</div>
 						</div>
 					))}
-
-					{/* 错误提示 */}
-					{error && (
-						<div className="p-3 bg-red-50 rounded-lg border border-red-200">
-							<p className="text-sm text-red-600">{error}</p>
-						</div>
-					)}
-
-					{/* 进制说明 */}
-					<div className="grid grid-cols-4 gap-2 text-center">
-						{baseInfo.map(({ base, name, desc }) => (
-							<div key={base} className="p-2 bg-gray-50 rounded-lg">
-								<div className="text-lg font-bold text-gray-700">{base}</div>
-								<div className="text-xs text-gray-500">{name}</div>
-								<div className="text-[10px] text-gray-400">{desc}</div>
-							</div>
-						))}
-					</div>
-				</CardContent>
-			</Card>
-		</div>
+				</div>
+			</div>
+		</ToolPage>
 	);
 }

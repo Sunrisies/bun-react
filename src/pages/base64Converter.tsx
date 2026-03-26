@@ -5,6 +5,7 @@ import { Copy, Upload, Image, Download, ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useDropzone } from "react-dropzone"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/base64Converter")({
   component: RouteComponent,
@@ -64,10 +65,8 @@ function RouteComponent() {
             <CardTitle className="text-3xl font-bold text-gray-800 dark:text-gray-100">
               Base64与图片互转工具
             </CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
 

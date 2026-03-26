@@ -1,3 +1,4 @@
+import { BackButton } from "@/components/BackButton"
 import { Button } from "@/components/ui/button"
 import { CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -275,10 +276,8 @@ function PdfSplitterComponent() {
             <CardTitle className="text-2xl font-bold text-gray-800">
               PDF拆分工具
             </CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
 

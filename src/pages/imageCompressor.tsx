@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/imageCompressor")({
   component: ImageCompressor,
@@ -153,10 +154,8 @@ function ImageCompressor() {
         <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle>图片压缩工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
         <CardContent className="flex-1 overflow-y-auto min-h-0 p-6">

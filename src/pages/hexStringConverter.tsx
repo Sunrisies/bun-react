@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/hexStringConverter")({
   component: RouteComponent,
@@ -125,10 +126,8 @@ function RouteComponent() {
         <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle>十六进制转换器</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
         <CardContent className="space-y-4 flex-1 overflow-y-auto min-h-0 p-6">

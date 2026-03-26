@@ -21,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { useState, useRef } from "react"
 import { CoordinateTransform } from "sunrise-utils"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createLazyFileRoute("/coordinate")({
   component: RouteComponent,
@@ -253,9 +254,7 @@ function RouteComponent() {
             <CardTitle className="text-xl">坐标转换工具</CardTitle>
             <CardDescription>将WGS84/GCJ02坐标转换为其他坐标系</CardDescription>
           </div>
-          <div className="">
-            <Button onClick={ () => navigate({ to: "/" }) }>返回</Button>
-          </div>
+          <BackButton />
         </CardHeader>
         <CardContent className="space-y-4">
           <Tabs value={ activeTab } onValueChange={ setActiveTab } className="w-full">

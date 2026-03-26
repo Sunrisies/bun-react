@@ -6,6 +6,7 @@ import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useDropzone } from "react-dropzone"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/fileUploader")({
   component: FileUploaderComponent,
@@ -179,10 +180,8 @@ function FileUploaderComponent() {
         <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle>文件上传工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
         <CardContent className="space-y-4 flex-1 overflow-y-auto min-h-0 p-6">

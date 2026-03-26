@@ -6,6 +6,7 @@ import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 // import * as EXIF from "exif-js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/imageMetadata")({
   component: RouteComponent,
@@ -99,10 +100,8 @@ function RouteComponent() {
         <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">图片信息查看器</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
         <CardContent className="space-y-6 flex-1 overflow-y-auto min-h-0 p-6">

@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/BackButton'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -96,7 +97,10 @@ function RouteComponent() {
 
     return (
         <Card className="max-w-2xl mx-auto my-8">
-            <CardHeader className="text-2xl font-bold">签名生成器</CardHeader>
+            <CardHeader className="text-2xl font-bold flex flex-row justify-between">
+                <span>签名生成器</span>
+                <BackButton />
+            </CardHeader>
 
             <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -144,8 +148,6 @@ function RouteComponent() {
                     <Button variant="outline" onClick={ handleClear }>清除</Button>
                     <Button variant="secondary" onClick={ handleExport }>导出SVG</Button>
                     <Button onClick={ handleSave }>保存签名</Button>
-                    <Button onClick={ () => navigate({ to: '/' }) }>返回</Button>
-
                 </div>
             </CardContent>
 

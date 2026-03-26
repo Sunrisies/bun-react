@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { createFileRoute } from "@tanstack/react-router"
+import { BackButton } from "@/components/BackButton"
 
 interface UploadedFile {
   id: string
@@ -318,10 +319,10 @@ function ImageGallery() {
         </div>
 
         {/* Header */ }
-        <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+        <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50  h-16 justify-between w-full border border-red">
+          <div className="flex items-center justify-center w-full p-4">
+            <div className="flex w-full items-center justify-between  max-w-4xl">
+              <div className="flex  items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
                   <FileImage className="h-4 w-4 text-white" />
                 </div>
@@ -329,6 +330,7 @@ function ImageGallery() {
                   图床上传
                 </h1>
               </div>
+              <BackButton />
             </div>
           </div>
         </header>

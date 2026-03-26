@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/BackButton'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -139,9 +140,7 @@ function RouteComponent() {
               { mode === 'separate' ? ' (每个输入框粘贴一个完整坐标)' : ' (每个输入框粘贴一个完整坐标)' }
             </CardDescription>
           </div>
-          <div className=''>
-            <Button onClick={ () => navigate({ to: '/' }) }>返回</Button>
-          </div>
+          <BackButton />
         </CardHeader>
 
         <CardContent className="space-y-6">

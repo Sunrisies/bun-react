@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useDropzone } from "react-dropzone"
 import { Document, Packer, Paragraph, TextRun } from 'docx'
 import * as pdfjsLib from 'pdfjs-dist'
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/pdfToWord")({
   component: PdfToWord,
@@ -156,14 +157,11 @@ function PdfToWord() {
 
   return (
     <div className="h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
-      <Card className="w-full max-w-[90%] overflow-hidden">
+      <Card className="w-full  overflow-hidden">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>PDF转Word工具</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton></BackButton>
           </div>
         </CardHeader>
         <CardContent>

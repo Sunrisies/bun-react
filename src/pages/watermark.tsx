@@ -1,3 +1,4 @@
+import { BackButton } from "@/components/BackButton"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -447,14 +448,8 @@ function Watermark() {
             <CardTitle className="text-2xl font-bold text-gray-800 dark:text-gray-100">
               图片水印工具
             </CardTitle>
-            <Button
-              onClick={ () => navigate({ to: "/" }) }
-              variant="outline"
-              className="border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
 

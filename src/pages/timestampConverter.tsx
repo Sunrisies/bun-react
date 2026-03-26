@@ -1,3 +1,4 @@
+import { BackButton } from "@/components/BackButton"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -80,10 +81,7 @@ function RouteComponent() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">时间戳转换器</CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
           </div>
         </CardHeader>
         <CardContent className="space-y-4">

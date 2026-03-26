@@ -24,6 +24,7 @@ import {
 } from "@dnd-kit/sortable"
 import { SortableImageItem } from "@/components/sortable-item"
 import jsPDF from "jspdf"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/imageToPdf")({
   component: ImageToPdfConverter,
@@ -393,14 +394,8 @@ function ImageToPdfConverter() {
                 </div>
               </CardTitle>
             </div>
-            <Button
-              onClick={ () => navigate({ to: "/" }) }
-              variant="outline"
-              className="border-gray-300 hover:bg-gray-50"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
 

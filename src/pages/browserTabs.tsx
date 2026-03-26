@@ -1,3 +1,4 @@
+import { BackButton } from "@/components/BackButton"
 import { Button } from "@/components/ui/button"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
@@ -167,7 +168,7 @@ function RouteComponent() {
           </span>
         </div>
         <Button onClick={ () => saveBookmarks(bookmarks) }>同步</Button>
-        <Button onClick={ () => navigate({ to: "/" }) }>返回</Button>
+        <BackButton />
       </div>
       <div className="w-full ">
         { bookmarks.length > 0 && (

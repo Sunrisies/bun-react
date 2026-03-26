@@ -1,9 +1,11 @@
+import { BackButton } from "@/components/BackButton";
+import { InfoTooltip } from "@/components/InfoTooltip";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { copyToClipboard } from "@/lib/utils";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Copy, Gift, Info, Plus, Trash2 } from "lucide-react";
+import { useCopy } from "@/hooks";
+import { createFileRoute } from "@tanstack/react-router";
+import { Gift, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -44,7 +46,7 @@ const defaultPrizes: Omit<Prize, "id">[] = [
 ];
 
 function WheelSpinner() {
-	const navigate = useNavigate();
+	const { copy } = useCopy();
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const animRef = useRef<number>(0);
 
@@ -69,18 +71,15 @@ function WheelSpinner() {
 			const r = size / 2 - 30;
 
 			ctx.clearRect(0, 0, size, size);
-
 			const sliceAngle = (2 * Math.PI) / prizes.length;
 
 			ctx.save();
 			ctx.translate(cx, cy);
-			ctx.rotate(rot - Math.PI / 2); // 从上方开始
+			ctx.rotate(rot - Math.PI / 2);
 
-			// 绘制扇形
 			prizes.forEach((prize, i) => {
 				const start = i * sliceAngle;
 				const end = start + sliceAngle;
-
 				ctx.beginPath();
 				ctx.moveTo(0, 0);
 				ctx.arc(0, 0, r, start, end);
@@ -91,7 +90,6 @@ function WheelSpinner() {
 				ctx.lineWidth = 3;
 				ctx.stroke();
 
-				// 文字
 				ctx.save();
 				ctx.rotate(start + sliceAngle / 2);
 				ctx.textAlign = "center";
@@ -106,14 +104,12 @@ function WheelSpinner() {
 
 			ctx.restore();
 
-			// 外圈装饰
 			ctx.beginPath();
 			ctx.arc(cx, cy, r + 5, 0, 2 * Math.PI);
 			ctx.strokeStyle = "#333";
 			ctx.lineWidth = 8;
 			ctx.stroke();
 
-			// 中心圆
 			ctx.beginPath();
 			ctx.arc(cx, cy, 35, 0, 2 * Math.PI);
 			ctx.fillStyle = "#fff";
@@ -122,7 +118,6 @@ function WheelSpinner() {
 			ctx.lineWidth = 4;
 			ctx.stroke();
 
-			// 指针（上方）
 			ctx.beginPath();
 			ctx.moveTo(cx, cy - r - 20);
 			ctx.lineTo(cx - 18, cy - r - 45);
@@ -137,14 +132,12 @@ function WheelSpinner() {
 		[prizes],
 	);
 
-	// 初始绘制
 	useEffect(() => {
 		drawWheel(0);
 	}, [drawWheel]);
 
 	const spin = useCallback(() => {
 		if (spinning || prizes.length < 2) return;
-
 		setSpinning(true);
 		setResult(null);
 
@@ -157,8 +150,6 @@ function WheelSpinner() {
 		const animate = (now: number) => {
 			const elapsed = now - startTime;
 			const progress = Math.min(elapsed / duration, 1);
-
-			// 缓出效果
 			const eased = 1 - Math.pow(1 - progress, 4);
 			const currentRot =
 				startRotation + (targetRotation - startRotation) * eased;
@@ -169,7 +160,6 @@ function WheelSpinner() {
 			if (progress < 1) {
 				animRef.current = requestAnimationFrame(animate);
 			} else {
-				// 计算结果
 				const sliceAngle = (2 * Math.PI) / prizes.length;
 				const normalized =
 					((currentRot % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
@@ -177,11 +167,9 @@ function WheelSpinner() {
 					Math.floor(
 						((2 * Math.PI - normalized) % (2 * Math.PI)) / sliceAngle,
 					) % prizes.length;
-				const prize = prizes[index];
-
-				setResult(prize.name);
+				setResult(prizes[index].name);
 				setSpinning(false);
-				toast.success(`恭喜获得: ${prize.name}`);
+				toast.success(`恭喜获得: ${prizes[index].name}`);
 			}
 		};
 
@@ -222,12 +210,6 @@ function WheelSpinner() {
 		drawWheel(0);
 	};
 
-	const copyResult = () => {
-		if (!result) return;
-		copyToClipboard(result);
-		toast.success("已复制");
-	};
-
 	return (
 		<div className="h-[calc(100vh-4.2rem)] p-4">
 			<Card className="w-full h-full mx-auto shadow-lg flex flex-col">
@@ -235,30 +217,13 @@ function WheelSpinner() {
 					<div className="flex justify-between items-center">
 						<CardTitle className="text-xl font-bold text-gray-800 flex items-center gap-3">
 							转盘抽奖
-							<div className="relative inline-block group">
-								<div className="flex items-center justify-center w-7 h-7 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
-									<Info className="h-4 w-4" />
-								</div>
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-72 p-3 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-									<div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-3 h-3 bg-white border-l border-t border-gray-200"></div>
-									<div className="p-3 bg-blue-50 rounded-lg text-xs text-blue-600">
-										自定义奖项，点击开始抽奖。
-									</div>
-								</div>
-							</div>
+							<InfoTooltip content="自定义奖项，点击开始抽奖。" />
 						</CardTitle>
 						<div className="flex gap-2">
 							<Button onClick={reset} variant="outline" size="sm">
 								重置
 							</Button>
-							<Button
-								onClick={() => navigate({ to: "/" })}
-								variant="ghost"
-								size="sm"
-							>
-								<ArrowLeft className="h-4 w-4 mr-1" />
-								返回
-							</Button>
+							<BackButton />
 						</div>
 					</div>
 				</CardHeader>
@@ -325,9 +290,8 @@ function WheelSpinner() {
 										size="sm"
 										variant="outline"
 										className="w-full"
-										onClick={copyResult}
+										onClick={() => copy(result)}
 									>
-										<Copy className="h-3 w-3 mr-1" />
 										复制
 									</Button>
 								</div>

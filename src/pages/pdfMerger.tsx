@@ -6,7 +6,7 @@ import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useDropzone } from "react-dropzone"
 import { PDFDocument } from 'pdf-lib'
-
+import { BackButton } from "@/components/BackButton"
 export const Route = createFileRoute("/pdfMerger")({
   component: PdfMergerComponent,
 })
@@ -82,17 +82,14 @@ function PdfMergerComponent() {
   }
 
   return (
-    <div className="h-[calc(100vh-4.2rem)] p-4 md:p-6 overflow-hidden">
-      <Card className="w-full max-w-3xl rounded-2xl shadow-xl">
+    <div className="h-[calc(100vh-4.2rem)] flex justify-center items-center p-4 md:p-6 overflow-hidden">
+      <Card className="w-full max-w-3xl rounded-2xl shadow-xl flex-1">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="text-2xl font-bold text-gray-800">
               PDF合并工具
             </CardTitle>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" className="dark:hover:bg-gray-700">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
           </div>
         </CardHeader>
 

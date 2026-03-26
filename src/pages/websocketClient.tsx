@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/websocketClient")({
   component: RouteComponent,
@@ -324,10 +325,7 @@ function RouteComponent() {
                 { status.text }
               </Badge>
             </div>
-            <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              返回首页
-            </Button>
+            <BackButton />
           </div>
         </CardHeader>
 

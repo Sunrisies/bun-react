@@ -6,6 +6,7 @@ import { useNavigate } from "@tanstack/react-router"
 // import { useToast } from "@/components/ui/use-toast";
 import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BackButton } from "@/components/BackButton"
 export const Route = createFileRoute("/colorConverter")({
   component: RouteComponent,
 })
@@ -137,14 +138,8 @@ function RouteComponent() {
         <CardHeader className="flex-shrink-0 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="dark:text-gray-100">颜色转换器</CardTitle>
-            <Button
-              onClick={ () => navigate({ to: "/" }) }
-              className="gap-2"
-              variant="ghost"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              返回首页
-            </Button>
+            <BackButton />
+
           </div>
         </CardHeader>
         <CardContent className="space-y-6 flex-1 overflow-y-auto min-h-0 p-6">

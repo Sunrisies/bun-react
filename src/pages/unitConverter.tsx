@@ -1,5 +1,5 @@
+import { ToolPage } from "@/components/tool-page";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -10,11 +10,10 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { copyToClipboard } from "@/lib/utils";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRightLeft, Copy, Info } from "lucide-react";
+import { useCopy } from "@/hooks";
+import { createFileRoute } from "@tanstack/react-router";
+import { ArrowRightLeft, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/unitConverter")({
 	component: UnitConverter,
@@ -406,7 +405,7 @@ const categoryNames: Record<Category, string> = {
 };
 
 function UnitConverter() {
-	const navigate = useNavigate();
+	const { copy } = useCopy();
 	const [category, setCategory] = useState<Category>("length");
 	const [fromUnit, setFromUnit] = useState(0);
 	const [toUnit, setToUnit] = useState(1);
@@ -438,184 +437,143 @@ function UnitConverter() {
 		if (result) setInputValue(result);
 	};
 
-	const copyResult = () => {
-		if (!result) return;
-		copyToClipboard(result);
-		toast.success("已复制结果");
-	};
-
-	const copyFormula = () => {
-		if (!inputValue || !result) return;
-		const from = currentUnits[fromUnit];
-		const to = currentUnits[toUnit];
-		copyToClipboard(`${inputValue} ${from.symbol} = ${result} ${to.symbol}`);
-		toast.success("已复制转换公式");
-	};
-
 	return (
-		<div className="h-[calc(100vh-4.2rem)] p-4">
-			<Card className="w-full h-full max-w-2xl mx-auto shadow-lg flex flex-col">
-				<CardHeader className="flex-shrink-0 pb-2 border-b">
-					<div className="flex justify-between items-center">
-						<CardTitle className="text-xl font-bold text-gray-800 flex items-center gap-3">
-							单位转换器
-							<div className="relative inline-block group">
-								<div className="flex items-center justify-center w-7 h-7 rounded-full bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors">
-									<Info className="h-4 w-4" />
-								</div>
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-72 p-3 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-									<div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-3 h-3 bg-white border-l border-t border-gray-200"></div>
-									<div className="p-3 bg-blue-50 rounded-lg text-xs text-blue-600">
-										支持长度、重量、温度、面积、体积、速度、时间、数据等单位转换。
-									</div>
-								</div>
-							</div>
-						</CardTitle>
-						<Button
-							onClick={() => navigate({ to: "/" })}
-							variant="ghost"
-							size="sm"
-						>
-							<ArrowLeft className="h-4 w-4 mr-1" />
-							返回
-						</Button>
-					</div>
-				</CardHeader>
-				<CardContent className="flex-1 min-h-0 p-6 flex flex-col justify-center gap-6">
-					{/* 类别选择 */}
-					<Tabs value={category} onValueChange={handleCategoryChange}>
-						<TabsList className="grid grid-cols-4 lg:grid-cols-8 h-auto">
-							{(Object.keys(categoryNames) as Category[]).map((cat) => (
-								<TabsTrigger key={cat} value={cat} className="text-xs py-1.5">
-									{categoryNames[cat]}
-								</TabsTrigger>
-							))}
-						</TabsList>
-					</Tabs>
+		<ToolPage
+			title="单位转换器"
+			description="支持长度、重量、温度、面积、体积、速度、时间、数据等单位转换。"
+			maxWidth="max-w-2xl"
+		>
+			<div className="h-full flex flex-col justify-center gap-6">
+				<Tabs value={category} onValueChange={handleCategoryChange}>
+					<TabsList className="grid grid-cols-4 lg:grid-cols-8 h-auto">
+						{(Object.keys(categoryNames) as Category[]).map((cat) => (
+							<TabsTrigger key={cat} value={cat} className="text-xs py-1.5">
+								{categoryNames[cat]}
+							</TabsTrigger>
+						))}
+					</TabsList>
+				</Tabs>
 
-					{/* 转换区域 */}
-					<div className="space-y-4">
-						{/* 从 */}
-						<div className="space-y-2">
-							<Label className="text-sm text-gray-500">从</Label>
-							<div className="flex gap-3">
-								<Input
-									type="number"
-									value={inputValue}
-									onChange={(e) => setInputValue(e.target.value)}
-									placeholder="输入数值"
-									className="flex-1 h-12 text-lg font-mono"
-								/>
-								<Select
-									value={String(fromUnit)}
-									onValueChange={(v) => setFromUnit(parseInt(v))}
-								>
-									<SelectTrigger className="w-32 h-12">
-										<SelectValue />
-									</SelectTrigger>
-									<SelectContent>
-										{currentUnits.map((unit, i) => (
-											<SelectItem key={i} value={String(i)}>
-												{unit.name} ({unit.symbol})
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</div>
-						</div>
-
-						{/* 交换按钮 */}
-						<div className="flex justify-center">
-							<Button
-								variant="outline"
-								size="icon"
-								onClick={swapUnits}
-								className="rounded-full h-10 w-10"
-							>
-								<ArrowRightLeft className="h-4 w-4 rotate-90" />
-							</Button>
-						</div>
-
-						{/* 到 */}
-						<div className="space-y-2">
-							<Label className="text-sm text-gray-500">到</Label>
-							<div className="flex gap-3">
-								<Input
-									value={result}
-									readOnly
-									placeholder="结果"
-									className="flex-1 h-12 text-lg font-mono bg-blue-50"
-								/>
-								<Select
-									value={String(toUnit)}
-									onValueChange={(v) => setToUnit(parseInt(v))}
-								>
-									<SelectTrigger className="w-32 h-12">
-										<SelectValue />
-									</SelectTrigger>
-									<SelectContent>
-										{currentUnits.map((unit, i) => (
-											<SelectItem key={i} value={String(i)}>
-												{unit.name} ({unit.symbol})
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</div>
-						</div>
-					</div>
-
-					{/* 转换公式 */}
-					{inputValue && result && (
-						<div className="p-3 bg-gray-50 rounded-lg text-center">
-							<span className="font-mono text-sm">
-								{inputValue} {currentUnits[fromUnit].symbol} = {result}{" "}
-								{currentUnits[toUnit].symbol}
-							</span>
-						</div>
-					)}
-
-					{/* 操作按钮 */}
-					<div className="flex gap-3">
-						<Button
-							onClick={copyResult}
-							variant="outline"
-							className="flex-1"
-							disabled={!result}
-						>
-							<Copy className="h-4 w-4 mr-2" />
-							复制结果
-						</Button>
-						<Button
-							onClick={copyFormula}
-							variant="outline"
-							className="flex-1"
-							disabled={!result}
-						>
-							<Copy className="h-4 w-4 mr-2" />
-							复制公式
-						</Button>
-					</div>
-
-					{/* 快速转换 */}
+				<div className="space-y-4">
 					<div className="space-y-2">
-						<Label className="text-sm text-gray-500">快速转换</Label>
-						<div className="flex flex-wrap gap-2">
-							{[1, 10, 100, 1000, 10000].map((v) => (
-								<Button
-									key={v}
-									variant="outline"
-									size="sm"
-									onClick={() => setInputValue(String(v))}
-									className={`text-xs ${inputValue === String(v) ? "bg-blue-100 border-blue-300" : ""}`}
-								>
-									{v}
-								</Button>
-							))}
+						<Label className="text-sm text-gray-500">从</Label>
+						<div className="flex gap-3">
+							<Input
+								type="number"
+								value={inputValue}
+								onChange={(e) => setInputValue(e.target.value)}
+								placeholder="输入数值"
+								className="flex-1 h-12 text-lg font-mono"
+							/>
+							<Select
+								value={String(fromUnit)}
+								onValueChange={(v) => setFromUnit(parseInt(v))}
+							>
+								<SelectTrigger className="w-32 h-12">
+									<SelectValue />
+								</SelectTrigger>
+								<SelectContent>
+									{currentUnits.map((unit, i) => (
+										<SelectItem key={i} value={String(i)}>
+											{unit.name} ({unit.symbol})
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 						</div>
 					</div>
-				</CardContent>
-			</Card>
-		</div>
+
+					<div className="flex justify-center">
+						<Button
+							variant="outline"
+							size="icon"
+							onClick={swapUnits}
+							className="rounded-full h-10 w-10"
+						>
+							<ArrowRightLeft className="h-4 w-4 rotate-90" />
+						</Button>
+					</div>
+
+					<div className="space-y-2">
+						<Label className="text-sm text-gray-500">到</Label>
+						<div className="flex gap-3">
+							<Input
+								value={result}
+								readOnly
+								placeholder="结果"
+								className="flex-1 h-12 text-lg font-mono bg-blue-50"
+							/>
+							<Select
+								value={String(toUnit)}
+								onValueChange={(v) => setToUnit(parseInt(v))}
+							>
+								<SelectTrigger className="w-32 h-12">
+									<SelectValue />
+								</SelectTrigger>
+								<SelectContent>
+									{currentUnits.map((unit, i) => (
+										<SelectItem key={i} value={String(i)}>
+											{unit.name} ({unit.symbol})
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</div>
+					</div>
+				</div>
+
+				{inputValue && result && (
+					<div className="p-3 bg-gray-50 rounded-lg text-center">
+						<span className="font-mono text-sm">
+							{inputValue} {currentUnits[fromUnit].symbol} = {result}{" "}
+							{currentUnits[toUnit].symbol}
+						</span>
+					</div>
+				)}
+
+				<div className="flex gap-3">
+					<Button
+						onClick={() => copy(result, "结果")}
+						variant="outline"
+						className="flex-1"
+						disabled={!result}
+					>
+						<Copy className="h-4 w-4 mr-2" />
+						复制结果
+					</Button>
+					<Button
+						onClick={() =>
+							copy(
+								`${inputValue} ${currentUnits[fromUnit].symbol} = ${result} ${currentUnits[toUnit].symbol}`,
+								"公式",
+							)
+						}
+						variant="outline"
+						className="flex-1"
+						disabled={!result}
+					>
+						<Copy className="h-4 w-4 mr-2" />
+						复制公式
+					</Button>
+				</div>
+
+				<div className="space-y-2">
+					<Label className="text-sm text-gray-500">快速转换</Label>
+					<div className="flex flex-wrap gap-2">
+						{[1, 10, 100, 1000, 10000].map((v) => (
+							<Button
+								key={v}
+								variant="outline"
+								size="sm"
+								onClick={() => setInputValue(String(v))}
+								className={`text-xs ${inputValue === String(v) ? "bg-blue-100 border-blue-300" : ""}`}
+							>
+								{v}
+							</Button>
+						))}
+					</div>
+				</div>
+			</div>
+		</ToolPage>
 	);
 }

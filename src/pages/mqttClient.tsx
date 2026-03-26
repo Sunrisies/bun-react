@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import mqtt, { MqttClient } from "mqtt"
+import { BackButton } from "@/components/BackButton"
 
 export const Route = createFileRoute("/mqttClient")({
     component: MqttClientComponent,
@@ -356,10 +357,7 @@ function MqttClientComponent() {
                                 { status.text }
                             </Badge>
                         </div>
-                        <Button onClick={ () => navigate({ to: "/" }) } variant="ghost" size="sm">
-                            <ArrowLeft className="h-4 w-4 mr-2" />
-                            返回首页
-                        </Button>
+                        <BackButton />
                     </div>
                 </CardHeader>
 
