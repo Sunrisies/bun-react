@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import { visualizer } from "rollup-plugin-visualizer";
-import viteCompression from "vite-plugin-compression";
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import viteCompression from "vite-plugin-compression";
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -12,12 +12,12 @@ export default defineConfig({
     react(),
     tailwindcss(),
     viteCompression({
-      verbose: true, // 是否在控制台中输出压缩结果
+      verbose: false,
       disable: false,
-      threshold: 10240, // 如果体积大于阈值，将被压缩，单位为b，体积过小时请不要压缩，以免适得其反
-      algorithm: "brotliCompress", // 压缩算法，可选['gzip'，' brotliccompress '，'deflate '，'deflateRaw']
+      threshold: 10240,
+      algorithm: "brotliCompress",
       ext: ".br",
-      deleteOriginFile: false, // 源文件压缩后是否删除
+      deleteOriginFile: false,
     }),
   ],
   server: {
@@ -35,62 +35,43 @@ export default defineConfig({
   },
   build: {
     target: "es2020",
-    minify: "terser",
-    // rollup 配置
+    minify: "esbuild",
+    sourcemap: false,
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        chunkFileNames: "js/[name]-[hash].js", // 引入文件名的名称
-        entryFileNames: "js/[name]-[hash].js", // 包的入口文件名称
-        assetFileNames: "[ext]/[name]-[hash].[ext]", // 资源文件像 字体，图片等
+        chunkFileNames: "js/[name]-[hash].js",
+        entryFileNames: "js/[name]-[hash].js",
+        assetFileNames: "[ext]/[name]-[hash].[ext]",
         manualChunks(id) {
-          // 将 node_modules 中的包分组
           if (id.includes("node_modules")) {
-            // dayjs 相关
-            if (id.toString().includes("dayjs")) {
-              return "dayjs";
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "react-vendor";
             }
-            // PDF 相关
-            if (
-              id.toString().includes("pdf-lib") ||
-              id.toString().includes("pdf2pic")
-            ) {
+            if (id.includes("tanstack")) {
+              return "router";
+            }
+            if (id.includes("pdf-lib") || id.includes("pdfjs-dist")) {
               return "pdf";
             }
-            // 图片处理相关
-            if (
-              id.toString().includes("html2canvas") ||
-              id.toString().includes("jsqr")
-            ) {
+            if (id.includes("html2canvas") || id.includes("jspdf")) {
               return "image";
             }
-            // SCSS 相关
-            if (id.toString().includes("sass")) {
-              return "converter";
+            if (id.includes("leaflet")) {
+              return "map";
             }
-            // 其他工具库
-            if (id.toString().includes("lodash")) {
-              return "utils";
+            if (id.includes("radix-ui")) {
+              return "ui";
             }
+            return "vendor";
           }
         },
-      },
-      plugins: [
-        visualizer({
-          open: false, // 直接在浏览器中打开分析报告
-          filename: "stats.html", // 输出文件的名称
-          gzipSize: true, // 显示gzip后的大小
-          brotliSize: true, // 显示brotli压缩后的大小
-        }),
-      ],
-    },
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
       },
     },
   },
   optimizeDeps: {
     exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
+    include: ["react", "react-dom"],
   },
 });
