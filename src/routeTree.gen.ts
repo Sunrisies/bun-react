@@ -57,6 +57,7 @@ import { Route as FileUploaderRouteImport } from './pages/fileUploader'
 import { Route as DateCalculatorRouteImport } from './pages/dateCalculator'
 import { Route as CsvJsonConverterRouteImport } from './pages/csvJsonConverter'
 import { Route as CssFormatterRouteImport } from './pages/cssFormatter'
+import { Route as CronParserRouteImport } from './pages/cronParser'
 import { Route as ColorConverterRouteImport } from './pages/colorConverter'
 import { Route as CaseConverterRouteImport } from './pages/caseConverter'
 import { Route as BrowserTabsRouteImport } from './pages/browserTabs'
@@ -325,6 +326,11 @@ const CssFormatterRoute = CssFormatterRouteImport.update({
   path: '/cssFormatter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CronParserRoute = CronParserRouteImport.update({
+  id: '/cronParser',
+  path: '/cronParser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ColorConverterRoute = ColorConverterRouteImport.update({
   id: '/colorConverter',
   path: '/colorConverter',
@@ -387,6 +393,7 @@ export interface FileRoutesByFullPath {
   '/browserTabs': typeof BrowserTabsRoute
   '/caseConverter': typeof CaseConverterRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/cronParser': typeof CronParserRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/dateCalculator': typeof DateCalculatorRoute
@@ -449,6 +456,7 @@ export interface FileRoutesByTo {
   '/browserTabs': typeof BrowserTabsRoute
   '/caseConverter': typeof CaseConverterRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/cronParser': typeof CronParserRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/dateCalculator': typeof DateCalculatorRoute
@@ -512,6 +520,7 @@ export interface FileRoutesById {
   '/browserTabs': typeof BrowserTabsRoute
   '/caseConverter': typeof CaseConverterRoute
   '/colorConverter': typeof ColorConverterRoute
+  '/cronParser': typeof CronParserRoute
   '/cssFormatter': typeof CssFormatterRoute
   '/csvJsonConverter': typeof CsvJsonConverterRoute
   '/dateCalculator': typeof DateCalculatorRoute
@@ -576,6 +585,7 @@ export interface FileRouteTypes {
     | '/browserTabs'
     | '/caseConverter'
     | '/colorConverter'
+    | '/cronParser'
     | '/cssFormatter'
     | '/csvJsonConverter'
     | '/dateCalculator'
@@ -638,6 +648,7 @@ export interface FileRouteTypes {
     | '/browserTabs'
     | '/caseConverter'
     | '/colorConverter'
+    | '/cronParser'
     | '/cssFormatter'
     | '/csvJsonConverter'
     | '/dateCalculator'
@@ -700,6 +711,7 @@ export interface FileRouteTypes {
     | '/browserTabs'
     | '/caseConverter'
     | '/colorConverter'
+    | '/cronParser'
     | '/cssFormatter'
     | '/csvJsonConverter'
     | '/dateCalculator'
@@ -763,6 +775,7 @@ export interface RootRouteChildren {
   BrowserTabsRoute: typeof BrowserTabsRoute
   CaseConverterRoute: typeof CaseConverterRoute
   ColorConverterRoute: typeof ColorConverterRoute
+  CronParserRoute: typeof CronParserRoute
   CssFormatterRoute: typeof CssFormatterRoute
   CsvJsonConverterRoute: typeof CsvJsonConverterRoute
   DateCalculatorRoute: typeof DateCalculatorRoute
@@ -1167,6 +1180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CssFormatterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cronParser': {
+      id: '/cronParser'
+      path: '/cronParser'
+      fullPath: '/cronParser'
+      preLoaderRoute: typeof CronParserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/colorConverter': {
       id: '/colorConverter'
       path: '/colorConverter'
@@ -1251,6 +1271,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrowserTabsRoute: BrowserTabsRoute,
   CaseConverterRoute: CaseConverterRoute,
   ColorConverterRoute: ColorConverterRoute,
+  CronParserRoute: CronParserRoute,
   CssFormatterRoute: CssFormatterRoute,
   CsvJsonConverterRoute: CsvJsonConverterRoute,
   DateCalculatorRoute: DateCalculatorRoute,

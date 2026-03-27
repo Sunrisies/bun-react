@@ -351,6 +351,11 @@ function Index() {
 					path: "/dateCalculator",
 				},
 				{
+					title: "Cron表达式解析",
+					description: "解析和生成Cron表达式，查看执行时间",
+					path: "/cronParser",
+				},
+				{
 					title: "Markdown转微信公众号",
 					description: "Markdown格式转换为微信公众号格式",
 					path: "/markdownToWechat",
